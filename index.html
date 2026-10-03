@@ -86,7 +86,7 @@
       color: #0f172a; 
     }
 
-    /* SLIM SLIM BENTO KPI CARDS */
+    /* SLIM HORIZONTAL BENTO KPI CARDS */
     .kpi-row-inline { 
       display: flex !important; 
       flex-wrap: nowrap !important; 
@@ -182,14 +182,15 @@
     }
 
     .status-pill { 
-      font-size: 0.725rem; 
-      padding: 4px 10px; 
+      font-size: 0.75rem; 
+      padding: 5px 12px; 
       border-radius: 20px; 
-      font-weight: 600; 
+      font-weight: 700; 
       white-space: nowrap; 
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
 
     .completed-row { background-color: #f0fdf4 !important; }
@@ -252,22 +253,29 @@
       display: flex; align-items: center; justify-content: center; padding: 15px; 
     }
 
-    /* MULTI-SELECT CHECKBOX BOX */
+    /* REDESIGNED MULTI-SELECT CHECKBOX BOX */
     .staff-checkbox-grid {
-      max-height: 160px;
+      max-height: 220px;
+      min-height: 140px;
       overflow-y: auto;
-      background: #f8fafc;
+      background: #ffffff;
       border: 1px solid #cbd5e1;
       border-radius: 10px;
       padding: 8px 12px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
     }
     .staff-checkbox-item {
       display: flex;
       align-items: center;
-      padding: 4px 0;
+      padding: 6px 0;
       border-bottom: 1px dashed #e2e8f0;
     }
     .staff-checkbox-item:last-child { border-bottom: none; }
+    .staff-chk-btn-shortcut {
+      font-size: 0.85rem !important;
+      font-weight: 700 !important;
+      padding: 2px 8px !important;
+    }
 
     /* PHOTO PREVIEW THUMBNAILS */
     .img-preview-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
@@ -462,55 +470,73 @@
           <div id="executiveArchiveMountPoint"></div>
         </div>
 
+        <!-- REDESIGNED EXECUTIVE COMMAND PANEL (2-COLUMN GRID) -->
         <div class="tab-pane fade" id="tab-command" role="tabpanel">
           <div class="card p-3 p-md-4 mb-4 border shadow-sm rounded-4" style="background: #ffffff; border-top: 4px solid #4338ca !important;">
             <div class="d-flex align-items-center mb-3">
               <span class="badge me-2 px-3 py-2 fs-6 rounded-pill text-white" style="background-color: #4338ca;"><i class="bi bi-pencil-square me-1"></i> ฟอร์มสั่งการ</span>
               <h6 class="fw-bold text-dark mb-0 fs-6">สั่งการและมอบหมายงานใหม่ (Executive Command Panel)</h6>
             </div>
+            
             <form onsubmit="openCreateSummaryModal(event)">
-              <div class="row g-2 g-md-3">
-                <div class="col-12 col-md-3">
-                  <label class="form-label fw-bold small text-dark">เลขที่หนังสือ / คำร้อง</label>
-                  <input type="text" id="refNumber" class="form-control form-control-sm text-dark fw-semibold" required placeholder="เช่น 02891">
-                </div>
-                <div class="col-12 col-md-5">
-                  <label class="form-label fw-bold small text-dark">เรื่อง / ชื่อภารกิจ</label>
-                  <input type="text" id="subject" class="form-control form-control-sm text-dark fw-semibold" required placeholder="ระบุเรื่องหนังสือ/ภารกิจ">
-                </div>
-                <div class="col-12 col-md-4">
-                  <div class="d-flex justify-content-between align-items-center mb-1">
-                    <label class="form-label fw-bold small text-dark mb-0">มอบหมายผู้ปฏิบัติงาน (เลือกได้หลายคน)</label>
-                    <div>
-                      <button type="button" class="btn btn-link py-0 px-1 text-primary fw-bold text-decoration-none" style="font-size: 0.72rem;" onclick="toggleSelectAllStaff(true)">☑ เลือกหมด</button>
-                      <button type="button" class="btn btn-link py-0 px-1 text-danger fw-bold text-decoration-none" style="font-size: 0.72rem;" onclick="toggleSelectAllStaff(false)">☐ ยกเลิก</button>
+              <div class="row g-3">
+                
+                <!-- LEFT COLUMN: INPUT DETAILS (70% WIDTH ON DESKTOP) -->
+                <div class="col-12 col-lg-8">
+                  <div class="row g-2 g-md-3">
+                    <div class="col-12 col-md-4">
+                      <label class="form-label fw-bold small text-dark">เลขที่หนังสือ / คำร้อง</label>
+                      <input type="text" id="refNumber" class="form-control form-control-sm text-dark fw-semibold" required placeholder="เช่น 02891">
+                    </div>
+                    <div class="col-12 col-md-8">
+                      <label class="form-label fw-bold small text-dark">เรื่อง / ชื่อภารกิจ</label>
+                      <input type="text" id="subject" class="form-control form-control-sm text-dark fw-semibold" required placeholder="ระบุเรื่องหนังสือ/ภารกิจ">
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label fw-bold small text-indigo" style="color: #4338ca;"><i class="bi bi-link-45deg me-1"></i> ลิงก์หนังสือสารบรรณ / ไฟล์สั่งการ</label>
+                      <input type="url" id="docLink" class="form-control form-control-sm text-dark fw-semibold" placeholder="https://...">
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label fw-bold small text-dark">ข้อสั่งการ / รายละเอียดการปฏิบัติ</label>
+                      <textarea id="instruction" class="form-control form-control-sm text-dark fw-semibold" rows="3" required placeholder="ระบุข้อสั่งการรายละเอียดการปฏิบัติงาน"></textarea>
+                    </div>
+                    <div class="col-6">
+                      <label class="form-label fw-bold small text-dark">วันสั่งการ</label>
+                      <input type="date" id="assignedDate" class="form-control form-control-sm text-dark fw-semibold" required>
+                    </div>
+                    <div class="col-6">
+                      <label class="form-label fw-bold small text-dark">กำหนดส่งงาน</label>
+                      <input type="date" id="dueDate" class="form-control form-control-sm text-dark fw-semibold">
                     </div>
                   </div>
-                  <div class="staff-checkbox-grid" id="staffCheckboxContainer"></div>
                 </div>
-                <div class="col-12 col-md-8">
-                  <label class="form-label fw-bold small text-dark">ข้อสั่งการ / รายละเอียดการปฏิบัติ</label>
-                  <input type="text" id="instruction" class="form-control form-control-sm text-dark fw-semibold" required placeholder="ระบุข้อสั่งการ">
+
+                <!-- RIGHT COLUMN: MULTI-SELECT STAFF LIST (30% WIDTH ON DESKTOP) -->
+                <div class="col-12 col-lg-4">
+                  <div class="p-3 rounded-3 h-100 d-flex flex-direction-column justify-content-between" style="background: #f8fafc; border: 1px solid #cbd5e1;">
+                    <div>
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label class="form-label fw-bold small text-dark mb-0"><i class="bi bi-people-fill text-primary me-1"></i> มอบหมายผู้ปฏิบัติงาน (เลือกได้หลายคน)</label>
+                      </div>
+                      <div class="d-flex gap-2 mb-2">
+                        <button type="button" class="btn btn-outline-primary btn-sm flex-fill staff-chk-btn-shortcut" onclick="toggleSelectAllStaff(true)">☑ เลือกทั้งหมด</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm flex-fill staff-chk-btn-shortcut" onclick="toggleSelectAllStaff(false)">☐ ยกเลิกทั้งหมด</button>
+                      </div>
+                      <div class="staff-checkbox-grid" id="staffCheckboxContainer"></div>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-12 col-md-4">
-                  <label class="form-label fw-bold small text-indigo" style="color: #4338ca;"><i class="bi bi-link-45deg me-1"></i> ลิงก์หนังสือสารบรรณ / ไฟล์สั่งการ</label>
-                  <input type="url" id="docLink" class="form-control form-control-sm text-dark fw-semibold" placeholder="https://...">
-                </div>
-                <div class="col-6 col-md-3">
-                  <label class="form-label fw-bold small text-dark">วันสั่งการ</label>
-                  <input type="date" id="assignedDate" class="form-control form-control-sm text-dark fw-semibold" required>
-                </div>
-                <div class="col-6 col-md-3">
-                  <label class="form-label fw-bold small text-dark">กำหนดส่งงาน</label>
-                  <input type="date" id="dueDate" class="form-control form-control-sm text-dark fw-semibold">
-                </div>
-                <div class="col-12 col-md-6 text-end align-self-end mt-3 mt-md-0">
-                  <button type="submit" class="btn text-white btn-sm w-100 w-md-auto px-4 py-2 rounded-pill fw-bold shadow-sm" style="background-color: #4338ca;">
+
+                <!-- BOTTOM FULL WIDTH SUBMIT BUTTON -->
+                <div class="col-12 mt-3">
+                  <button type="submit" class="btn text-white btn-sm w-100 py-2 rounded-pill fw-bold shadow-sm fs-6" style="background-color: #4338ca;">
                     <i class="bi bi-send-fill me-1"></i> บันทึกสั่งการ & ส่ง Telegram
                   </button>
                 </div>
+
               </div>
             </form>
+
           </div>
         </div>
       </div>
@@ -714,7 +740,7 @@
     </div>
   </div>
 
-  <!-- MODAL: VIBRANT DETAIL VIEW -->
+  <!-- MODAL: VIBRANT DETAIL VIEW (REDESIGNED STATUS & PROOF SEPARATION) -->
   <div class="modal fade" id="detailModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4 bg-white overflow-hidden">
@@ -1009,7 +1035,7 @@
       container.innerHTML = staffList.map((u, idx) => `
         <div class="staff-checkbox-item">
           <input class="form-check-input me-2 staff-chk-item" type="checkbox" value="${u.Name}" id="chkStaff_${idx}">
-          <label class="form-check-label small fw-semibold text-dark cursor-pointer" for="chkStaff_${idx}">
+          <label class="form-check-label small fw-semibold text-dark cursor-pointer mb-0" for="chkStaff_${idx}">
             ${u.Name} <span class="text-muted fw-normal">(${u.Position || 'ช่าง'})</span>
           </label>
         </div>
@@ -1332,20 +1358,20 @@
           if (!isExec) {
             statusDisplay = `<button class="btn btn-sm btn-primary rounded-pill px-2 py-1 small fw-bold shadow-sm" onclick="event.stopPropagation(); handleQuickAck('${t.taskId}')"><i class="bi bi-download me-1"></i> รับทราบงาน</button>`;
           } else {
-            statusDisplay = `<span class="badge bg-info-subtle text-info border border-info status-pill">มอบหมายงานแล้ว</span>`;
+            statusDisplay = `<span class="badge bg-info text-white status-pill">มอบหมายงานแล้ว</span>`;
           }
         } else if (t.status === 'รับทราบงาน') {
-          statusDisplay = `<span class="badge bg-primary-subtle text-primary border border-primary status-pill"><span class="live-dot live-dot-info"></span>รับทราบงานแล้ว</span>`;
+          statusDisplay = `<span class="badge bg-primary text-white status-pill"><span class="live-dot live-dot-info"></span>รับทราบงานแล้ว</span>`;
         } else if (t.status === 'กำลังดำเนินการ') {
-          statusDisplay = `<span class="badge bg-warning-subtle text-warning-emphasis border border-warning status-pill"><span class="live-dot live-dot-warning"></span>กำลังดำเนินการ</span>`;
+          statusDisplay = `<span class="badge bg-warning text-dark status-pill"><span class="live-dot live-dot-warning"></span>กำลังดำเนินการ</span>`;
         } else if (isIssue) {
-          statusDisplay = `<span class="badge bg-danger-subtle text-danger border border-danger status-pill"><span class="live-dot live-dot-danger"></span>พบปัญหา/ติดขัด</span>`;
+          statusDisplay = `<span class="badge bg-danger text-white status-pill"><span class="live-dot live-dot-danger"></span>พบปัญหา/ติดขัด</span>`;
         } else if (isPendingReview) {
-          statusDisplay = `<span class="badge bg-info-subtle text-info border border-info status-pill"><span class="live-dot live-dot-info"></span>รอตรวจสอบอนุมัติ</span>`;
+          statusDisplay = `<span class="badge bg-info text-white status-pill"><span class="live-dot live-dot-info"></span>รอตรวจสอบอนุมัติ</span>`;
         } else if (isApprovedDone) {
-          statusDisplay = `<span class="badge bg-success-subtle text-success border border-success status-pill"><span class="live-dot live-dot-success"></span>เสร็จสมบูรณ์</span>`;
+          statusDisplay = `<span class="badge bg-success text-white status-pill"><span class="live-dot live-dot-success"></span>เสร็จสมบูรณ์</span>`;
         } else if (isCanceled) {
-          statusDisplay = `<span class="badge bg-secondary-subtle text-secondary border border-secondary status-pill"><i class="bi bi-slash-circle me-1"></i>ยกเลิกภารกิจ</span>`;
+          statusDisplay = `<span class="badge bg-secondary text-white status-pill"><i class="bi bi-slash-circle me-1"></i>ยกเลิกภารกิจ</span>`;
         }
 
         const dLink = t.docLink || t.doclink || '';
@@ -1572,7 +1598,7 @@
         dueDate: document.getElementById('dueDate').value
       };
 
-      const staffListHtml = selectedStaff.map((name, i) => `<span class="badge bg-indigo-subtle text-indigo border border-indigo me-1 mb-1 p-2 fw-bold">${i + 1}. ${name}</span>`).join('');
+      const staffListHtml = selectedStaff.map((name, i) => `<span class="badge bg-indigo-subtle text-indigo border border-indigo me-1 mb-1 p-2 fw-bold" style="color: #4338ca;">${i + 1}. ${name}</span>`).join('');
 
       document.getElementById('commandSummaryBody').innerHTML = `
         <div class="vibrant-card-box">
@@ -1815,11 +1841,20 @@
       const docBtn = (dLink && dLink.trim().startsWith('http')) ? 
         `<a href="${dLink.trim()}" target="_blank" class="btn btn-sm text-white rounded-pill mt-2 d-inline-block shadow-sm" style="background-color: #4338ca;"><i class="bi bi-file-earmark-pdf-fill me-1"></i> เปิดดูเอกสารสารบรรณต้นฉบับ</a>` : '';
 
+      /* 1. SEPARATE PROOF ATTACHMENTS (IMAGE GALLERY & LINKS) */
       let proofDisplay = '';
+      let extractedProofUrl = '';
+
       if (t.proofLink && t.proofLink.trim().length > 0) {
-        const rawProof = t.proofLink.trim();
-        if (rawProof.includes('lh3.googleusercontent.com')) {
-          const urls = rawProof.split(',');
+        extractedProofUrl = t.proofLink.trim();
+      } else if (t.lastNote && t.lastNote.includes('[หลักฐาน:')) {
+        const match = t.lastNote.match(/\[หลักฐาน:\s*([^\]]+)\]/);
+        if (match && match[1]) extractedProofUrl = match[1].trim();
+      }
+
+      if (extractedProofUrl) {
+        if (extractedProofUrl.includes('lh3.googleusercontent.com')) {
+          const urls = extractedProofUrl.split(',');
           const galleryItems = urls.map(url => `
             <div class="photo-gallery-item" onclick="window.open('${url.trim()}', '_blank')">
               <img src="${url.trim()}">
@@ -1827,16 +1862,24 @@
           `).join('');
 
           proofDisplay = `
-            <div class="mt-2">
-              <small class="text-dark fw-bold d-block mb-1"><i class="bi bi-images text-success me-1"></i> รูปภาพหลักฐานผลงาน (${urls.length} รูป):</small>
+            <div class="p-3 mb-3 rounded-3" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+              <small class="text-success fw-bold d-block mb-1"><i class="bi bi-images me-1"></i> รูปภาพหลักฐานผลงานที่แนบ (${urls.length} รูป):</small>
               <div class="photo-gallery-grid">${galleryItems}</div>
             </div>
           `;
-        } else if (rawProof.startsWith('http')) {
-          proofDisplay = `<a href="${rawProof}" target="_blank" class="btn btn-sm btn-success rounded-pill mt-2 d-inline-block shadow-sm"><i class="bi bi-box-arrow-up-right me-1"></i> เปิดดูลิงก์หลักฐานผลงาน</a>`;
+        } else if (extractedProofUrl.startsWith('http')) {
+          proofDisplay = `
+            <div class="p-3 mb-3 rounded-3" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+              <small class="text-success fw-bold d-block mb-1"><i class="bi bi-link-45deg me-1"></i> ลิงก์หลักฐานผลงานที่แนบ:</small>
+              <a href="${extractedProofUrl}" target="_blank" class="btn btn-sm btn-success rounded-pill fw-bold px-3 py-1 text-white shadow-sm d-inline-flex align-items-center gap-1">
+                <i class="bi bi-box-arrow-up-right me-1"></i> คลิกเพื่อเปิดดูระบบ/ลิงก์อ้างอิง
+              </a>
+            </div>
+          `;
         }
       }
 
+      /* 2. SUB-STEP DISPLAY */
       let subStepDisplay = '';
       if (t.subStep || (t.lastNote && t.lastNote.includes('[ขั้นตอน:'))) {
         let stepText = t.subStep || '';
@@ -1845,12 +1888,28 @@
           if (match && match[1]) stepText = match[1];
         }
         if (stepText) {
-          subStepDisplay = `<div class="mt-1"><span class="badge bg-primary-subtle text-primary border border-primary px-2 py-1"><i class="bi bi-diagram-3-fill me-1"></i> ขั้นตอนหน้างาน: ${stepText}</span></div>`;
+          subStepDisplay = `<div class="mt-1"><span class="badge bg-primary text-white border px-2 py-1"><i class="bi bi-diagram-3-fill me-1"></i> ขั้นตอนหน้างาน: ${stepText}</span></div>`;
         }
       }
 
+      /* 3. CLEAN PROGRESS NOTE (STRIP PROOF TAGS) */
       let cleanNote = t.lastNote || '';
       if (cleanNote.includes('[ขั้นตอน:')) cleanNote = cleanNote.replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '').trim();
+      if (cleanNote.includes('[หลักฐาน:')) cleanNote = cleanNote.replace(/\[หลักฐาน:\s*[^\]]+\]/g, '').trim();
+
+      /* 4. VIBRANT STATUS BADGE COLOR */
+      let statusBadgeHtml = '';
+      if (t.status === 'เสร็จสิ้น') {
+        statusBadgeHtml = `<span class="badge bg-success text-white fs-6 px-3 py-2 rounded-pill fw-bold shadow-sm"><i class="bi bi-check-circle-fill me-1"></i> เสร็จสิ้น (รอตรวจอนุมัติ)</span>`;
+      } else if (t.status === 'พบปัญหา/ขัดข้อง') {
+        statusBadgeHtml = `<span class="badge bg-danger text-white fs-6 px-3 py-2 rounded-pill fw-bold shadow-sm"><i class="bi bi-exclamation-triangle-fill me-1"></i> พบปัญหา/ติดขัด</span>`;
+      } else if (t.status === 'กำลังดำเนินการ') {
+        statusBadgeHtml = `<span class="badge bg-warning text-dark fs-6 px-3 py-2 rounded-pill fw-bold shadow-sm"><i class="bi bi-hourglass-split me-1"></i> กำลังดำเนินการ</span>`;
+      } else if (t.status === 'อนุมัติเสร็จสิ้นแล้ว') {
+        statusBadgeHtml = `<span class="badge bg-success text-white fs-6 px-3 py-2 rounded-pill fw-bold shadow-sm"><i class="bi bi-award-fill me-1"></i> อนุมัติเสร็จสมบูรณ์</span>`;
+      } else {
+        statusBadgeHtml = `<span class="badge bg-primary text-white fs-6 px-3 py-2 rounded-pill fw-bold shadow-sm"><i class="bi bi-info-circle-fill me-1"></i> ${t.status}</span>`;
+      }
 
       body.innerHTML = `
         <div class="vibrant-card-box">
@@ -1861,7 +1920,6 @@
           <small class="text-muted fw-bold d-block">เรื่อง / ชื่อภารกิจ:</small>
           <div class="fw-bold text-primary fs-6 mb-1">${t.subject}</div>
           ${docBtn}
-          ${proofDisplay}
         </div>
         <div class="vibrant-card-box">
           <small class="text-muted fw-bold d-block">ข้อสั่งการ / รายละเอียดการปฏิบัติงาน:</small>
@@ -1893,11 +1951,17 @@
             </div>
           </div>
         </div>
-        <div class="vibrant-card-box mb-2">
-          <small class="text-muted fw-bold d-block">สถานะการดำเนินงาน:</small>
-          <span class="badge bg-indigo-subtle text-indigo border border-indigo mt-1">${t.status}</span>
-          ${subStepDisplay}
+
+        <div class="vibrant-card-box mb-3">
+          <small class="text-muted fw-bold d-block mb-1">สถานะการดำเนินงาน:</small>
+          <div class="d-flex align-items-center flex-wrap gap-2 mt-1">
+            ${statusBadgeHtml}
+            ${subStepDisplay}
+          </div>
         </div>
+
+        ${proofDisplay}
+
         <div class="vibrant-card-box mb-0">
           <small class="text-muted fw-bold d-block">บันทึกรายงานความคืบหน้าล่าสุด:</small>
           <div class="text-dark fw-semibold small word-break-all mt-1">${cleanNote || 'ไม่มีบันทึกเพิ่มเติม'}</div>
