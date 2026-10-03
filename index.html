@@ -1071,8 +1071,17 @@
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('assignedDate').value = today;
 
-      // INSTANT ZERO-DELAY RENDER
-      initPublicUsers(STATIC_USERS_DEFAULT);
+      // OPTIMIZED LOCAL CACHING & ZERO-DELAY LOAD
+      const cachedUsers = localStorage.getItem('thako_public_users_cache');
+      if (cachedUsers) {
+        try {
+          publicUsers = JSON.parse(cachedUsers);
+        } catch(e) {
+          publicUsers = STATIC_USERS_DEFAULT;
+        }
+      }
+
+      initPublicUsers(publicUsers);
       fetchPublicUsers();
     };
 
@@ -1098,7 +1107,9 @@
     async function fetchPublicUsers() {
       const res = await callGasApi('getUserPublicList', {}, 'GET');
       if (res && res.success && res.data && res.data.length > 0) {
-        initPublicUsers(res.data);
+        publicUsers = res.data;
+        localStorage.setItem('thako_public_users_cache', JSON.stringify(publicUsers));
+        initPublicUsers(publicUsers);
       }
     }
 
@@ -2262,7 +2273,7 @@
       } else if (t.status === 'อนุมัติเสร็จสิ้นแล้ว') {
         statusBadgeHtml = `<span class="badge bg-success text-white fs-6 px-3 py-2 rounded-pill fw-bold shadow-sm"><i class="bi bi-award-fill me-1"></i> อนุมัติเสร็จสมบูรณ์</span>`;
       } else {
-        statusBadgeHtml = `<span class="badge bg-primary text-white fs-6 px-3 py-2 rounded-pill shadow-sm"><i class="bi bi-info-circle-fill me-1"></i> ${t.status}</span>`;
+        statusBadgeHtml = `<span class="badge bg-primary text-white fs-6 px-3 py-2 rounded-pill fw-bold shadow-sm"><i class="bi bi-info-circle-fill me-1"></i> ${t.status}</span>`;
       }
 
       body.innerHTML = `
