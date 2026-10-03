@@ -19,7 +19,7 @@
       --text-muted: #64748b;
       --exec-gradient: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
       --staff-gradient: linear-gradient(135deg, #064e3b 0%, #0f766e 100%);
-      --card-radius: 16px;
+      --card-radius: 14px;
       --border-color: #e2e8f0;
       --indigo-primary: #4338ca;
     }
@@ -63,13 +63,13 @@
       color: #475569; 
       font-weight: 600; 
       border-radius: 10px; 
-      padding: 9px 20px; 
+      padding: 8px 18px; 
       background: transparent; 
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
       display: flex; 
       align-items: center; 
       gap: 8px; 
-      font-size: 0.9rem; 
+      font-size: 0.875rem; 
     }
     .exec-mode .nav-tab-custom .nav-link.active { 
       background: #312e81 !important; 
@@ -86,46 +86,44 @@
       color: #0f172a; 
     }
 
-    /* BENTO KPI CARDS */
+    /* SLIM SLIM BENTO KPI CARDS */
     .kpi-row-inline { 
       display: flex !important; 
       flex-wrap: nowrap !important; 
       overflow-x: auto; 
-      gap: 12px; 
-      padding-bottom: 8px; 
+      gap: 10px; 
+      padding-bottom: 6px; 
     }
-    .kpi-col-5 { flex: 1 0 0% !important; min-width: 170px; }
-    .kpi-box { 
-      border-radius: var(--card-radius); 
+    .kpi-col-5 { flex: 1 0 0% !important; min-width: 150px; }
+    .kpi-box-slim { 
+      border-radius: 12px; 
       border: 1px solid var(--border-color); 
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+      transition: all 0.2s ease; 
       cursor: pointer; 
       background: #ffffff; 
-      position: relative;
-      overflow: hidden;
+      padding: 10px 12px;
     }
-    .kpi-box:hover { 
-      transform: translateY(-4px); 
-      box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.08) !important; 
+    .kpi-box-slim:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08) !important; 
       border-color: #cbd5e1; 
     }
 
-    /* Animated Live Dot Indicators */
     .live-dot {
       display: inline-block;
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      margin-right: 6px;
+      margin-right: 5px;
     }
     .live-dot-warning { background-color: #d97706; box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); animation: pulse-warning 1.8s infinite; }
     .live-dot-danger { background-color: #dc2626; box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); animation: pulse-danger 1.5s infinite; }
     .live-dot-info { background-color: #0284c7; box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7); animation: pulse-info 2s infinite; }
     .live-dot-success { background-color: #16a34a; }
 
-    @keyframes pulse-warning { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(217, 119, 6, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); } }
-    @keyframes pulse-danger { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); } }
-    @keyframes pulse-info { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(2, 132, 199, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(2, 132, 199, 0); } }
+    @keyframes pulse-warning { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(217, 119, 6, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); } }
+    @keyframes pulse-danger { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(220, 38, 38, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); } }
+    @keyframes pulse-info { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(2, 132, 199, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(2, 132, 199, 0); } }
 
     /* TABLE DISPLAY & STICKY HEADER */
     .tracking-table-card { 
@@ -144,8 +142,8 @@
       background-color: #0f172a !important; 
       color: #f8fafc !important; 
       font-weight: 600; 
-      font-size: 0.85rem; 
-      padding: 14px 16px; 
+      font-size: 0.825rem; 
+      padding: 12px 14px; 
       border-bottom: 2px solid #1e293b; 
       white-space: nowrap; 
     }
@@ -153,16 +151,16 @@
       background-color: #042f2e !important; 
       color: #f8fafc !important; 
       font-weight: 600; 
-      font-size: 0.85rem; 
-      padding: 14px 16px; 
+      font-size: 0.825rem; 
+      padding: 12px 14px; 
       border-bottom: 2px solid #115e59; 
       white-space: nowrap; 
     }
 
     .modern-table tbody td { 
-      padding: 12px 16px; 
+      padding: 10px 14px; 
       border-bottom: 1px solid #f1f5f9; 
-      font-size: 0.875rem; 
+      font-size: 0.85rem; 
       vertical-align: middle; 
       color: #0f172a;
     }
@@ -172,8 +170,8 @@
     .action-btn-group { display: flex; align-items: center; justify-content: center; gap: 4px; flex-wrap: nowrap; }
     .btn-action-custom { 
       white-space: nowrap !important; 
-      font-size: 0.78rem; 
-      padding: 5px 12px; 
+      font-size: 0.75rem; 
+      padding: 4px 10px; 
       border-radius: 20px; 
       font-weight: 600; 
       line-height: 1.2; 
@@ -184,8 +182,8 @@
     }
 
     .status-pill { 
-      font-size: 0.75rem; 
-      padding: 5px 12px; 
+      font-size: 0.725rem; 
+      padding: 4px 10px; 
       border-radius: 20px; 
       font-weight: 600; 
       white-space: nowrap; 
@@ -203,13 +201,13 @@
     /* STACKED TOAST NOTIFICATION CARD */
     #customToastContainer { 
       position: fixed; 
-      bottom: 24px; 
-      right: 24px; 
+      bottom: 20px; 
+      right: 20px; 
       z-index: 10000; 
       display: flex; 
       flex-direction: column-reverse; 
-      gap: 12px; 
-      max-width: 410px; 
+      gap: 10px; 
+      max-width: 380px; 
       width: 100%; 
       pointer-events: none; 
     }
@@ -218,46 +216,29 @@
       background: rgba(255, 255, 255, 0.98); 
       backdrop-filter: blur(16px); 
       -webkit-backdrop-filter: blur(16px);
-      border-radius: 16px; 
-      box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(226, 232, 240, 0.8); 
+      border-radius: 14px; 
+      box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.15); 
       border: 1px solid rgba(226, 232, 240, 0.9); 
       overflow: hidden; 
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); 
-      animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+      transition: all 0.35s ease; 
+      animation: slideInRight 0.35s forwards; 
       cursor: pointer; 
     }
     @keyframes slideInRight { 
-      from { opacity: 0; transform: translateX(90px) scale(0.95); } 
+      from { opacity: 0; transform: translateX(80px) scale(0.95); } 
       to { opacity: 1; transform: translateX(0) scale(1); } 
     }
-    .custom-toast-card.hide { 
-      opacity: 0; 
-      transform: translateX(90px) scale(0.9); 
-      margin-bottom: -80px; 
-    }
-    .toast-border-info { border-left: 6px solid #0284c7 !important; }
-    .toast-border-warning { border-left: 6px solid #dc2626 !important; }
-    .toast-border-success { border-left: 6px solid #16a34a !important; }
+    .custom-toast-card.hide { opacity: 0; transform: translateX(80px); margin-bottom: -70px; }
+    .toast-border-info { border-left: 5px solid #0284c7 !important; }
+    .toast-border-warning { border-left: 5px solid #dc2626 !important; }
+    .toast-border-success { border-left: 5px solid #16a34a !important; }
 
     /* CALENDAR GRID */
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-    .calendar-header-day { text-align: center; font-weight: 700; font-size: 0.825rem; padding: 8px; background: #f1f5f9; border-radius: 8px; color: #334155; }
-    .calendar-day-cell { min-height: 110px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; padding: 6px; display: flex; flex-direction: column; transition: border-color 0.2s ease; }
-    .calendar-day-cell:hover { border-color: #94a3b8; }
-    .calendar-day-number { font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 6px; }
-    .calendar-event-item { 
-      font-size: 0.73rem; 
-      padding: 4px 8px; 
-      border-radius: 6px; 
-      margin-bottom: 4px; 
-      font-weight: 600; 
-      cursor: pointer; 
-      white-space: nowrap; 
-      overflow: hidden; 
-      text-overflow: ellipsis; 
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-    .calendar-event-item:hover { transform: scale(1.02); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .calendar-header-day { text-align: center; font-weight: 700; font-size: 0.8rem; padding: 6px; background: #f1f5f9; border-radius: 6px; color: #334155; }
+    .calendar-day-cell { min-height: 100px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 10px; padding: 6px; display: flex; flex-direction: column; }
+    .calendar-day-number { font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 4px; }
+    .calendar-event-item { font-size: 0.7rem; padding: 3px 6px; border-radius: 5px; margin-bottom: 3px; font-weight: 600; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .event-done { background: #dcfce7; color: #14532d; border-left: 3px solid #16a34a; }
     .event-pending { background: #dbeafe; color: #1e3a8a; border-left: 3px solid #2563eb; }
     .event-issue { background: #ffe4e6; color: #881337; border-left: 3px solid #e11d48; }
@@ -265,90 +246,69 @@
     /* AUTHENTICATION GATE */
     #landingAuthGate { 
       position: fixed; 
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      height: 100%; 
+      top: 0; left: 0; width: 100%; height: 100%; 
       background: linear-gradient(135deg, #020617 0%, #0f172a 60%, #1e1b4b 100%); 
       z-index: 9999; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      padding: 15px; 
+      display: flex; align-items: center; justify-content: center; padding: 15px; 
     }
 
-    /* PHOTO PREVIEW THUMBNAILS */
-    .img-preview-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .img-preview-box {
-      position: relative;
-      width: 70px;
-      height: 70px;
-      border-radius: 8px;
-      overflow: hidden;
+    /* MULTI-SELECT CHECKBOX BOX */
+    .staff-checkbox-grid {
+      max-height: 160px;
+      overflow-y: auto;
+      background: #f8fafc;
       border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 8px 12px;
     }
-    .img-preview-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .img-preview-box .btn-remove {
-      position: absolute;
-      top: 2px;
-      right: 2px;
-      background: rgba(220, 38, 38, 0.85);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      font-size: 10px;
+    .staff-checkbox-item {
       display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      padding: 4px 0;
+      border-bottom: 1px dashed #e2e8f0;
     }
+    .staff-checkbox-item:last-child { border-bottom: none; }
+
+    /* PHOTO PREVIEW THUMBNAILS */
+    .img-preview-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .img-preview-box { position: relative; width: 65px; height: 65px; border-radius: 8px; overflow: hidden; border: 1px solid #cbd5e1; }
+    .img-preview-box img { width: 100%; height: 100%; object-fit: cover; }
+    .img-preview-box .btn-remove { position: absolute; top: 2px; right: 2px; background: rgba(220, 38, 38, 0.85); color: #fff; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
     /* GALLERY GRID IN DETAIL MODAL */
-    .photo-gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      gap: 8px;
-      margin-top: 8px;
+    .photo-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 8px; margin-top: 8px; }
+    .photo-gallery-item { aspect-ratio: 1; border-radius: 8px; overflow: hidden; border: 1px solid #cbd5e1; cursor: pointer; }
+    .photo-gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
+    .photo-gallery-item:hover img { transform: scale(1.08); }
+
+    /* VIBRANT MODAL DETAIL DESIGN */
+    .modal-vibrant-header {
+      background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);
+      color: #ffffff;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
     }
-    .photo-gallery-item {
-      aspect-ratio: 1;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid #e2e8f0;
-      cursor: pointer;
+    .vibrant-card-box {
+      background: #f8fafc;
+      border-left: 4px solid #4338ca;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
     }
-    .photo-gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.2s ease;
-    }
-    .photo-gallery-item:hover img {
-      transform: scale(1.08);
+    .word-break-all {
+      word-break: break-word !important;
+      overflow-wrap: anywhere !important;
     }
 
     @media (max-width: 768px) {
       .container-fluid { padding-left: 8px !important; padding-right: 8px !important; }
       .portal-title { font-size: 1rem !important; }
       .nav-tab-custom { overflow-x: auto; flex-wrap: nowrap; padding: 4px; }
-      .nav-tab-custom .nav-link { padding: 8px 14px; font-size: 0.825rem; white-space: nowrap; }
-      .calendar-day-cell { min-height: 80px; padding: 4px; }
-      #customToastContainer { max-width: 92%; right: 4%; bottom: 16px; }
+      .nav-tab-custom .nav-link { padding: 6px 12px; font-size: 0.8rem; white-space: nowrap; }
     }
   </style>
 </head>
-<body class="p-2 p-md-4">
+<body class="p-2 p-md-3">
 
   <div id="customToastContainer"></div>
 
@@ -380,7 +340,7 @@
   <div class="container-fluid" id="appMainContainer">
     
     <!-- HEADER BAR -->
-    <div id="headerBar" class="d-flex justify-content-between align-items-center p-3 px-md-4 rounded-4 mb-3 mb-md-4 shadow-sm executive-theme-bg">
+    <div id="headerBar" class="d-flex justify-content-between align-items-center p-3 px-md-4 rounded-4 mb-3 shadow-sm executive-theme-bg">
       <div class="d-flex align-items-center gap-3">
         <div>
           <h5 id="portalTitle" class="mb-0 user-name-title portal-title">ระบบบริหารจัดการดิจิทัล - อบต.ท่าก๊อ</h5>
@@ -388,7 +348,7 @@
         </div>
       </div>
       <div class="d-flex align-items-center gap-2">
-        <span id="roleBadge" class="badge badge-executive fs-7 px-3 py-2 rounded-pill shadow-sm">ผู้บริหาร</span>
+        <span id="roleBadge" class="badge bg-warning text-dark fs-7 px-3 py-2 rounded-pill shadow-sm fw-bold">ผู้บริหาร</span>
         <button class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold" onclick="handleLogout()" title="ออกจากระบบ">
           <i class="bi bi-power text-danger me-1"></i> ออกจากระบบ
         </button>
@@ -435,53 +395,51 @@
     <div id="executiveView" class="d-none">
       <div class="tab-content" id="execTabContent">
         <div class="tab-pane fade show active" id="tab-tracking" role="tabpanel">
-          <div class="kpi-row-inline mb-3 mb-md-4">
+          
+          <!-- SLIM HORIZONTAL BENTO KPI CARDS -->
+          <div class="kpi-row-inline mb-3">
             <div class="kpi-col-5" onclick="filterByStatus('')">
-              <div class="card p-3 kpi-box border-start border-4 border-primary shadow-sm h-100">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                  <small class="text-dark fw-bold text-nowrap">ภารกิจรอดำเนินการรวม</small>
-                  <i class="bi bi-stack text-primary fs-5"></i>
+              <div class="kpi-box-slim border-start border-4 border-primary shadow-sm">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-dark fw-bold small">ภารกิจรวม</span>
+                  <span class="fw-bold fs-6 text-primary" id="execKpiTotal">0</span>
                 </div>
-                <h2 class="fw-bold text-primary mb-0 mt-1" id="execKpiTotal">0</h2>
               </div>
             </div>
             <div class="kpi-col-5" onclick="filterByStatus('กำลังดำเนินการ')">
-              <div class="card p-3 kpi-box border-start border-4 border-warning shadow-sm h-100">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-warning"></span>อยู่ระหว่างดำเนินการ</small>
-                  <i class="bi bi-hourglass-split text-warning fs-5"></i>
+              <div class="kpi-box-slim border-start border-4 border-warning shadow-sm">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-dark fw-bold small"><span class="live-dot live-dot-warning"></span>กำลังทำ</span>
+                  <span class="fw-bold fs-6 text-warning" id="execKpiPending">0</span>
                 </div>
-                <h2 class="fw-bold text-warning mb-0 mt-1" id="execKpiPending">0</h2>
               </div>
             </div>
             <div class="kpi-col-5" onclick="filterByStatus('รอตรวจสอบอนุมัติ')">
-              <div class="card p-3 kpi-box border-start border-4 border-info shadow-sm h-100">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-info"></span>รอตรวจสอบอนุมัติ</small>
-                  <i class="bi bi-clipboard-check text-info fs-5"></i>
+              <div class="kpi-box-slim border-start border-4 border-info shadow-sm">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-dark fw-bold small"><span class="live-dot live-dot-info"></span>รอตรวจ</span>
+                  <span class="fw-bold fs-6 text-info" id="execKpiReview">0</span>
                 </div>
-                <h2 class="fw-bold text-info mb-0 mt-1" id="execKpiReview">0</h2>
               </div>
             </div>
             <div class="kpi-col-5" onclick="filterByStatus('พบปัญหา/ขัดข้อง')">
-              <div class="card p-3 kpi-box border-start border-4 border-danger shadow-sm h-100">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-danger"></span>พบปัญหา / ติดขัด</small>
-                  <i class="bi bi-exclamation-octagon text-danger fs-5"></i>
+              <div class="kpi-box-slim border-start border-4 border-danger shadow-sm">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-dark fw-bold small"><span class="live-dot live-dot-danger"></span>ติดขัด</span>
+                  <span class="fw-bold fs-6 text-danger" id="execKpiIssue">0</span>
                 </div>
-                <h2 class="fw-bold text-danger mb-0 mt-1" id="execKpiIssue">0</h2>
               </div>
             </div>
             <div class="kpi-col-5" onclick="filterByStatus('หนังสือที่แล้วเสร็จ')">
-              <div class="card p-3 kpi-box border-start border-4 border-success shadow-sm h-100">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-success"></span>หนังสือที่แล้วเสร็จ</small>
-                  <i class="bi bi-check-circle text-success fs-5"></i>
+              <div class="kpi-box-slim border-start border-4 border-success shadow-sm">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-dark fw-bold small"><span class="live-dot live-dot-success"></span>เสร็จสิ้น</span>
+                  <span class="fw-bold fs-6 text-success" id="execKpiArchive">0</span>
                 </div>
-                <h2 class="fw-bold text-success mb-0 mt-1" id="execKpiArchive">0</h2>
               </div>
             </div>
           </div>
+
           <div id="executiveTableMountPoint"></div>
         </div>
 
@@ -510,7 +468,7 @@
               <span class="badge me-2 px-3 py-2 fs-6 rounded-pill text-white" style="background-color: #4338ca;"><i class="bi bi-pencil-square me-1"></i> ฟอร์มสั่งการ</span>
               <h6 class="fw-bold text-dark mb-0 fs-6">สั่งการและมอบหมายงานใหม่ (Executive Command Panel)</h6>
             </div>
-            <form onsubmit="handleCreateTask(event)">
+            <form onsubmit="openCreateSummaryModal(event)">
               <div class="row g-2 g-md-3">
                 <div class="col-12 col-md-3">
                   <label class="form-label fw-bold small text-dark">เลขที่หนังสือ / คำร้อง</label>
@@ -521,8 +479,14 @@
                   <input type="text" id="subject" class="form-control form-control-sm text-dark fw-semibold" required placeholder="ระบุเรื่องหนังสือ/ภารกิจ">
                 </div>
                 <div class="col-12 col-md-4">
-                  <label class="form-label fw-bold small text-dark">มอบหมายให้ผู้ปฏิบัติงาน</label>
-                  <select id="assignedTo" class="form-select form-select-sm text-dark fw-semibold" required></select>
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <label class="form-label fw-bold small text-dark mb-0">มอบหมายผู้ปฏิบัติงาน (เลือกได้หลายคน)</label>
+                    <div>
+                      <button type="button" class="btn btn-link py-0 px-1 text-primary fw-bold text-decoration-none" style="font-size: 0.72rem;" onclick="toggleSelectAllStaff(true)">☑ เลือกหมด</button>
+                      <button type="button" class="btn btn-link py-0 px-1 text-danger fw-bold text-decoration-none" style="font-size: 0.72rem;" onclick="toggleSelectAllStaff(false)">☐ ยกเลิก</button>
+                    </div>
+                  </div>
+                  <div class="staff-checkbox-grid" id="staffCheckboxContainer"></div>
                 </div>
                 <div class="col-12 col-md-8">
                   <label class="form-label fw-bold small text-dark">ข้อสั่งการ / รายละเอียดการปฏิบัติ</label>
@@ -541,7 +505,7 @@
                   <input type="date" id="dueDate" class="form-control form-control-sm text-dark fw-semibold">
                 </div>
                 <div class="col-12 col-md-6 text-end align-self-end mt-3 mt-md-0">
-                  <button type="submit" id="btnSubmitTask" class="btn text-white btn-sm w-100 w-md-auto px-4 py-2 rounded-pill fw-bold shadow-sm" style="background-color: #4338ca;">
+                  <button type="submit" class="btn text-white btn-sm w-100 w-md-auto px-4 py-2 rounded-pill fw-bold shadow-sm" style="background-color: #4338ca;">
                     <i class="bi bi-send-fill me-1"></i> บันทึกสั่งการ & ส่ง Telegram
                   </button>
                 </div>
@@ -556,50 +520,45 @@
     <div id="staffView" class="d-none">
       <div class="tab-content" id="staffTabContent">
         <div class="tab-pane fade show active" id="staff-tab-tracking" role="tabpanel">
-          <div class="kpi-row-inline mb-3 mb-md-4">
+          <div class="kpi-row-inline mb-3">
             <div class="kpi-col-5" onclick="filterByStatus('')">
-              <div class="card p-3 kpi-box border-start border-4 border-primary shadow-sm h-100">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                  <small class="text-dark fw-bold text-nowrap">ภารกิจที่ได้รับมอบหมาย</small>
-                  <i class="bi bi-stack text-primary fs-5"></i>
+              <div class="kpi-box-slim border-start border-4 border-primary shadow-sm">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-dark fw-bold small">ภารกิจรวม</span>
+                  <span class="fw-bold fs-6 text-primary" id="staffKpiTotal">0</span>
                 </div>
-                <h2 class="fw-bold text-primary mb-0 mt-1" id="staffKpiTotal">0</h2>
               </div>
             </div>
             <div class="kpi-col-5" onclick="filterByStatus('กำลังดำเนินการ')">
-              <div class="card p-3 kpi-box border-start border-4 border-warning shadow-sm h-100">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-warning"></span>อยู่ระหว่างดำเนินการ</small>
-                  <i class="bi bi-hourglass-split text-warning fs-5"></i>
+              <div class="kpi-box-slim border-start border-4 border-warning shadow-sm">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-dark fw-bold small"><span class="live-dot live-dot-warning"></span>กำลังทำ</span>
+                  <span class="fw-bold fs-6 text-warning" id="staffKpiPending">0</span>
                 </div>
-                <h2 class="fw-bold text-warning mb-0 mt-1" id="staffKpiPending">0</h2>
               </div>
             </div>
             <div class="kpi-col-5" onclick="filterByStatus('รอตรวจสอบอนุมัติ')">
-              <div class="card p-3 kpi-box border-start border-4 border-info shadow-sm h-100">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-info"></span>รอตรวจสอบอนุมัติ</small>
-                  <i class="bi bi-clipboard-check text-info fs-5"></i>
+              <div class="kpi-box-slim border-start border-4 border-info shadow-sm">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-dark fw-bold small"><span class="live-dot live-dot-info"></span>รอตรวจ</span>
+                  <span class="fw-bold fs-6 text-info" id="staffKpiReview">0</span>
                 </div>
-                <h2 class="fw-bold text-info mb-0 mt-1" id="staffKpiReview">0</h2>
               </div>
             </div>
             <div class="kpi-col-5" onclick="filterByStatus('พบปัญหา/ขัดข้อง')">
-              <div class="card p-3 kpi-box border-start border-4 border-danger shadow-sm h-100">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-danger"></span>พบปัญหา / ติดขัด</small>
-                  <i class="bi bi-exclamation-octagon text-danger fs-5"></i>
+              <div class="kpi-box-slim border-start border-4 border-danger shadow-sm">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-dark fw-bold small"><span class="live-dot live-dot-danger"></span>ติดขัด</span>
+                  <span class="fw-bold fs-6 text-danger" id="staffKpiIssue">0</span>
                 </div>
-                <h2 class="fw-bold text-danger mb-0 mt-1" id="staffKpiIssue">0</h2>
               </div>
             </div>
             <div class="kpi-col-5" onclick="filterByStatus('หนังสือที่แล้วเสร็จ')">
-              <div class="card p-3 kpi-box border-start border-4 border-success shadow-sm h-100">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-success"></span>หนังสือที่แล้วเสร็จ</small>
-                  <i class="bi bi-check-circle text-success fs-5"></i>
+              <div class="kpi-box-slim border-start border-4 border-success shadow-sm">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-dark fw-bold small"><span class="live-dot live-dot-success"></span>เสร็จสิ้น</span>
+                  <span class="fw-bold fs-6 text-success" id="staffKpiArchive">0</span>
                 </div>
-                <h2 class="fw-bold text-success mb-0 mt-1" id="staffKpiArchive">0</h2>
               </div>
             </div>
           </div>
@@ -646,6 +605,25 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- MODAL: PRE-SEND CONFIRMATION SUMMARY -->
+  <div class="modal fade" id="commandSummaryModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 bg-white">
+        <div class="modal-header modal-vibrant-header border-0">
+          <h6 class="fw-bold mb-0 text-white"><i class="bi bi-check-circle-fill me-2"></i>ยืนยันการสั่งการและส่ง Telegram</h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-3 p-md-4" id="commandSummaryBody"></div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-light btn-sm rounded-pill px-3 border" data-bs-dismiss="modal">ถอยกลับไปแก้ไข</button>
+          <button type="button" id="btnConfirmSubmitTask" class="btn btn-primary btn-sm rounded-pill px-4 fw-bold" onclick="executeCreateTask()">
+            <i class="bi bi-send-fill me-1"></i> ยืนยันสั่งการ
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- MODAL: UPDATE TASK -->
@@ -711,12 +689,12 @@
               <div class="tab-content" id="proofTypeTabContent">
                 <div class="tab-pane fade show active" id="proof-photo" role="tabpanel">
                   <input type="file" id="modalImageInput" class="form-control form-control-sm" accept="image/*" multiple onchange="handleImageSelection(event)">
-                  <small class="text-muted d-block mt-1" style="font-size: 0.72rem;">* สามารถเลือกรูปถ่ายหน้างานได้ 1 ถึง 5 รูป (ระบบจะสร้างโฟลเดอร์เก็บรูปย่อยให้อัตโนมัติใน Google Drive)</small>
+                  <small class="text-muted d-block mt-1" style="font-size: 0.72rem;">* เลือกรูปถ่ายหน้างานได้ 1 ถึง 5 รูป (ระบบสร้างโฟลเดอร์ให้อัตโนมัติใน Drive)</small>
                   <div id="imagePreviewContainer" class="img-preview-container"></div>
                 </div>
                 <div class="tab-pane fade" id="proof-url" role="tabpanel">
                   <input type="url" id="modalProofLink" class="form-control form-control-sm text-dark fw-semibold" placeholder="https://photos.app.goo.gl/... หรือ Google Drive Link">
-                  <small class="text-muted d-block mt-1" style="font-size: 0.72rem;">* สามารถนำลิงก์รูปภาพ หรือลิงก์จากระบบอื่นมาวางได้</small>
+                  <small class="text-muted d-block mt-1" style="font-size: 0.72rem;">* นำลิงก์รูปภาพ หรือลิงก์จากระบบอื่นมาวางได้</small>
                 </div>
               </div>
             </div>
@@ -736,17 +714,17 @@
     </div>
   </div>
 
-  <!-- MODAL: TASK DETAIL VIEW -->
+  <!-- MODAL: VIBRANT DETAIL VIEW -->
   <div class="modal fade" id="detailModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow-lg rounded-4 bg-white">
-        <div class="modal-header border-0 bg-light rounded-top-4">
-          <h6 class="fw-bold text-dark mb-0"><i class="bi bi-info-circle-fill text-primary me-2"></i>รายละเอียดภารกิจและข้อสั่งการ</h6>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div class="modal-content border-0 shadow-lg rounded-4 bg-white overflow-hidden">
+        <div class="modal-header modal-vibrant-header border-0">
+          <h6 class="fw-bold mb-0 text-white"><i class="bi bi-info-circle-fill me-2"></i>รายละเอียดภารกิจและข้อสั่งการ</h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body p-3 p-md-4" id="detailModalBody"></div>
-        <div class="modal-footer border-0">
-          <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4" data-bs-dismiss="modal">ปิดหน้าต่าง</button>
+        <div class="modal-footer border-0 bg-light">
+          <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4 fw-bold" data-bs-dismiss="modal">ปิดหน้าต่าง</button>
         </div>
       </div>
     </div>
@@ -759,12 +737,13 @@
     let publicUsers = [];
     let currentUser = null;
     let rawTasks = [];
-    let updateModalObj, detailModalObj;
+    let updateModalObj, detailModalObj, summaryModalObj;
     let currentActiveTab = 'tracking'; 
     let calendarDate = new Date();
     let smartPollingTimer = null;
     let selectedImageBase64List = [];
     let activeProofType = 'photo';
+    let pendingCreatePayload = null;
     
     let previousTaskMap = new Map();
     let isFirstFetch = true;
@@ -777,6 +756,7 @@
     window.onload = function() {
       updateModalObj = new bootstrap.Modal(document.getElementById('updateModal'));
       detailModalObj = new bootstrap.Modal(document.getElementById('detailModal'));
+      summaryModalObj = new bootstrap.Modal(document.getElementById('commandSummaryModal'));
 
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('assignedDate').value = today;
@@ -963,7 +943,7 @@
 
       if (isExec) {
         appContainer.className = "container-fluid exec-mode";
-        headerBar.className = "d-flex justify-content-between align-items-center p-3 px-md-4 rounded-4 mb-3 mb-md-4 shadow-sm executive-theme-bg";
+        headerBar.className = "d-flex justify-content-between align-items-center p-3 px-md-4 rounded-4 mb-3 shadow-sm executive-theme-bg";
         roleBadge.className = "badge bg-warning text-dark fs-7 px-3 py-2 rounded-pill shadow-sm fw-bold";
         roleBadge.innerText = "ผู้บริหาร";
         
@@ -980,10 +960,10 @@
         document.getElementById('staffTableMountPoint').innerHTML = '';
         document.getElementById('staffArchiveMountPoint').innerHTML = '';
         
-        populateAssignDropdown();
+        populateStaffCheckboxGrid();
       } else {
         appContainer.className = "container-fluid staff-mode";
-        headerBar.className = "d-flex justify-content-between align-items-center p-3 px-md-4 rounded-4 mb-3 mb-md-4 shadow-sm staff-theme-bg";
+        headerBar.className = "d-flex justify-content-between align-items-center p-3 px-md-4 rounded-4 mb-3 shadow-sm staff-theme-bg";
         roleBadge.className = "badge bg-success text-white fs-7 px-3 py-2 rounded-pill shadow-sm fw-bold";
         roleBadge.innerText = "ผู้ปฏิบัติงาน";
         
@@ -1021,6 +1001,27 @@
       fetchTasks();
     }
 
+    function populateStaffCheckboxGrid() {
+      const container = document.getElementById('staffCheckboxContainer');
+      if (!container) return;
+      
+      const staffList = publicUsers.filter(u => u.Role === 'ผู้ปฏิบัติงาน');
+      container.innerHTML = staffList.map((u, idx) => `
+        <div class="staff-checkbox-item">
+          <input class="form-check-input me-2 staff-chk-item" type="checkbox" value="${u.Name}" id="chkStaff_${idx}">
+          <label class="form-check-label small fw-semibold text-dark cursor-pointer" for="chkStaff_${idx}">
+            ${u.Name} <span class="text-muted fw-normal">(${u.Position || 'ช่าง'})</span>
+          </label>
+        </div>
+      `).join('');
+    }
+
+    function toggleSelectAllStaff(isSelectAll) {
+      document.querySelectorAll('.staff-chk-item').forEach(chk => {
+        chk.checked = isSelectAll;
+      });
+    }
+
     function populateStaffFilterDropdown() {
       const userRole = currentUser.role || currentUser.Role;
       const userName = currentUser.name || currentUser.Name;
@@ -1036,15 +1037,6 @@
           select.value = userName;
           select.disabled = true;
         }
-      });
-    }
-
-    function populateAssignDropdown() {
-      const select = document.getElementById('assignedTo');
-      if (!select) return;
-      select.innerHTML = '';
-      publicUsers.filter(u => u.Role === 'ผู้ปฏิบัติงาน').forEach(u => {
-        select.innerHTML += `<option value="${u.Name}">${u.Name} - ${u.Position}</option>`;
       });
     }
 
@@ -1554,33 +1546,87 @@
       return u ? u.Name : val;
     }
 
-    async function handleCreateTask(e) {
+    /* PRE-SEND CONFIRMATION SUMMARY MODAL */
+    function openCreateSummaryModal(e) {
       e.preventDefault();
-      const userName = currentUser.name || currentUser.Name;
-      const btn = document.getElementById('btnSubmitTask');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> กำลังบันทึกสั่งการ...';
+      
+      const selectedStaff = [];
+      document.querySelectorAll('.staff-chk-item:checked').forEach(chk => {
+        selectedStaff.push(chk.value);
+      });
 
-      const formObj = {
+      if (selectedStaff.length === 0) {
+        Swal.fire({ icon: 'warning', title: 'โปรดเลือกผู้ปฏิบัติงาน', text: 'กรุณาติ๊กเลือกผู้ปฏิบัติงานอย่างน้อย 1 คน' });
+        return;
+      }
+
+      const userName = currentUser.name || currentUser.Name;
+      pendingCreatePayload = {
         refNumber: document.getElementById('refNumber').value,
         subject: document.getElementById('subject').value,
         assignedBy: userName,
-        assignedTo: document.getElementById('assignedTo').value,
+        assignedTo: selectedStaff,
         instruction: document.getElementById('instruction').value,
         docLink: document.getElementById('docLink').value,
         assignedDate: document.getElementById('assignedDate').value,
         dueDate: document.getElementById('dueDate').value
       };
 
-      const res = await callGasApi('createTask', { formObj });
+      const staffListHtml = selectedStaff.map((name, i) => `<span class="badge bg-indigo-subtle text-indigo border border-indigo me-1 mb-1 p-2 fw-bold">${i + 1}. ${name}</span>`).join('');
+
+      document.getElementById('commandSummaryBody').innerHTML = `
+        <div class="vibrant-card-box">
+          <small class="text-muted d-block fw-bold">เลขที่หนังสือ / คำร้อง:</small>
+          <span class="fs-6 fw-bold text-dark">${pendingCreatePayload.refNumber}</span>
+        </div>
+        <div class="vibrant-card-box">
+          <small class="text-muted d-block fw-bold">เรื่อง / ชื่อภารกิจ:</small>
+          <span class="fs-6 fw-bold text-primary">${pendingCreatePayload.subject}</span>
+        </div>
+        <div class="vibrant-card-box">
+          <small class="text-muted d-block fw-bold mb-1">ผู้ปฏิบัติงานที่ได้รับมอบหมาย (${selectedStaff.length} คน):</small>
+          <div>${staffListHtml}</div>
+        </div>
+        <div class="vibrant-card-box">
+          <small class="text-muted d-block fw-bold">ข้อสั่งการ:</small>
+          <div class="text-dark fw-semibold small">${pendingCreatePayload.instruction}</div>
+        </div>
+        <div class="row g-2">
+          <div class="col-6">
+            <div class="p-2 border rounded bg-white">
+              <small class="text-muted d-block fw-bold">วันสั่งการ:</small>
+              <span class="small fw-bold text-dark">${pendingCreatePayload.assignedDate}</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-2 border rounded bg-white">
+              <small class="text-muted d-block fw-bold">กำหนดส่งงาน:</small>
+              <span class="small fw-bold text-danger">${pendingCreatePayload.dueDate || 'ไม่ได้ระบุ'}</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      summaryModalObj.show();
+    }
+
+    async function executeCreateTask() {
+      if (!pendingCreatePayload) return;
+
+      const btn = document.getElementById('btnConfirmSubmitTask');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> กำลังส่งบันทึก...';
+
+      const res = await callGasApi('createTask', { formObj: pendingCreatePayload });
       btn.disabled = false;
-      btn.innerHTML = '<i class="bi bi-send-fill me-1"></i> บันทึกสั่งการ & ส่ง Telegram';
+      btn.innerHTML = '<i class="bi bi-send-fill me-1"></i> ยืนยันสั่งการ';
 
       if (res && res.success) {
+        summaryModalObj.hide();
         Swal.fire({
           icon: 'success',
           title: 'บันทึกสั่งการสำเร็จ',
-          text: 'ระบบส่งแจ้งเตือน Telegram ไปยังผู้ปฏิบัติงานเรียบร้อย',
+          text: `ระบบส่งแจ้งเตือน Telegram ไปยังผู้ปฏิบัติงาน ${res.count || 1} คนเรียบร้อย`,
           timer: 2000,
           showConfirmButton: false
         });
@@ -1590,6 +1636,7 @@
         document.getElementById('instruction').value = '';
         document.getElementById('docLink').value = '';
         document.getElementById('dueDate').value = '';
+        toggleSelectAllStaff(false);
         fetchTasks(true);
       }
     }
@@ -1781,12 +1828,12 @@
 
           proofDisplay = `
             <div class="mt-2">
-              <small class="text-dark fw-bold d-block"><i class="bi bi-images text-success me-1"></i> รูปภาพหลักฐานผลงาน (${urls.length} รูป):</small>
+              <small class="text-dark fw-bold d-block mb-1"><i class="bi bi-images text-success me-1"></i> รูปภาพหลักฐานผลงาน (${urls.length} รูป):</small>
               <div class="photo-gallery-grid">${galleryItems}</div>
             </div>
           `;
         } else if (rawProof.startsWith('http')) {
-          proofDisplay = `<a href="${rawProof}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill mt-2 d-inline-block"><i class="bi bi-link-45deg me-1"></i> เปิดดูลิงก์หลักฐานผลงาน</a>`;
+          proofDisplay = `<a href="${rawProof}" target="_blank" class="btn btn-sm btn-success rounded-pill mt-2 d-inline-block shadow-sm"><i class="bi bi-box-arrow-up-right me-1"></i> เปิดดูลิงก์หลักฐานผลงาน</a>`;
         }
       }
 
@@ -1806,48 +1853,54 @@
       if (cleanNote.includes('[ขั้นตอน:')) cleanNote = cleanNote.replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '').trim();
 
       body.innerHTML = `
-        <div class="mb-2">
-          <small class="text-dark fw-bold d-block">เลขที่รับหนังสือ/คำร้อง:</small>
+        <div class="vibrant-card-box">
+          <small class="text-muted fw-bold d-block">เลขที่รับหนังสือ/คำร้อง:</small>
           <span class="fs-6 fw-bold text-dark">${t.refNumber || '-'}</span>
         </div>
-        <div class="mb-2">
-          <small class="text-dark fw-bold d-block">เรื่อง / ชื่อภารกิจ:</small>
-          <div class="fw-bold text-primary fs-6">${t.subject}</div>
+        <div class="vibrant-card-box">
+          <small class="text-muted fw-bold d-block">เรื่อง / ชื่อภารกิจ:</small>
+          <div class="fw-bold text-primary fs-6 mb-1">${t.subject}</div>
           ${docBtn}
           ${proofDisplay}
         </div>
-        <div class="mb-2">
-          <small class="text-dark fw-bold d-block">ข้อสั่งการ / รายละเอียดการปฏิบัติงาน:</small>
-          <div class="p-2 bg-light border rounded text-dark fw-semibold">${t.instruction || '-'}</div>
+        <div class="vibrant-card-box">
+          <small class="text-muted fw-bold d-block">ข้อสั่งการ / รายละเอียดการปฏิบัติงาน:</small>
+          <div class="text-dark fw-semibold small mt-1">${t.instruction || '-'}</div>
         </div>
-        <hr class="my-2">
         <div class="row g-2 mb-2">
           <div class="col-6">
-            <small class="text-dark fw-bold d-block">ผู้สั่งการ:</small>
-            <span class="small fw-bold text-dark nowrap-name">${t.assignedBy || '-'}</span>
+            <div class="p-2 border rounded bg-white">
+              <small class="text-muted fw-bold d-block">ผู้สั่งการ:</small>
+              <span class="small fw-bold text-dark nowrap-name">${t.assignedBy || '-'}</span>
+            </div>
           </div>
           <div class="col-6">
-            <small class="text-dark fw-bold d-block">ผู้รับผิดชอบ:</small>
-            <span class="small fw-bold text-dark nowrap-name">${getUserName(t.assignedTo)}</span>
+            <div class="p-2 border rounded bg-white">
+              <small class="text-muted fw-bold d-block">ผู้รับผิดชอบ:</small>
+              <span class="small fw-bold text-dark nowrap-name">${getUserName(t.assignedTo)}</span>
+            </div>
           </div>
           <div class="col-6">
-            <small class="text-dark fw-bold d-block">วันสั่งการ:</small>
-            <span class="small text-dark fw-bold">${t.assignedDate || '-'}</span>
+            <div class="p-2 border rounded bg-white">
+              <small class="text-muted fw-bold d-block">วันสั่งการ:</small>
+              <span class="small text-dark fw-bold">${t.assignedDate || '-'}</span>
+            </div>
           </div>
           <div class="col-6">
-            <small class="text-dark fw-bold d-block">กำหนดส่งงาน:</small>
-            <span class="small fw-bold text-danger">${t.dueDate || 'ไม่ได้ระบุ'}</span>
+            <div class="p-2 border rounded bg-white">
+              <small class="text-muted fw-bold d-block">กำหนดส่งงาน:</small>
+              <span class="small fw-bold text-danger">${t.dueDate || 'ไม่ได้ระบุ'}</span>
+            </div>
           </div>
         </div>
-        <hr class="my-2">
-        <div class="mb-2">
-          <small class="text-dark fw-bold d-block">สถานะการดำเนินงาน:</small>
-          <span class="badge bg-secondary mb-1">${t.status}</span>
+        <div class="vibrant-card-box mb-2">
+          <small class="text-muted fw-bold d-block">สถานะการดำเนินงาน:</small>
+          <span class="badge bg-indigo-subtle text-indigo border border-indigo mt-1">${t.status}</span>
           ${subStepDisplay}
         </div>
-        <div>
-          <small class="text-dark fw-bold d-block">บันทึกรายงานความคืบหน้าล่าสุด:</small>
-          <div class="p-2 border rounded bg-white text-dark fw-semibold small">${cleanNote || 'ไม่มีบันทึกเพิ่มเติม'}</div>
+        <div class="vibrant-card-box mb-0">
+          <small class="text-muted fw-bold d-block">บันทึกรายงานความคืบหน้าล่าสุด:</small>
+          <div class="text-dark fw-semibold small word-break-all mt-1">${cleanNote || 'ไม่มีบันทึกเพิ่มเติม'}</div>
         </div>
       `;
 
