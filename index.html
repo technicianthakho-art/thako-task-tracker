@@ -244,13 +244,99 @@
     .event-pending { background: #dbeafe; color: #1e3a8a; border-left: 3px solid #2563eb; }
     .event-issue { background: #ffe4e6; color: #881337; border-left: 3px solid #e11d48; }
 
-    /* AUTHENTICATION GATE */
+    /* REDESIGNED MODERN LOGIN GATE & CARDS */
     #landingAuthGate { 
       position: fixed; 
       top: 0; left: 0; width: 100%; height: 100%; 
       background: linear-gradient(135deg, #020617 0%, #0f172a 60%, #1e1b4b 100%); 
       z-index: 9999; 
-      display: flex; align-items: center; justify-content: center; padding: 15px; 
+      display: flex; align-items: center; justify-content: center; padding: 20px; 
+      overflow-y: auto;
+    }
+
+    .login-container-card {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      max-width: 960px;
+      width: 100%;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .user-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .user-select-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 14px 12px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .user-select-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 10px 20px rgba(67, 56, 202, 0.12);
+      border-color: #4338ca;
+    }
+
+    /* EXECUTIVE CARD PRIORITY (LEFT-MOST) */
+    .exec-user-card {
+      grid-column: span 1;
+      background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+      border: 2px solid #f59e0b !important;
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.15);
+    }
+    .exec-user-card:hover {
+      box-shadow: 0 12px 28px rgba(245, 158, 11, 0.25) !important;
+    }
+
+    .user-card-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-card-pos {
+      font-size: 0.78rem;
+      color: #64748b;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* SMOOTH DIALOG BOX ANIMATION */
+    .modal.fade .modal-dialog {
+      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+      transform: scale(0.92);
+    }
+    .modal.show .modal-dialog {
+      transform: scale(1);
+    }
+
+    .dialog-glass-card {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     }
 
     /* REDESIGNED MULTI-SELECT CHECKBOX BOX */
@@ -313,6 +399,7 @@
       .portal-title { font-size: 1rem !important; }
       .nav-tab-custom { overflow-x: auto; flex-wrap: nowrap; padding: 4px; }
       .nav-tab-custom .nav-link { padding: 6px 12px; font-size: 0.8rem; white-space: nowrap; }
+      .user-cards-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -320,28 +407,46 @@
 
   <div id="customToastContainer"></div>
 
-  <!-- AUTHENTICATION GATE -->
+  <!-- MODERN LOGIN GATE (AVATAR CARDS GRID) -->
   <div id="landingAuthGate">
-    <div class="card p-4 text-center shadow-lg border-0 rounded-4" style="max-width: 400px; width: 100%; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px);">
-      <div class="mb-3" style="color: #4338ca;"><i class="bi bi-shield-lock-fill fs-1"></i></div>
-      <h6 class="fw-bold text-dark mb-1">องค์การบริหารส่วนตำบลท่าก๊อ</h6>
-      <small class="text-primary fw-bold d-block mb-3" style="color: #4338ca !important;">ระบบบริหารจัดการดิจิทัล</small>
+    <div class="login-container-card text-center">
+      <div class="mb-2" style="color: #4338ca;"><i class="bi bi-shield-lock-fill fs-1"></i></div>
+      <h5 class="fw-bold text-dark mb-1">องค์การบริหารส่วนตำบลท่าก๊อ</h5>
+      <small class="text-primary fw-bold d-block mb-3" style="color: #4338ca !important;">ระบบบริหารจัดการดิจิทัล - เลือกบุคลากรเพื่อเข้าสู่ระบบ</small>
 
-      <div class="text-start mb-3">
-        <label class="form-label small fw-bold text-dark mb-1">เลือกผู้ใช้งาน (ชื่อ - นามสกุล):</label>
-        <select id="landingUserSelect" class="form-select form-select-sm text-dark fw-semibold" onchange="onUserSelectChange()"></select>
+      <!-- USER CARDS GRID CONTAINER -->
+      <div id="userCardsContainer" class="user-cards-grid">
+        <div class="text-center py-4 col-12 text-muted">
+          <div class="spinner-border spinner-border-sm me-2 text-primary"></div>กำลังโหลดข้อมูลบุคลากร...
+        </div>
       </div>
+    </div>
+  </div>
 
-      <div class="text-start mb-3">
-        <label class="form-label small fw-bold text-dark mb-1">รหัสผ่านยืนยันตัวตน (UserId):</label>
-        <input type="password" id="landingPasscode" class="form-control form-control-sm text-center fw-bold text-dark" placeholder="กรอกรหัส แล้วกด Enter" onkeyup="if(event.key === 'Enter') verifyLandingAuth()">
+  <!-- PASSWORD CONFIRMATION DIALOG MODAL -->
+  <div class="modal fade" id="passcodeDialogModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 380px;">
+      <div class="modal-content dialog-glass-card border-0">
+        <div class="modal-body p-4 text-center">
+          <div class="mb-2 text-primary fs-2"><i class="bi bi-person-badge-fill"></i></div>
+          <h6 class="fw-bold text-dark mb-1" id="dialogSelectedUserName">นายพชกร หอมนาน</h6>
+          <span class="badge bg-indigo-subtle text-indigo border border-indigo mb-3 px-3 py-1 fw-bold" id="dialogSelectedUserRole" style="color: #4338ca;">ผู้บริหาร</span>
+
+          <div class="text-start mb-3">
+            <label class="form-label small fw-bold text-dark mb-1">ยืนยันรหัสผ่าน (UserId):</label>
+            <input type="password" id="dialogPasscode" class="form-control text-center fw-bold text-dark fs-5" placeholder="••••••" onkeyup="if(event.key === 'Enter') submitDialogAuth()">
+          </div>
+
+          <div id="dialogAuthAlert" class="alert alert-danger d-none py-1 small mb-3 text-center" style="font-size: 0.8rem;">รหัสผ่านไม่ถูกต้อง!</div>
+
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-light btn-sm rounded-pill w-50 fw-bold border" data-bs-dismiss="modal">ยกเลิก</button>
+            <button type="button" id="btnDialogSubmit" class="btn text-white btn-sm rounded-pill w-50 fw-bold shadow-sm" style="background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);" onclick="submitDialogAuth()">
+              <i class="bi bi-box-arrow-in-right me-1"></i> ตกลง
+            </button>
+          </div>
+        </div>
       </div>
-
-      <div id="landingAuthAlert" class="alert alert-danger d-none py-1 small mb-3 text-center" style="font-size: 0.8rem;">รหัสไม่ถูกต้อง!</div>
-
-      <button type="button" id="btnLoginSubmit" class="btn text-white btn-sm rounded-pill w-100 fw-bold py-2 shadow-sm" style="background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);" onclick="verifyLandingAuth()">
-        <i class="bi bi-box-arrow-in-right me-1"></i> เข้าสู่ระบบ
-      </button>
     </div>
   </div>
 
@@ -470,7 +575,7 @@
           <div id="executiveArchiveMountPoint"></div>
         </div>
 
-        <!-- REDESIGNED EXECUTIVE COMMAND PANEL (2-COLUMN GRID) -->
+        <!-- REDESIGNED EXECUTIVE COMMAND PANEL -->
         <div class="tab-pane fade" id="tab-command" role="tabpanel">
           <div class="card p-3 p-md-4 mb-4 border shadow-sm rounded-4" style="background: #ffffff; border-top: 4px solid #4338ca !important;">
             <div class="d-flex align-items-center mb-3">
@@ -480,8 +585,6 @@
             
             <form onsubmit="openCreateSummaryModal(event)">
               <div class="row g-3">
-                
-                <!-- LEFT COLUMN: INPUT DETAILS (70% WIDTH ON DESKTOP) -->
                 <div class="col-12 col-lg-8">
                   <div class="row g-2 g-md-3">
                     <div class="col-12 col-md-4">
@@ -511,7 +614,6 @@
                   </div>
                 </div>
 
-                <!-- RIGHT COLUMN: MULTI-SELECT STAFF LIST (30% WIDTH ON DESKTOP) -->
                 <div class="col-12 col-lg-4">
                   <div class="p-3 rounded-3 h-100 d-flex flex-direction-column justify-content-between" style="background: #f8fafc; border: 1px solid #cbd5e1;">
                     <div>
@@ -527,16 +629,13 @@
                   </div>
                 </div>
 
-                <!-- BOTTOM FULL WIDTH SUBMIT BUTTON -->
                 <div class="col-12 mt-3">
                   <button type="submit" class="btn text-white btn-sm w-100 py-2 rounded-pill fw-bold shadow-sm fs-6" style="background-color: #4338ca;">
                     <i class="bi bi-send-fill me-1"></i> บันทึกสั่งการ & ส่ง Telegram
                   </button>
                 </div>
-
               </div>
             </form>
-
           </div>
         </div>
       </div>
@@ -740,7 +839,7 @@
     </div>
   </div>
 
-  <!-- MODAL: VIBRANT DETAIL VIEW (REDESIGNED STATUS & PROOF SEPARATION) -->
+  <!-- MODAL: VIBRANT DETAIL VIEW -->
   <div class="modal fade" id="detailModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4 bg-white overflow-hidden">
@@ -762,8 +861,9 @@
 
     let publicUsers = [];
     let currentUser = null;
+    let selectedUserForLogin = null;
     let rawTasks = [];
-    let updateModalObj, detailModalObj, summaryModalObj;
+    let updateModalObj, detailModalObj, summaryModalObj, passcodeDialogObj;
     let currentActiveTab = 'tracking'; 
     let calendarDate = new Date();
     let smartPollingTimer = null;
@@ -783,6 +883,7 @@
       updateModalObj = new bootstrap.Modal(document.getElementById('updateModal'));
       detailModalObj = new bootstrap.Modal(document.getElementById('detailModal'));
       summaryModalObj = new bootstrap.Modal(document.getElementById('commandSummaryModal'));
+      passcodeDialogObj = new bootstrap.Modal(document.getElementById('passcodeDialogModal'));
 
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('assignedDate').value = today;
@@ -818,7 +919,7 @@
 
     function initPublicUsers(users) {
       publicUsers = users || [];
-      populateUserSelectDropdowns();
+      renderUserAvatarCards();
 
       const savedUserJson = sessionStorage.getItem('thako_user_session');
       if (savedUserJson) {
@@ -845,38 +946,77 @@
       }
     }
 
-    function populateUserSelectDropdowns() {
-      const landingSelect = document.getElementById('landingUserSelect');
+    /* RENDER AVATAR CARDS (EXECUTIVE LEFT-MOST PRIORITY) */
+    function renderUserAvatarCards() {
+      const container = document.getElementById('userCardsContainer');
+      if (!container) return;
+
       const validUsers = publicUsers.filter(u => u.Name && u.Name.trim() !== '');
-      landingSelect.innerHTML = validUsers.map(u => `<option value="${u.Name}">${u.Name} - ${u.Role}</option>`).join('');
+      if (validUsers.length === 0) {
+        container.innerHTML = '<div class="text-center text-muted py-4 col-12">ไม่พบรายชื่อผู้ใช้งาน</div>';
+        return;
+      }
+
+      // Sort executive first
+      validUsers.sort((a, b) => (a.Role === 'ผู้บริหาร' ? -1 : 1));
+
+      container.innerHTML = validUsers.map((u, idx) => {
+        const isExec = u.Role === 'ผู้บริหาร';
+        const cardClass = isExec ? 'user-select-card exec-user-card' : 'user-select-card';
+        const badgeIcon = isExec ? '👑 ' : '👤 ';
+        const posText = u.Position || (isExec ? 'ผู้บริหาร' : 'ผู้ปฏิบัติงาน');
+
+        return `
+          <div class="${cardClass}" onclick="openPasscodeDialog('${u.Name}')">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <span class="fs-6">${badgeIcon}</span>
+              <div class="user-card-name" title="${u.Name}">${u.Name}</div>
+            </div>
+            <div class="user-card-pos" title="${posText}">${posText}</div>
+          </div>
+        `;
+      }).join('');
     }
 
-    function onUserSelectChange() {
-      document.getElementById('landingPasscode').value = '';
-      document.getElementById('landingAuthAlert').classList.add('d-none');
+    function openPasscodeDialog(userName) {
+      const user = publicUsers.find(u => u.Name === userName);
+      if (!user) return;
+
+      selectedUserForLogin = user;
+      document.getElementById('dialogSelectedUserName').innerText = user.Name;
+      document.getElementById('dialogSelectedUserRole').innerText = `${user.Role} (${user.Position || 'กองช่าง'})`;
+      document.getElementById('dialogPasscode').value = '';
+      document.getElementById('dialogAuthAlert').classList.add('d-none');
+
+      passcodeDialogObj.show();
+      setTimeout(() => {
+        document.getElementById('dialogPasscode').focus();
+      }, 350);
     }
 
-    async function verifyLandingAuth() {
-      const selectedName = String(document.getElementById('landingUserSelect').value).trim();
-      const inputPasscode = String(document.getElementById('landingPasscode').value).trim();
-      const btn = document.getElementById('btnLoginSubmit');
+    async function submitDialogAuth() {
+      if (!selectedUserForLogin) return;
 
-      if (!selectedName || !inputPasscode) {
-        document.getElementById('landingAuthAlert').innerText = "กรุณากรอกรหัสผ่านเพื่อเข้าสู่ระบบ";
-        document.getElementById('landingAuthAlert').classList.remove('d-none');
+      const passcode = document.getElementById('dialogPasscode').value.trim();
+      const btn = document.getElementById('btnDialogSubmit');
+
+      if (!passcode) {
+        document.getElementById('dialogAuthAlert').innerText = "กรุณากรอกรหัสผ่าน";
+        document.getElementById('dialogAuthAlert').classList.remove('d-none');
         return;
       }
 
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> กำลังตรวจสอบ...';
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
 
-      const res = await callGasApi('loginUser', { userName: selectedName, inputPassword: inputPasscode });
+      const res = await callGasApi('loginUser', { userName: selectedUserForLogin.Name, inputPassword: passcode });
       btn.disabled = false;
-      btn.innerHTML = '<i class="bi bi-box-arrow-in-right me-1"></i> เข้าสู่ระบบ';
+      btn.innerHTML = '<i class="bi bi-box-arrow-in-right me-1"></i> ตกลง';
 
       if (res && res.success) {
         currentUser = res.user;
         sessionStorage.setItem('thako_user_session', JSON.stringify(currentUser));
+        passcodeDialogObj.hide();
         document.getElementById('landingAuthGate').classList.add('d-none');
         applyRoleTheme();
         startSmartPolling();
@@ -884,13 +1024,13 @@
         Swal.fire({
           icon: 'success',
           title: 'เข้าสู่ระบบสำเร็จ',
-          text: `สิทธิ์ใช้งาน: ${currentUser.name} (${currentUser.role})`,
+          text: `ยินดีต้อนรับ: ${currentUser.name}`,
           timer: 1500,
           showConfirmButton: false
         });
       } else {
-        document.getElementById('landingAuthAlert').innerText = (res ? res.message : null) || "รหัสผ่านไม่ถูกต้อง!";
-        document.getElementById('landingAuthAlert').classList.remove('d-none');
+        document.getElementById('dialogAuthAlert').innerText = (res ? res.message : null) || "รหัสผ่านไม่ถูกต้อง!";
+        document.getElementById('dialogAuthAlert').classList.remove('d-none');
       }
     }
 
@@ -910,8 +1050,6 @@
           isFirstFetch = true;
           if (smartPollingTimer) clearInterval(smartPollingTimer);
 
-          document.getElementById('landingPasscode').value = '';
-          document.getElementById('landingAuthAlert').classList.add('d-none');
           document.getElementById('landingAuthGate').classList.remove('d-none');
           document.getElementById('executiveView').classList.add('d-none');
           document.getElementById('staffView').classList.add('d-none');
@@ -1841,7 +1979,6 @@
       const docBtn = (dLink && dLink.trim().startsWith('http')) ? 
         `<a href="${dLink.trim()}" target="_blank" class="btn btn-sm text-white rounded-pill mt-2 d-inline-block shadow-sm" style="background-color: #4338ca;"><i class="bi bi-file-earmark-pdf-fill me-1"></i> เปิดดูเอกสารสารบรรณต้นฉบับ</a>` : '';
 
-      /* 1. SEPARATE PROOF ATTACHMENTS (IMAGE GALLERY & LINKS) */
       let proofDisplay = '';
       let extractedProofUrl = '';
 
@@ -1879,7 +2016,6 @@
         }
       }
 
-      /* 2. SUB-STEP DISPLAY */
       let subStepDisplay = '';
       if (t.subStep || (t.lastNote && t.lastNote.includes('[ขั้นตอน:'))) {
         let stepText = t.subStep || '';
@@ -1892,12 +2028,10 @@
         }
       }
 
-      /* 3. CLEAN PROGRESS NOTE (STRIP PROOF TAGS) */
       let cleanNote = t.lastNote || '';
       if (cleanNote.includes('[ขั้นตอน:')) cleanNote = cleanNote.replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '').trim();
       if (cleanNote.includes('[หลักฐาน:')) cleanNote = cleanNote.replace(/\[หลักฐาน:\s*[^\]]+\]/g, '').trim();
 
-      /* 4. VIBRANT STATUS BADGE COLOR */
       let statusBadgeHtml = '';
       if (t.status === 'เสร็จสิ้น') {
         statusBadgeHtml = `<span class="badge bg-success text-white fs-6 px-3 py-2 rounded-pill fw-bold shadow-sm"><i class="bi bi-check-circle-fill me-1"></i> เสร็จสิ้น (รอตรวจอนุมัติ)</span>`;
