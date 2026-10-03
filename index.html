@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>ระบบบริหารจัดการดิจิทัล - อบต.ท่าก๊อ</title>
+  
+  <!-- CSS Dependencies -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --exec-gradient: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      --staff-gradient: linear-gradient(135deg, #064e3b 0%, #0f766e 100%);
+      --card-radius: 16px;
+      --border-color: #e2e8f0;
+      --indigo-primary: #4338ca;
+    }
+
+    body { 
+      font-family: 'Prompt', sans-serif; 
+      background-color: var(--bg-main); 
+      color: var(--text-main); 
+      min-height: 100vh; 
+    }
+
+    /* HEADER STYLES */
+    .executive-theme-bg { 
+      background: var(--exec-gradient); 
+      color: #ffffff; 
+      border-bottom: 3px solid #f59e0b; 
+      box-shadow: 0 10px 25px -5px rgba(30, 27, 75, 0.2); 
+    }
+    .staff-theme-bg { 
+      background: var(--staff-gradient); 
+      color: #ffffff; 
+      border-bottom: 3px solid #34d399; 
+      box-shadow: 0 10px 25px -5px rgba(6, 78, 59, 0.2); 
+    }
+
+    .user-name-title { color: #ffffff !important; font-weight: 700; font-size: 1.25rem; }
+    .user-sub-detail { color: #e2e8f0 !important; font-size: 0.85rem; font-weight: 400; }
+
+    /* NAV TABS */
+    .nav-tab-custom { 
+      display: flex; 
+      gap: 6px; 
+      background: #ffffff; 
+      padding: 6px; 
+      border-radius: 14px; 
+      border: 1px solid var(--border-color); 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03); 
+    }
+    .nav-tab-custom .nav-link { 
+      border: none !important; 
+      color: #475569; 
+      font-weight: 600; 
+      border-radius: 10px; 
+      padding: 9px 20px; 
+      background: transparent; 
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+      font-size: 0.9rem; 
+    }
+    .exec-mode .nav-tab-custom .nav-link.active { 
+      background: #312e81 !important; 
+      color: #ffffff !important; 
+      box-shadow: 0 4px 14px rgba(49, 46, 129, 0.3); 
+    }
+    .staff-mode .nav-tab-custom .nav-link.active { 
+      background: #0f766e !important; 
+      color: #ffffff !important; 
+      box-shadow: 0 4px 14px rgba(15, 118, 110, 0.3); 
+    }
+    .nav-tab-custom .nav-link:hover:not(.active) { 
+      background: #f1f5f9; 
+      color: #0f172a; 
+    }
+
+    /* BENTO KPI CARDS */
+    .kpi-row-inline { 
+      display: flex !important; 
+      flex-wrap: nowrap !important; 
+      overflow-x: auto; 
+      gap: 12px; 
+      padding-bottom: 8px; 
+    }
+    .kpi-col-5 { flex: 1 0 0% !important; min-width: 170px; }
+    .kpi-box { 
+      border-radius: var(--card-radius); 
+      border: 1px solid var(--border-color); 
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+      cursor: pointer; 
+      background: #ffffff; 
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-box:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.08) !important; 
+      border-color: #cbd5e1; 
+    }
+
+    /* Animated Live Dot Indicators */
+    .live-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .live-dot-warning { background-color: #d97706; box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); animation: pulse-warning 1.8s infinite; }
+    .live-dot-danger { background-color: #dc2626; box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); animation: pulse-danger 1.5s infinite; }
+    .live-dot-info { background-color: #0284c7; box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7); animation: pulse-info 2s infinite; }
+    .live-dot-success { background-color: #16a34a; }
+
+    @keyframes pulse-warning { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(217, 119, 6, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); } }
+    @keyframes pulse-danger { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); } }
+    @keyframes pulse-info { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(2, 132, 199, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(2, 132, 199, 0); } }
+
+    /* TABLE DISPLAY & STICKY HEADER */
+    .tracking-table-card { 
+      background: #ffffff; 
+      border: 1px solid var(--border-color); 
+      border-radius: var(--card-radius); 
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05); 
+      overflow: hidden; 
+    }
+    .sticky-table-container { max-height: 65vh; overflow-x: auto; overflow-y: auto; }
+    
+    .modern-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 980px; }
+    .modern-table thead tr { position: sticky; top: 0; z-index: 20; }
+    
+    .executive-table-header th { 
+      background-color: #0f172a !important; 
+      color: #f8fafc !important; 
+      font-weight: 600; 
+      font-size: 0.85rem; 
+      padding: 14px 16px; 
+      border-bottom: 2px solid #1e293b; 
+      white-space: nowrap; 
+    }
+    .staff-table-header th { 
+      background-color: #042f2e !important; 
+      color: #f8fafc !important; 
+      font-weight: 600; 
+      font-size: 0.85rem; 
+      padding: 14px 16px; 
+      border-bottom: 2px solid #115e59; 
+      white-space: nowrap; 
+    }
+
+    .modern-table tbody td { 
+      padding: 12px 16px; 
+      border-bottom: 1px solid #f1f5f9; 
+      font-size: 0.875rem; 
+      vertical-align: middle; 
+      color: #0f172a;
+    }
+    
+    .nowrap-name { white-space: nowrap !important; display: inline-block; font-weight: 600; color: #0f172a; }
+    
+    .action-btn-group { display: flex; align-items: center; justify-content: center; gap: 4px; flex-wrap: nowrap; }
+    .btn-action-custom { 
+      white-space: nowrap !important; 
+      font-size: 0.78rem; 
+      padding: 5px 12px; 
+      border-radius: 20px; 
+      font-weight: 600; 
+      line-height: 1.2; 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 4px; 
+      transition: all 0.2s ease;
+    }
+
+    .status-pill { 
+      font-size: 0.75rem; 
+      padding: 5px 12px; 
+      border-radius: 20px; 
+      font-weight: 600; 
+      white-space: nowrap; 
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .completed-row { background-color: #f0fdf4 !important; }
+    .issue-row { background-color: #fff1f2 !important; }
+    .canceled-row { background-color: #f8fafc !important; color: #64748b; }
+    .clickable-row { cursor: pointer; transition: background-color 0.15s ease; }
+    .clickable-row:hover { background-color: #f1f5f9 !important; }
+
+    /* STACKED TOAST NOTIFICATION CARD */
+    #customToastContainer { 
+      position: fixed; 
+      bottom: 24px; 
+      right: 24px; 
+      z-index: 10000; 
+      display: flex; 
+      flex-direction: column-reverse; 
+      gap: 12px; 
+      max-width: 410px; 
+      width: 100%; 
+      pointer-events: none; 
+    }
+    .custom-toast-card { 
+      pointer-events: auto; 
+      background: rgba(255, 255, 255, 0.98); 
+      backdrop-filter: blur(16px); 
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 16px; 
+      box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(226, 232, 240, 0.8); 
+      border: 1px solid rgba(226, 232, 240, 0.9); 
+      overflow: hidden; 
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); 
+      animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+      cursor: pointer; 
+    }
+    @keyframes slideInRight { 
+      from { opacity: 0; transform: translateX(90px) scale(0.95); } 
+      to { opacity: 1; transform: translateX(0) scale(1); } 
+    }
+    .custom-toast-card.hide { 
+      opacity: 0; 
+      transform: translateX(90px) scale(0.9); 
+      margin-bottom: -80px; 
+    }
+    .toast-border-info { border-left: 6px solid #0284c7 !important; }
+    .toast-border-warning { border-left: 6px solid #dc2626 !important; }
+    .toast-border-success { border-left: 6px solid #16a34a !important; }
+
+    /* CALENDAR GRID */
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+    .calendar-header-day { text-align: center; font-weight: 700; font-size: 0.825rem; padding: 8px; background: #f1f5f9; border-radius: 8px; color: #334155; }
+    .calendar-day-cell { min-height: 110px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; padding: 6px; display: flex; flex-direction: column; transition: border-color 0.2s ease; }
+    .calendar-day-cell:hover { border-color: #94a3b8; }
+    .calendar-day-number { font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 6px; }
+    .calendar-event-item { 
+      font-size: 0.73rem; 
+      padding: 4px 8px; 
+      border-radius: 6px; 
+      margin-bottom: 4px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      white-space: nowrap; 
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .calendar-event-item:hover { transform: scale(1.02); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .event-done { background: #dcfce7; color: #14532d; border-left: 3px solid #16a34a; }
+    .event-pending { background: #dbeafe; color: #1e3a8a; border-left: 3px solid #2563eb; }
+    .event-issue { background: #ffe4e6; color: #881337; border-left: 3px solid #e11d48; }
+
+    /* AUTHENTICATION GATE */
+    #landingAuthGate { 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      background: linear-gradient(135deg, #020617 0%, #0f172a 60%, #1e1b4b 100%); 
+      z-index: 9999; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 15px; 
+    }
+
+    /* PHOTO PREVIEW THUMBNAILS */
+    .img-preview-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .img-preview-box {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+    }
+    .img-preview-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .img-preview-box .btn-remove {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(220, 38, 38, 0.85);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* GALLERY GRID IN DETAIL MODAL */
+    .photo-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .photo-gallery-item {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      cursor: pointer;
+    }
+    .photo-gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.2s ease;
+    }
+    .photo-gallery-item:hover img {
+      transform: scale(1.08);
+    }
+
+    @media (max-width: 768px) {
+      .container-fluid { padding-left: 8px !important; padding-right: 8px !important; }
+      .portal-title { font-size: 1rem !important; }
+      .nav-tab-custom { overflow-x: auto; flex-wrap: nowrap; padding: 4px; }
+      .nav-tab-custom .nav-link { padding: 8px 14px; font-size: 0.825rem; white-space: nowrap; }
+      .calendar-day-cell { min-height: 80px; padding: 4px; }
+      #customToastContainer { max-width: 92%; right: 4%; bottom: 16px; }
+    }
+  </style>
+</head>
+<body class="p-2 p-md-4">
+
+  <div id="customToastContainer"></div>
+
+  <!-- AUTHENTICATION GATE -->
+  <div id="landingAuthGate">
+    <div class="card p-4 text-center shadow-lg border-0 rounded-4" style="max-width: 400px; width: 100%; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px);">
+      <div class="mb-3" style="color: #4338ca;"><i class="bi bi-shield-lock-fill fs-1"></i></div>
+      <h6 class="fw-bold text-dark mb-1">องค์การบริหารส่วนตำบลท่าก๊อ</h6>
+      <small class="text-primary fw-bold d-block mb-3" style="color: #4338ca !important;">ระบบบริหารจัดการดิจิทัล</small>
+
+      <div class="text-start mb-3">
+        <label class="form-label small fw-bold text-dark mb-1">เลือกผู้ใช้งาน (ชื่อ - นามสกุล):</label>
+        <select id="landingUserSelect" class="form-select form-select-sm text-dark fw-semibold" onchange="onUserSelectChange()"></select>
+      </div>
+
+      <div class="text-start mb-3">
+        <label class="form-label small fw-bold text-dark mb-1">รหัสผ่านยืนยันตัวตน (UserId):</label>
+        <input type="password" id="landingPasscode" class="form-control form-control-sm text-center fw-bold text-dark" placeholder="กรอกรหัส แล้วกด Enter" onkeyup="if(event.key === 'Enter') verifyLandingAuth()">
+      </div>
+
+      <div id="landingAuthAlert" class="alert alert-danger d-none py-1 small mb-3 text-center" style="font-size: 0.8rem;">รหัสไม่ถูกต้อง!</div>
+
+      <button type="button" id="btnLoginSubmit" class="btn text-white btn-sm rounded-pill w-100 fw-bold py-2 shadow-sm" style="background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);" onclick="verifyLandingAuth()">
+        <i class="bi bi-box-arrow-in-right me-1"></i> เข้าสู่ระบบ
+      </button>
+    </div>
+  </div>
+
+  <div class="container-fluid" id="appMainContainer">
+    
+    <!-- HEADER BAR -->
+    <div id="headerBar" class="d-flex justify-content-between align-items-center p-3 px-md-4 rounded-4 mb-3 mb-md-4 shadow-sm executive-theme-bg">
+      <div class="d-flex align-items-center gap-3">
+        <div>
+          <h5 id="portalTitle" class="mb-0 user-name-title portal-title">ระบบบริหารจัดการดิจิทัล - อบต.ท่าก๊อ</h5>
+          <div id="userSubDetail" class="user-sub-detail small">กำลังเชื่อมต่อฐานข้อมูล...</div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <span id="roleBadge" class="badge badge-executive fs-7 px-3 py-2 rounded-pill shadow-sm">ผู้บริหาร</span>
+        <button class="btn btn-outline-light btn-sm rounded-pill px-3 py-1 fw-bold" onclick="handleLogout()" title="ออกจากระบบ">
+          <i class="bi bi-power text-danger me-1"></i> ออกจากระบบ
+        </button>
+      </div>
+    </div>
+
+    <!-- TABS EXECUTIVE -->
+    <div id="executiveNavTabs" class="d-none mb-3">
+      <div class="nav-tab-custom" id="execTab" role="tablist">
+        <button class="nav-link active" id="tab-tracking-tab" data-bs-toggle="tab" data-bs-target="#tab-tracking" type="button" role="tab" onclick="switchExecutiveTab('tracking')">
+          <span class="tab-icon-wrapper"><i class="bi bi-card-checklist"></i></span>
+          <span>รายงานและติดตามภารกิจ</span>
+        </button>
+        <button class="nav-link" id="tab-calendar-tab" data-bs-toggle="tab" data-bs-target="#tab-calendar" type="button" role="tab" onclick="switchExecutiveTab('calendar')">
+          <span class="tab-icon-wrapper"><i class="bi bi-calendar3"></i></span>
+          <span>ปฏิทินแผนงานและกำหนดส่ง</span>
+        </button>
+        <button class="nav-link" id="tab-archive-tab" data-bs-toggle="tab" data-bs-target="#tab-archive" type="button" role="tab" onclick="switchExecutiveTab('archive')">
+          <span class="tab-icon-wrapper"><i class="bi bi-archive-fill"></i></span>
+          <span>จัดเก็บงานที่แล้วเสร็จ</span>
+        </button>
+        <button class="nav-link" id="tab-command-tab" data-bs-toggle="tab" data-bs-target="#tab-command" type="button" role="tab" onclick="switchExecutiveTab('command')">
+          <span class="tab-icon-wrapper"><i class="bi bi-send-plus-fill"></i></span>
+          <span>แผนสั่งการและมอบหมายงาน</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- TABS STAFF -->
+    <div id="staffNavTabs" class="d-none mb-3">
+      <div class="nav-tab-custom" id="staffTab" role="tablist">
+        <button class="nav-link active" id="staff-tab-tracking-tab" data-bs-toggle="tab" data-bs-target="#staff-tab-tracking" type="button" role="tab" onclick="switchExecutiveTab('tracking')">
+          <span class="tab-icon-wrapper"><i class="bi bi-card-checklist"></i></span>
+          <span>รายงานและติดตามภารกิจ</span>
+        </button>
+        <button class="nav-link" id="staff-tab-archive-tab" data-bs-toggle="tab" data-bs-target="#staff-tab-archive" type="button" role="tab" onclick="switchExecutiveTab('archive')">
+          <span class="tab-icon-wrapper"><i class="bi bi-archive-fill"></i></span>
+          <span>จัดเก็บงานที่แล้วเสร็จ</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- EXECUTIVE VIEW -->
+    <div id="executiveView" class="d-none">
+      <div class="tab-content" id="execTabContent">
+        <div class="tab-pane fade show active" id="tab-tracking" role="tabpanel">
+          <div class="kpi-row-inline mb-3 mb-md-4">
+            <div class="kpi-col-5" onclick="filterByStatus('')">
+              <div class="card p-3 kpi-box border-start border-4 border-primary shadow-sm h-100">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <small class="text-dark fw-bold text-nowrap">ภารกิจรอดำเนินการรวม</small>
+                  <i class="bi bi-stack text-primary fs-5"></i>
+                </div>
+                <h2 class="fw-bold text-primary mb-0 mt-1" id="execKpiTotal">0</h2>
+              </div>
+            </div>
+            <div class="kpi-col-5" onclick="filterByStatus('กำลังดำเนินการ')">
+              <div class="card p-3 kpi-box border-start border-4 border-warning shadow-sm h-100">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-warning"></span>อยู่ระหว่างดำเนินการ</small>
+                  <i class="bi bi-hourglass-split text-warning fs-5"></i>
+                </div>
+                <h2 class="fw-bold text-warning mb-0 mt-1" id="execKpiPending">0</h2>
+              </div>
+            </div>
+            <div class="kpi-col-5" onclick="filterByStatus('รอตรวจสอบอนุมัติ')">
+              <div class="card p-3 kpi-box border-start border-4 border-info shadow-sm h-100">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-info"></span>รอตรวจสอบอนุมัติ</small>
+                  <i class="bi bi-clipboard-check text-info fs-5"></i>
+                </div>
+                <h2 class="fw-bold text-info mb-0 mt-1" id="execKpiReview">0</h2>
+              </div>
+            </div>
+            <div class="kpi-col-5" onclick="filterByStatus('พบปัญหา/ขัดข้อง')">
+              <div class="card p-3 kpi-box border-start border-4 border-danger shadow-sm h-100">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-danger"></span>พบปัญหา / ติดขัด</small>
+                  <i class="bi bi-exclamation-octagon text-danger fs-5"></i>
+                </div>
+                <h2 class="fw-bold text-danger mb-0 mt-1" id="execKpiIssue">0</h2>
+              </div>
+            </div>
+            <div class="kpi-col-5" onclick="filterByStatus('หนังสือที่แล้วเสร็จ')">
+              <div class="card p-3 kpi-box border-start border-4 border-success shadow-sm h-100">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-success"></span>หนังสือที่แล้วเสร็จ</small>
+                  <i class="bi bi-check-circle text-success fs-5"></i>
+                </div>
+                <h2 class="fw-bold text-success mb-0 mt-1" id="execKpiArchive">0</h2>
+              </div>
+            </div>
+          </div>
+          <div id="executiveTableMountPoint"></div>
+        </div>
+
+        <div class="tab-pane fade" id="tab-calendar" role="tabpanel">
+          <div class="card p-3 p-md-4 bg-white rounded-4 border shadow-sm mb-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+              <div class="d-flex align-items-center gap-2">
+                <h6 class="fw-bold text-dark mb-0 me-2"><i class="bi bi-calendar-week text-primary me-2"></i>ปฏิทินติดตามกำหนดส่งงาน</h6>
+                <button class="btn btn-sm btn-outline-secondary rounded-circle px-2" onclick="changeCalendarMonth(-1)"><i class="bi bi-chevron-left"></i></button>
+                <span id="calendarMonthTitle" class="fw-bold text-primary fs-6 px-2">กำลังโหลด...</span>
+                <button class="btn btn-sm btn-outline-secondary rounded-circle px-2" onclick="changeCalendarMonth(1)"><i class="bi bi-chevron-right"></i></button>
+                <button class="btn btn-sm btn-light rounded-pill px-3 ms-1 fw-bold border" onclick="resetCalendarMonth()">วันนี้</button>
+              </div>
+            </div>
+            <div id="calendarMountPoint"></div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="tab-archive" role="tabpanel">
+          <div id="executiveArchiveMountPoint"></div>
+        </div>
+
+        <div class="tab-pane fade" id="tab-command" role="tabpanel">
+          <div class="card p-3 p-md-4 mb-4 border shadow-sm rounded-4" style="background: #ffffff; border-top: 4px solid #4338ca !important;">
+            <div class="d-flex align-items-center mb-3">
+              <span class="badge me-2 px-3 py-2 fs-6 rounded-pill text-white" style="background-color: #4338ca;"><i class="bi bi-pencil-square me-1"></i> ฟอร์มสั่งการ</span>
+              <h6 class="fw-bold text-dark mb-0 fs-6">สั่งการและมอบหมายงานใหม่ (Executive Command Panel)</h6>
+            </div>
+            <form onsubmit="handleCreateTask(event)">
+              <div class="row g-2 g-md-3">
+                <div class="col-12 col-md-3">
+                  <label class="form-label fw-bold small text-dark">เลขที่หนังสือ / คำร้อง</label>
+                  <input type="text" id="refNumber" class="form-control form-control-sm text-dark fw-semibold" required placeholder="เช่น 02891">
+                </div>
+                <div class="col-12 col-md-5">
+                  <label class="form-label fw-bold small text-dark">เรื่อง / ชื่อภารกิจ</label>
+                  <input type="text" id="subject" class="form-control form-control-sm text-dark fw-semibold" required placeholder="ระบุเรื่องหนังสือ/ภารกิจ">
+                </div>
+                <div class="col-12 col-md-4">
+                  <label class="form-label fw-bold small text-dark">มอบหมายให้ผู้ปฏิบัติงาน</label>
+                  <select id="assignedTo" class="form-select form-select-sm text-dark fw-semibold" required></select>
+                </div>
+                <div class="col-12 col-md-8">
+                  <label class="form-label fw-bold small text-dark">ข้อสั่งการ / รายละเอียดการปฏิบัติ</label>
+                  <input type="text" id="instruction" class="form-control form-control-sm text-dark fw-semibold" required placeholder="ระบุข้อสั่งการ">
+                </div>
+                <div class="col-12 col-md-4">
+                  <label class="form-label fw-bold small text-indigo" style="color: #4338ca;"><i class="bi bi-link-45deg me-1"></i> ลิงก์หนังสือสารบรรณ / ไฟล์สั่งการ</label>
+                  <input type="url" id="docLink" class="form-control form-control-sm text-dark fw-semibold" placeholder="https://...">
+                </div>
+                <div class="col-6 col-md-3">
+                  <label class="form-label fw-bold small text-dark">วันสั่งการ</label>
+                  <input type="date" id="assignedDate" class="form-control form-control-sm text-dark fw-semibold" required>
+                </div>
+                <div class="col-6 col-md-3">
+                  <label class="form-label fw-bold small text-dark">กำหนดส่งงาน</label>
+                  <input type="date" id="dueDate" class="form-control form-control-sm text-dark fw-semibold">
+                </div>
+                <div class="col-12 col-md-6 text-end align-self-end mt-3 mt-md-0">
+                  <button type="submit" id="btnSubmitTask" class="btn text-white btn-sm w-100 w-md-auto px-4 py-2 rounded-pill fw-bold shadow-sm" style="background-color: #4338ca;">
+                    <i class="bi bi-send-fill me-1"></i> บันทึกสั่งการ & ส่ง Telegram
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAFF VIEW -->
+    <div id="staffView" class="d-none">
+      <div class="tab-content" id="staffTabContent">
+        <div class="tab-pane fade show active" id="staff-tab-tracking" role="tabpanel">
+          <div class="kpi-row-inline mb-3 mb-md-4">
+            <div class="kpi-col-5" onclick="filterByStatus('')">
+              <div class="card p-3 kpi-box border-start border-4 border-primary shadow-sm h-100">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <small class="text-dark fw-bold text-nowrap">ภารกิจที่ได้รับมอบหมาย</small>
+                  <i class="bi bi-stack text-primary fs-5"></i>
+                </div>
+                <h2 class="fw-bold text-primary mb-0 mt-1" id="staffKpiTotal">0</h2>
+              </div>
+            </div>
+            <div class="kpi-col-5" onclick="filterByStatus('กำลังดำเนินการ')">
+              <div class="card p-3 kpi-box border-start border-4 border-warning shadow-sm h-100">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-warning"></span>อยู่ระหว่างดำเนินการ</small>
+                  <i class="bi bi-hourglass-split text-warning fs-5"></i>
+                </div>
+                <h2 class="fw-bold text-warning mb-0 mt-1" id="staffKpiPending">0</h2>
+              </div>
+            </div>
+            <div class="kpi-col-5" onclick="filterByStatus('รอตรวจสอบอนุมัติ')">
+              <div class="card p-3 kpi-box border-start border-4 border-info shadow-sm h-100">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-info"></span>รอตรวจสอบอนุมัติ</small>
+                  <i class="bi bi-clipboard-check text-info fs-5"></i>
+                </div>
+                <h2 class="fw-bold text-info mb-0 mt-1" id="staffKpiReview">0</h2>
+              </div>
+            </div>
+            <div class="kpi-col-5" onclick="filterByStatus('พบปัญหา/ขัดข้อง')">
+              <div class="card p-3 kpi-box border-start border-4 border-danger shadow-sm h-100">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-danger"></span>พบปัญหา / ติดขัด</small>
+                  <i class="bi bi-exclamation-octagon text-danger fs-5"></i>
+                </div>
+                <h2 class="fw-bold text-danger mb-0 mt-1" id="staffKpiIssue">0</h2>
+              </div>
+            </div>
+            <div class="kpi-col-5" onclick="filterByStatus('หนังสือที่แล้วเสร็จ')">
+              <div class="card p-3 kpi-box border-start border-4 border-success shadow-sm h-100">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <small class="text-dark fw-bold text-nowrap"><span class="live-dot live-dot-success"></span>หนังสือที่แล้วเสร็จ</small>
+                  <i class="bi bi-check-circle text-success fs-5"></i>
+                </div>
+                <h2 class="fw-bold text-success mb-0 mt-1" id="staffKpiArchive">0</h2>
+              </div>
+            </div>
+          </div>
+          <div id="staffTableMountPoint"></div>
+        </div>
+
+        <div class="tab-pane fade" id="staff-tab-archive" role="tabpanel">
+          <div id="staffArchiveMountPoint"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEMPLATE TABLE CONTAINER -->
+    <div id="tableContainerTemplate" class="d-none">
+      <div class="card tracking-table-card p-3 p-md-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+          <div class="d-flex align-items-center">
+            <span class="badge me-2 px-3 py-2 fs-6 rounded-pill text-white" style="background-color: #0f172a;"><i class="bi bi-journal-text me-1"></i> ตารางรายการ</span>
+            <h6 class="fw-bold mb-0 text-dark fs-6" id="tableTitleName">รายการติดตามภารกิจและข้อสั่งการ</h6>
+          </div>
+          <div class="d-flex flex-row align-items-center gap-2 filter-row-container w-100 w-md-auto">
+            <select class="form-select form-select-sm rounded-pill px-3 staffFilterCls text-dark fw-semibold" style="min-width: 160px; flex: 1;" onchange="filterTable()">
+              <option value="">ช่าง/ผู้รับผิดชอบทั้งหมด</option>
+            </select>
+            <input type="text" class="form-control form-control-sm rounded-pill px-3 searchInputCls text-dark fw-semibold" style="min-width: 140px; flex: 1;" placeholder="🔍 ค้นหาเรื่อง/เลข..." onkeyup="filterTable()">
+            <select class="form-select form-select-sm rounded-pill px-3 statusFilterCls text-dark fw-semibold" style="min-width: 130px; flex: 1;" onchange="filterTable()">
+              <option value="">ทุกสถานะ</option>
+              <option value="มอบหมายงานแล้ว">มอบหมายงานแล้ว</option>
+              <option value="รับทราบงาน">รับทราบงาน</option>
+              <option value="กำลังดำเนินการ">กำลังดำเนินการ</option>
+              <option value="พบปัญหา/ขัดข้อง">พบปัญหา/ขัดข้อง</option>
+              <option value="รอตรวจสอบอนุมัติ">รอตรวจสอบอนุมัติ</option>
+            </select>
+          </div>
+        </div>
+        <div class="sticky-table-container">
+          <table class="modern-table">
+            <thead class="dynamicTableHeaderCls"></thead>
+            <tbody class="taskTableBodyCls">
+              <tr><td colspan="8" class="text-center py-4 text-dark">กรุณาเข้าสู่ระบบเพื่อดูข้อมูลภารกิจ</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL: UPDATE TASK -->
+  <div class="modal fade" id="updateModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 bg-white">
+        <div class="modal-header border-0 pb-0">
+          <h6 class="fw-bold text-dark mb-0"><i class="bi bi-pencil-square text-primary me-2"></i>อัปเดตความคืบหน้าภารกิจ</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form onsubmit="handleUpdateTask(event)">
+          <div class="modal-body p-3 p-md-4">
+            <input type="hidden" id="modalTaskId">
+            
+            <div class="mb-3">
+              <label class="form-label text-dark small fw-bold">เรื่อง / ข้อสั่งการ</label>
+              <div id="modalSubjectDisplay" class="p-2 bg-light border rounded text-dark fw-semibold small"></div>
+              <div id="modalDocLinkContainer" class="mt-2"></div>
+            </div>
+
+            <div id="modalDueDateContainer" class="mb-3 d-none">
+              <label class="form-label small fw-bold text-primary">แก้ไขกำหนดส่งงาน</label>
+              <input type="date" id="modalDueDate" class="form-control form-control-sm text-dark fw-semibold">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-dark">สถานะการดำเนินงานหลัก</label>
+              <select id="modalStatus" class="form-select form-select-sm text-dark fw-semibold" onchange="onStatusChange()">
+                <option value="รับทราบงาน">รับทราบงาน</option>
+                <option value="กำลังดำเนินการ">🟡 กำลังดำเนินการ (เลือกขั้นตอนย่อย)</option>
+                <option value="พบปัญหา/ขัดข้อง">⚠️ พบปัญหา/ขัดข้อง (แจ้งผู้บริหาร)</option>
+                <option value="เสร็จสิ้น">🟢 เสร็จสิ้นภารกิจ (ส่งรายงานและรูปภาพให้ผู้บริหาร)</option>
+              </select>
+            </div>
+
+            <div id="subStepContainer" class="mb-3 d-none p-3 rounded-3" style="background-color: #f8fafc; border: 1px solid #e2e8f0;">
+              <label class="form-label small fw-bold text-primary"><i class="bi bi-diagram-3-fill me-1"></i> ขั้นตอนการดำเนินงานหน้างานจริง</label>
+              <select id="modalSubStep" class="form-select form-select-sm text-dark fw-semibold">
+                <option value="[สำรวจ/เตรียมการ] ออกตรวจหน้างาน / รวบรวมข้อมูล">1. [สำรวจ/เตรียมการ] ออกตรวจหน้างาน / รวบรวมข้อมูล</option>
+                <option value="[จัดทำ/ร่างเอกสาร] เขียนแบบ / ถอดราคา / ทำร่างเรื่อง">2. [จัดทำ/ร่างเอกสาร] เขียนแบบ / ถอดราคา / ทำร่างเรื่อง</option>
+                <option value="[ลงมือทำ] อยู่ระหว่างซ่อมแซม / ปฏิบัติงานหน้างาน">3. [ลงมือทำ] อยู่ระหว่างซ่อมแซม / ปฏิบัติงานหน้างาน</option>
+                <option value="[สรุปผล/ตรวจรับ] ทำสรุปรายงาน / รอตรวจรับงาน">4. [สรุปผล/ตรวจรับ] ทำสรุปรายงาน / รอตรวจรับงาน</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-dark"><i class="bi bi-journal-bookmark me-1"></i> เอกสารอ้างอิง / บันทึกเลขที่ / หนังสือตอบกลับ (ถ้ามี)</label>
+              <input type="text" id="modalRefDocNo" class="form-control form-control-sm text-dark fw-semibold" placeholder="เช่น บันทึก ชม 81801/123">
+            </div>
+
+            <div id="completionProofContainer" class="mb-3 d-none p-3 rounded-3" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+              <label class="form-label small fw-bold text-success mb-2"><i class="bi bi-images me-1"></i> เลือกรูปแบบการแนบหลักฐานผลงาน</label>
+              
+              <ul class="nav nav-pills nav-fill mb-2" id="proofTypeTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active py-1 px-2 small fw-bold" id="proof-photo-tab" data-bs-toggle="tab" data-bs-target="#proof-photo" type="button" role="tab" onclick="switchProofType('photo')">📸 แนบรูปภาพ (1-5 รูป)</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link py-1 px-2 small fw-bold" id="proof-url-tab" data-bs-toggle="tab" data-bs-target="#proof-url" type="button" role="tab" onclick="switchProofType('url')">🔗 แนบลิงก์ URL</button>
+                </li>
+              </ul>
+
+              <div class="tab-content" id="proofTypeTabContent">
+                <div class="tab-pane fade show active" id="proof-photo" role="tabpanel">
+                  <input type="file" id="modalImageInput" class="form-control form-control-sm" accept="image/*" multiple onchange="handleImageSelection(event)">
+                  <small class="text-muted d-block mt-1" style="font-size: 0.72rem;">* สามารถเลือกรูปถ่ายหน้างานได้ 1 ถึง 5 รูป (ระบบจะสร้างโฟลเดอร์เก็บรูปย่อยให้อัตโนมัติใน Google Drive)</small>
+                  <div id="imagePreviewContainer" class="img-preview-container"></div>
+                </div>
+                <div class="tab-pane fade" id="proof-url" role="tabpanel">
+                  <input type="url" id="modalProofLink" class="form-control form-control-sm text-dark fw-semibold" placeholder="https://photos.app.goo.gl/... หรือ Google Drive Link">
+                  <small class="text-muted d-block mt-1" style="font-size: 0.72rem;">* สามารถนำลิงก์รูปภาพ หรือลิงก์จากระบบอื่นมาวางได้</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-dark">บันทึกข้อความ / รายงานรายละเอียดความคืบหน้า</label>
+              <textarea id="modalNote" class="form-control form-control-sm text-dark fw-semibold" rows="3" placeholder="ระบุรายละเอียดเพิ่มเติมเสนอผู้บริหาร"></textarea>
+            </div>
+          </div>
+
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-light btn-sm rounded-pill px-3 border" data-bs-dismiss="modal">ยกเลิก</button>
+            <button type="submit" id="btnSaveUpdate" class="btn btn-primary btn-sm rounded-pill px-4 fw-bold">บันทึกอัปเดต</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TASK DETAIL VIEW -->
+  <div class="modal fade" id="detailModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 bg-white">
+        <div class="modal-header border-0 bg-light rounded-top-4">
+          <h6 class="fw-bold text-dark mb-0"><i class="bi bi-info-circle-fill text-primary me-2"></i>รายละเอียดภารกิจและข้อสั่งการ</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-3 p-md-4" id="detailModalBody"></div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4" data-bs-dismiss="modal">ปิดหน้าต่าง</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwHLDOFBUlwi1g8Nb4QZO7TdTqit7my6GkC4cqK4Jmz86B2C-dvEp8fMO923sJkYdtU/exec";
+
+    let publicUsers = [];
+    let currentUser = null;
+    let rawTasks = [];
+    let updateModalObj, detailModalObj;
+    let currentActiveTab = 'tracking'; 
+    let calendarDate = new Date();
+    let smartPollingTimer = null;
+    let selectedImageBase64List = [];
+    let activeProofType = 'photo';
+    
+    let previousTaskMap = new Map();
+    let isFirstFetch = true;
+
+    const thaiMonthNames = [
+      "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+    ];
+
+    window.onload = function() {
+      updateModalObj = new bootstrap.Modal(document.getElementById('updateModal'));
+      detailModalObj = new bootstrap.Modal(document.getElementById('detailModal'));
+
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('assignedDate').value = today;
+
+      fetchPublicUsers();
+    };
+
+    async function callGasApi(actionName, payloadObj = {}, method = 'POST') {
+      try {
+        if (method === 'GET') {
+          const queryStr = new URLSearchParams({ action: actionName, ...payloadObj }).toString();
+          const response = await fetch(`${GAS_WEB_APP_URL}?${queryStr}`);
+          return await response.json();
+        } else {
+          const response = await fetch(GAS_WEB_APP_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: actionName, ...payloadObj })
+          });
+          return await response.json();
+        }
+      } catch (err) {
+        return { success: false, error: err.toString() };
+      }
+    }
+
+    async function fetchPublicUsers() {
+      const res = await callGasApi('getUserPublicList', {}, 'GET');
+      if (res && res.success) {
+        initPublicUsers(res.data);
+      }
+    }
+
+    function initPublicUsers(users) {
+      publicUsers = users || [];
+      populateUserSelectDropdowns();
+
+      const savedUserJson = sessionStorage.getItem('thako_user_session');
+      if (savedUserJson) {
+        try {
+          const cachedUser = JSON.parse(savedUserJson);
+          const found = publicUsers.find(u => String(u.Name).trim().toLowerCase() === String(cachedUser.name || cachedUser.Name).trim().toLowerCase());
+          if (found) {
+            currentUser = {
+              name: found.Name,
+              role: found.Role,
+              position: found.Position,
+              email: found.Email,
+              department: found.Department
+            };
+            sessionStorage.setItem('thako_user_session', JSON.stringify(currentUser));
+            document.getElementById('landingAuthGate').classList.add('d-none');
+            applyRoleTheme();
+            startSmartPolling();
+            return;
+          }
+        } catch(e) {
+          sessionStorage.removeItem('thako_user_session');
+        }
+      }
+    }
+
+    function populateUserSelectDropdowns() {
+      const landingSelect = document.getElementById('landingUserSelect');
+      const validUsers = publicUsers.filter(u => u.Name && u.Name.trim() !== '');
+      landingSelect.innerHTML = validUsers.map(u => `<option value="${u.Name}">${u.Name} - ${u.Role}</option>`).join('');
+    }
+
+    function onUserSelectChange() {
+      document.getElementById('landingPasscode').value = '';
+      document.getElementById('landingAuthAlert').classList.add('d-none');
+    }
+
+    async function verifyLandingAuth() {
+      const selectedName = String(document.getElementById('landingUserSelect').value).trim();
+      const inputPasscode = String(document.getElementById('landingPasscode').value).trim();
+      const btn = document.getElementById('btnLoginSubmit');
+
+      if (!selectedName || !inputPasscode) {
+        document.getElementById('landingAuthAlert').innerText = "กรุณากรอกรหัสผ่านเพื่อเข้าสู่ระบบ";
+        document.getElementById('landingAuthAlert').classList.remove('d-none');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> กำลังตรวจสอบ...';
+
+      const res = await callGasApi('loginUser', { userName: selectedName, inputPassword: inputPasscode });
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-box-arrow-in-right me-1"></i> เข้าสู่ระบบ';
+
+      if (res && res.success) {
+        currentUser = res.user;
+        sessionStorage.setItem('thako_user_session', JSON.stringify(currentUser));
+        document.getElementById('landingAuthGate').classList.add('d-none');
+        applyRoleTheme();
+        startSmartPolling();
+
+        Swal.fire({
+          icon: 'success',
+          title: 'เข้าสู่ระบบสำเร็จ',
+          text: `สิทธิ์ใช้งาน: ${currentUser.name} (${currentUser.role})`,
+          timer: 1500,
+          showConfirmButton: false
+        });
+      } else {
+        document.getElementById('landingAuthAlert').innerText = (res ? res.message : null) || "รหัสผ่านไม่ถูกต้อง!";
+        document.getElementById('landingAuthAlert').classList.remove('d-none');
+      }
+    }
+
+    function handleLogout() {
+      Swal.fire({
+        title: 'ยืนยันออกจากระบบ?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'ออกจากระบบ',
+        cancelButtonText: 'ยกเลิก',
+        confirmButtonColor: '#dc3545'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          sessionStorage.removeItem('thako_user_session');
+          currentUser = null;
+          previousTaskMap.clear();
+          isFirstFetch = true;
+          if (smartPollingTimer) clearInterval(smartPollingTimer);
+
+          document.getElementById('landingPasscode').value = '';
+          document.getElementById('landingAuthAlert').classList.add('d-none');
+          document.getElementById('landingAuthGate').classList.remove('d-none');
+          document.getElementById('executiveView').classList.add('d-none');
+          document.getElementById('staffView').classList.add('d-none');
+          document.getElementById('executiveNavTabs').classList.add('d-none');
+          document.getElementById('staffNavTabs').classList.add('d-none');
+        }
+      });
+    }
+
+    function startSmartPolling() {
+      if (smartPollingTimer) clearInterval(smartPollingTimer);
+      smartPollingTimer = setInterval(() => {
+        if (!document.hidden && currentUser) {
+          fetchTasks(true);
+        }
+      }, 20000);
+
+      window.addEventListener('focus', () => {
+        if (currentUser) fetchTasks(true);
+      });
+    }
+
+    function switchExecutiveTab(tabName) {
+      currentActiveTab = tabName;
+      const userRole = currentUser ? (currentUser.role || currentUser.Role) : '';
+      const isExec = userRole === 'ผู้บริหาร';
+
+      if (isExec) {
+        const tabTrigger = document.querySelector(`#execTab button[data-bs-target="#tab-${tabName}"]`);
+        if (tabTrigger) bootstrap.Tab.getOrCreateInstance(tabTrigger).show();
+      } else {
+        const targetTabId = tabName === 'archive' ? 'staff-tab-archive' : 'staff-tab-tracking';
+        const tabTrigger = document.querySelector(`#staffTab button[data-bs-target="#${targetTabId}"]`);
+        if (tabTrigger) bootstrap.Tab.getOrCreateInstance(tabTrigger).show();
+      }
+
+      if (tabName === 'tracking' || tabName === 'archive') {
+        renderTasks(rawTasks);
+      } else if (tabName === 'calendar') {
+        renderCalendar();
+      }
+    }
+
+    function applyRoleTheme() {
+      const userRole = currentUser.role || currentUser.Role;
+      const userName = currentUser.name || currentUser.Name;
+      const userPosition = currentUser.position || currentUser.Position || '';
+      const userDept = currentUser.department || currentUser.Department || '';
+
+      const isExec = userRole === 'ผู้บริหาร';
+      const headerBar = document.getElementById('headerBar');
+      const roleBadge = document.getElementById('roleBadge');
+      const appContainer = document.getElementById('appMainContainer');
+      const tableTemplate = document.getElementById('tableContainerTemplate').innerHTML;
+
+      if (isExec) {
+        appContainer.className = "container-fluid exec-mode";
+        headerBar.className = "d-flex justify-content-between align-items-center p-3 px-md-4 rounded-4 mb-3 mb-md-4 shadow-sm executive-theme-bg";
+        roleBadge.className = "badge bg-warning text-dark fs-7 px-3 py-2 rounded-pill shadow-sm fw-bold";
+        roleBadge.innerText = "ผู้บริหาร";
+        
+        document.getElementById('portalTitle').innerText = "ระบบบริหารจัดการดิจิทัล - อบต.ท่าก๊อ";
+        document.getElementById('userSubDetail').innerText = `${userName} (${userPosition || 'ผู้บริหาร'} - ${userDept || 'กองช่าง'})`;
+
+        document.getElementById('executiveNavTabs').classList.remove('d-none');
+        document.getElementById('staffNavTabs').classList.add('d-none');
+        document.getElementById('executiveView').classList.remove('d-none');
+        document.getElementById('staffView').classList.add('d-none');
+        
+        document.getElementById('executiveTableMountPoint').innerHTML = tableTemplate;
+        document.getElementById('executiveArchiveMountPoint').innerHTML = tableTemplate;
+        document.getElementById('staffTableMountPoint').innerHTML = '';
+        document.getElementById('staffArchiveMountPoint').innerHTML = '';
+        
+        populateAssignDropdown();
+      } else {
+        appContainer.className = "container-fluid staff-mode";
+        headerBar.className = "d-flex justify-content-between align-items-center p-3 px-md-4 rounded-4 mb-3 mb-md-4 shadow-sm staff-theme-bg";
+        roleBadge.className = "badge bg-success text-white fs-7 px-3 py-2 rounded-pill shadow-sm fw-bold";
+        roleBadge.innerText = "ผู้ปฏิบัติงาน";
+        
+        document.getElementById('portalTitle').innerText = "ระบบบริหารจัดการดิจิทัล - อบต.ท่าก๊อ";
+        document.getElementById('userSubDetail').innerText = `${userName} (${userPosition || 'ผู้ปฏิบัติงาน'} - ${userDept || 'กองช่าง'})`;
+
+        document.getElementById('executiveNavTabs').classList.add('d-none');
+        document.getElementById('staffNavTabs').classList.remove('d-none');
+        document.getElementById('executiveView').classList.add('d-none');
+        document.getElementById('staffView').classList.remove('d-none');
+
+        document.getElementById('staffTableMountPoint').innerHTML = tableTemplate;
+        document.getElementById('staffArchiveMountPoint').innerHTML = tableTemplate;
+        document.getElementById('executiveTableMountPoint').innerHTML = '';
+        document.getElementById('executiveArchiveMountPoint').innerHTML = '';
+      }
+
+      document.querySelectorAll('.dynamicTableHeaderCls').forEach(el => {
+        el.className = isExec ? "dynamicTableHeaderCls executive-table-header" : "dynamicTableHeaderCls staff-table-header";
+        el.innerHTML = `
+          <tr>
+            <th style="width: 85px;">เลขที่รับ</th>
+            <th>เรื่อง / ข้อสั่งการ</th>
+            <th style="min-width: 140px;">ผู้สั่งการ</th>
+            <th style="min-width: 150px;">ผู้รับผิดชอบ</th>
+            <th style="width: 95px;">วันสั่งการ</th>
+            <th style="width: 95px;">กำหนดส่ง</th>
+            <th style="width: 120px;">สถานะ</th>
+            <th class="text-center" style="min-width: 140px;">จัดการ</th>
+          </tr>
+        `;
+      });
+
+      populateStaffFilterDropdown();
+      fetchTasks();
+    }
+
+    function populateStaffFilterDropdown() {
+      const userRole = currentUser.role || currentUser.Role;
+      const userName = currentUser.name || currentUser.Name;
+      const isExec = userRole === 'ผู้บริหาร';
+
+      document.querySelectorAll('.staffFilterCls').forEach(select => {
+        select.innerHTML = '<option value="">ช่าง/ผู้รับผิดชอบทั้งหมด</option>';
+        publicUsers.filter(u => u.Role === 'ผู้ปฏิบัติงาน').forEach(u => {
+          select.innerHTML += `<option value="${u.Name}">${u.Name} (${u.Position || 'ช่าง/เจ้าหน้าที่'})</option>`;
+        });
+
+        if (!isExec) {
+          select.value = userName;
+          select.disabled = true;
+        }
+      });
+    }
+
+    function populateAssignDropdown() {
+      const select = document.getElementById('assignedTo');
+      if (!select) return;
+      select.innerHTML = '';
+      publicUsers.filter(u => u.Role === 'ผู้ปฏิบัติงาน').forEach(u => {
+        select.innerHTML += `<option value="${u.Name}">${u.Name} - ${u.Position}</option>`;
+      });
+    }
+
+    async function fetchTasks(isPolling = false) {
+      if (!isPolling) {
+        document.querySelectorAll('.taskTableBodyCls').forEach(el => {
+          el.innerHTML = '<tr><td colspan="8" class="text-center py-4"><div class="spinner-border spinner-border-sm text-primary" role="status"></div><div class="mt-2 text-dark fw-bold small">กำลังดึงข้อมูลภารกิจ...</div></td></tr>';
+        });
+      }
+      const userName = currentUser.name || currentUser.Name;
+      const userEmail = currentUser.email || currentUser.Email;
+      const userRole = currentUser.role || currentUser.Role;
+
+      const res = await callGasApi('getTasks', { userName, userEmail, userRole }, 'GET');
+      if (res && res.success) {
+        renderTasks(res.data);
+      }
+    }
+
+    function playNotificationSound(type = 'normal') {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+
+        if (type === 'warning') {
+          osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+          osc.frequency.setValueAtTime(440, audioCtx.currentTime + 0.15);
+          gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+        } else if (type === 'success') {
+          osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+          osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+          osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2);
+          gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
+        } else {
+          osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+          osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.1);
+          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        }
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.45);
+      } catch(e) {}
+    }
+
+    function dismissToastCard(btn) {
+      const card = btn.closest('.custom-toast-card');
+      if (card) {
+        card.classList.add('hide');
+        setTimeout(() => card.remove(), 350);
+      }
+    }
+
+    function showInAppStackToast(title, bodyContent, borderClass, soundType = 'normal', taskId = '') {
+      playNotificationSound(soundType);
+      const container = document.getElementById('customToastContainer');
+      const toastId = 'toast_' + new Date().getTime();
+
+      const toastHtml = `
+        <div id="${toastId}" class="custom-toast-card p-3 ${borderClass}" onclick="handleNotificationClick('${taskId}', this)">
+          <div class="d-flex justify-content-between align-items-start mb-1">
+            <div class="fw-bold fs-7 d-flex align-items-center gap-1">${title}</div>
+            <button type="button" class="btn-close btn-close-sm ms-2" style="font-size: 0.7rem;" onclick="event.stopPropagation(); dismissToastCard(this)"></button>
+          </div>
+          <div class="toast-body-content text-dark">${bodyContent}</div>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', toastHtml);
+    }
+
+    function handleNotificationClick(taskId, cardElem) {
+      if (cardElem) {
+        cardElem.classList.add('hide');
+        setTimeout(() => cardElem.remove(), 350);
+      }
+      if (taskId) {
+        switchExecutiveTab('tracking');
+        openDetailModal(taskId);
+      }
+    }
+
+    function checkInAppNotifications(currentTasks) {
+      if (isFirstFetch) {
+        currentTasks.forEach(t => previousTaskMap.set(String(t.taskId), t));
+        isFirstFetch = false;
+        return;
+      }
+
+      const userRole = currentUser.role || currentUser.Role;
+      const userName = currentUser.name || currentUser.Name;
+      const userEmail = currentUser.email || currentUser.Email;
+      const isExec = userRole === 'ผู้บริหาร';
+
+      currentTasks.forEach(t => {
+        const key = String(t.taskId);
+        const prev = previousTaskMap.get(key);
+
+        const assignedStr = String(t.assignedTo).trim().toLowerCase();
+        const isTaskAssignedToMe = assignedStr === String(userName).trim().toLowerCase() || assignedStr === String(userEmail).trim().toLowerCase();
+        const isTaskAssignedByMe = String(t.assignedBy).trim().toLowerCase() === String(userName).trim().toLowerCase();
+
+        const refNoText = t.refNumber ? `[เลขที่รับ: ${t.refNumber}] ` : '';
+
+        if (!prev) {
+          if (!isExec && isTaskAssignedToMe) {
+            const title = `<span class="text-primary"><i class="bi bi-bell-fill me-1"></i> มอบหมายภารกิจใหม่</span>`;
+            const body = `
+              <div style="font-size:0.83rem;">
+                <div class="fw-bold text-dark">${refNoText}${t.subject}</div>
+                <div class="text-dark small mt-1"><strong>ข้อสั่งการ:</strong> ${t.instruction}</div>
+                <div class="mt-1 d-flex justify-content-between align-items-center">
+                  <span class="badge bg-primary-subtle text-primary border border-primary">ผู้สั่งการ: ${t.assignedBy}</span>
+                  <small class="text-primary fw-bold">คลิกเพื่อดูรายละเอียด <i class="bi bi-chevron-right"></i></small>
+                </div>
+              </div>
+            `;
+            showInAppStackToast(title, body, 'toast-border-info', 'normal', t.taskId);
+          }
+        } else if (prev.status !== t.status || prev.lastNote !== t.lastNote) {
+          let borderClass = 'toast-border-info';
+          let soundType = 'normal';
+          let title = `<span class="text-info"><i class="bi bi-arrow-repeat me-1"></i> อัปเดตสถานะ: ${t.status}</span>`;
+
+          if (t.status === 'พบปัญหา/ขัดข้อง') {
+            borderClass = 'toast-border-warning';
+            soundType = 'warning';
+            title = `<span class="text-danger"><i class="bi bi-exclamation-triangle-fill me-1"></i> รายงานปัญหา/ติดขัด</span>`;
+          } else if (t.status === 'เสร็จสิ้น') {
+            borderClass = 'toast-border-success';
+            soundType = 'success';
+            title = `<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i> ส่งรายงานเสร็จสิ้น (รออนุมัติ)</span>`;
+          } else if (t.status === 'อนุมัติเสร็จสิ้นแล้ว') {
+            borderClass = 'toast-border-success';
+            soundType = 'success';
+            title = `<span class="text-success"><i class="bi bi-award-fill me-1"></i> อนุมัติปิดภารกิจแล้ว</span>`;
+          }
+
+          const body = `
+            <div style="font-size:0.83rem;" class="mt-1">
+              <div class="fw-bold text-dark fs-6">${refNoText}${t.subject}</div>
+              <div class="text-dark small mt-1"><strong>รายงานล่าสุด:</strong> ${t.lastNote || 'มีการอัปเดตขั้นตอน'}</div>
+              <div class="text-dark small mt-1"><strong>ผู้รับผิดชอบ:</strong> ${getUserName(t.assignedTo)}</div>
+              <div class="text-end mt-1"><small class="text-primary fw-bold">คลิกเพื่อดูรายละเอียด <i class="bi bi-chevron-right"></i></small></div>
+            </div>
+          `;
+
+          if (t.status === 'อนุมัติเสร็จสิ้นแล้ว') {
+            if (!isExec && isTaskAssignedToMe) showInAppStackToast(title, body, borderClass, soundType, t.taskId);
+          } else {
+            if (isExec && isTaskAssignedByMe) showInAppStackToast(title, body, borderClass, soundType, t.taskId);
+          }
+        }
+        previousTaskMap.set(key, t);
+      });
+    }
+
+    function renderTasks(tasks) {
+      rawTasks = tasks || [];
+      checkInAppNotifications(rawTasks);
+
+      const activeTasks = rawTasks.filter(t => t.status !== 'อนุมัติเสร็จสิ้นแล้ว' && t.status !== 'ยกเลิกภารกิจ');
+      const archiveTasks = rawTasks.filter(t => t.status === 'อนุมัติเสร็จสิ้นแล้ว' || t.status === 'ยกเลิกภารกิจ');
+
+      const totalCount = activeTasks.length;
+      const inProgressCount = activeTasks.filter(t => t.status === 'กำลังดำเนินการ' || t.status === 'รับทราบงาน' || t.status === 'มอบหมายงานแล้ว').length;
+      const reviewCount = activeTasks.filter(t => t.status === 'เสร็จสิ้น').length;
+      const issueCount = activeTasks.filter(t => t.status === 'พบปัญหา/ขัดข้อง').length;
+      const archiveCount = archiveTasks.length;
+
+      const userRole = currentUser.role || currentUser.Role;
+      const isExec = userRole === 'ผู้บริหาร';
+      
+      if (isExec) {
+        document.getElementById('execKpiTotal').innerText = totalCount;
+        document.getElementById('execKpiPending').innerText = inProgressCount;
+        document.getElementById('execKpiReview').innerText = reviewCount;
+        document.getElementById('execKpiIssue').innerText = issueCount;
+        document.getElementById('execKpiArchive').innerText = archiveCount;
+      } else {
+        document.getElementById('staffKpiTotal').innerText = totalCount;
+        document.getElementById('staffKpiPending').innerText = inProgressCount;
+        document.getElementById('staffKpiReview').innerText = reviewCount;
+        document.getElementById('staffKpiIssue').innerText = issueCount;
+        document.getElementById('staffKpiArchive').innerText = archiveCount;
+      }
+
+      filterTable();
+      if (currentActiveTab === 'calendar') renderCalendar();
+    }
+
+    function filterByStatus(st) {
+      if (st === 'หนังสือที่แล้วเสร็จ') {
+        switchExecutiveTab('archive');
+        setTimeout(() => {
+          const userRole = currentUser ? (currentUser.role || currentUser.Role) : '';
+          const isExec = userRole === 'ผู้บริหาร';
+          const archiveContainer = isExec ? document.getElementById('executiveArchiveMountPoint') : document.getElementById('staffArchiveMountPoint');
+          if (archiveContainer) archiveContainer.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+        return;
+      }
+
+      switchExecutiveTab('tracking');
+      setTimeout(() => {
+        const userRole = currentUser ? (currentUser.role || currentUser.Role) : '';
+        const isExec = userRole === 'ผู้บริหาร';
+        const container = isExec ? document.getElementById('executiveTableMountPoint') : document.getElementById('staffTableMountPoint');
+        if (container) {
+          const statusFilter = container.querySelector('.statusFilterCls');
+          if (statusFilter) {
+            statusFilter.value = st;
+            filterTable();
+            container.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }, 100);
+    }
+
+    function filterTable() {
+      const userRole = currentUser.role || currentUser.Role;
+      const isExec = userRole === 'ผู้บริหาร';
+      
+      const container = isExec ? 
+        (currentActiveTab === 'archive' ? document.getElementById('executiveArchiveMountPoint') : document.getElementById('executiveTableMountPoint')) :
+        (currentActiveTab === 'archive' ? document.getElementById('staffArchiveMountPoint') : document.getElementById('staffTableMountPoint'));
+
+      if (!container) return;
+
+      const searchInput = container.querySelector('.searchInputCls');
+      const statusFilter = container.querySelector('.statusFilterCls');
+      const staffFilter = container.querySelector('.staffFilterCls');
+      const tbody = container.querySelector('.taskTableBodyCls');
+
+      if (!tbody) return;
+
+      const search = searchInput ? searchInput.value.toLowerCase() : '';
+      const status = statusFilter ? statusFilter.value : '';
+      const selectedStaffVal = staffFilter ? staffFilter.value.toLowerCase() : '';
+
+      const filtered = rawTasks.filter(t => {
+        const isArchived = (t.status === 'อนุมัติเสร็จสิ้นแล้ว' || t.status === 'ยกเลิกภารกิจ');
+        if (currentActiveTab === 'archive') {
+          if (!isArchived) return false;
+        } else {
+          if (isArchived) return false;
+        }
+
+        const assignedStr = String(t.assignedTo || '').trim().toLowerCase();
+        const matchStaff = selectedStaffVal === '' ? true : (assignedStr === selectedStaffVal || getUserName(t.assignedTo).toLowerCase() === selectedStaffVal);
+
+        const matchSearch = String(t.refNumber).toLowerCase().includes(search) || 
+                            String(t.subject).toLowerCase().includes(search) ||
+                            String(t.instruction).toLowerCase().includes(search);
+        
+        let matchStatus = true;
+        if (status !== '') {
+          if (status === 'รอตรวจสอบอนุมัติ') {
+            matchStatus = (t.status === 'เสร็จสิ้น');
+          } else if (status === 'กำลังดำเนินการ') {
+            matchStatus = (t.status === 'กำลังดำเนินการ' || t.status === 'รับทราบงาน' || t.status === 'มอบหมายงานแล้ว');
+          } else {
+            matchStatus = (t.status === status);
+          }
+        }
+        
+        return matchStaff && matchSearch && matchStatus;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center text-dark py-4"><i class="bi bi-inbox fs-2 d-block mb-1 text-secondary"></i>ไม่พบข้อมูลภารกิจในส่วนนี้</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(t => {
+        const isPendingReview = t.status === 'เสร็จสิ้น';
+        const isApprovedDone = t.status === 'อนุมัติเสร็จสิ้นแล้ว';
+        const isIssue = t.status === 'พบปัญหา/ขัดข้อง';
+        const isCanceled = t.status === 'ยกเลิกภารกิจ';
+        
+        let rowClass = 'clickable-row';
+        if (isPendingReview || isApprovedDone) rowClass += ' completed-row';
+        if (isIssue) rowClass += ' issue-row';
+        if (isCanceled) rowClass += ' canceled-row';
+
+        let statusDisplay = '';
+        if (t.status === 'มอบหมายงานแล้ว') {
+          if (!isExec) {
+            statusDisplay = `<button class="btn btn-sm btn-primary rounded-pill px-2 py-1 small fw-bold shadow-sm" onclick="event.stopPropagation(); handleQuickAck('${t.taskId}')"><i class="bi bi-download me-1"></i> รับทราบงาน</button>`;
+          } else {
+            statusDisplay = `<span class="badge bg-info-subtle text-info border border-info status-pill">มอบหมายงานแล้ว</span>`;
+          }
+        } else if (t.status === 'รับทราบงาน') {
+          statusDisplay = `<span class="badge bg-primary-subtle text-primary border border-primary status-pill"><span class="live-dot live-dot-info"></span>รับทราบงานแล้ว</span>`;
+        } else if (t.status === 'กำลังดำเนินการ') {
+          statusDisplay = `<span class="badge bg-warning-subtle text-warning-emphasis border border-warning status-pill"><span class="live-dot live-dot-warning"></span>กำลังดำเนินการ</span>`;
+        } else if (isIssue) {
+          statusDisplay = `<span class="badge bg-danger-subtle text-danger border border-danger status-pill"><span class="live-dot live-dot-danger"></span>พบปัญหา/ติดขัด</span>`;
+        } else if (isPendingReview) {
+          statusDisplay = `<span class="badge bg-info-subtle text-info border border-info status-pill"><span class="live-dot live-dot-info"></span>รอตรวจสอบอนุมัติ</span>`;
+        } else if (isApprovedDone) {
+          statusDisplay = `<span class="badge bg-success-subtle text-success border border-success status-pill"><span class="live-dot live-dot-success"></span>เสร็จสมบูรณ์</span>`;
+        } else if (isCanceled) {
+          statusDisplay = `<span class="badge bg-secondary-subtle text-secondary border border-secondary status-pill"><i class="bi bi-slash-circle me-1"></i>ยกเลิกภารกิจ</span>`;
+        }
+
+        const dLink = t.docLink || t.doclink || '';
+        const docLinkBtn = (dLink && dLink.trim().startsWith('http')) ? 
+          `<a href="${dLink.trim()}" target="_blank" onclick="event.stopPropagation();" class="btn btn-sm text-white rounded-pill ms-1 py-0 px-2 fw-bold small shadow-sm" style="background-color: #4338ca;"><i class="bi bi-file-earmark-pdf-fill me-1"></i> เปิดดูหนังสือ</a>` : 
+          `<span class="badge bg-light text-dark border ms-1 fw-normal" style="font-size: 0.7rem;">ไม่มีไฟล์แนบ</span>`;
+
+        const cancelBtn = (isExec && !isCanceled && !isApprovedDone) ?
+          `<button class="btn btn-sm btn-outline-danger rounded-circle p-1 ms-1" title="ยกเลิกภารกิจ" onclick="event.stopPropagation(); handleCancelTask('${t.taskId}')"><i class="bi bi-slash-circle"></i></button>` : '';
+
+        const confirmApproveBtn = (isExec && isPendingReview) ?
+          `<button class="btn btn-sm btn-success btn-action-custom shadow-sm" title="อนุมัติการทำงานเข้าคลังจัดเก็บ" onclick="event.stopPropagation(); handleConfirmArchive('${t.taskId}')"><i class="bi bi-check-all fs-6"></i> อนุมัติ</button>` : '';
+
+        const updateBtnText = (isExec && isPendingReview) ? 'ตรวจงาน' : 'อัปเดต';
+        const updateBtnClass = (isExec && isPendingReview) ? 'btn-outline-info' : 'btn-outline-primary';
+
+        return `
+          <tr class="${rowClass}" onclick="openDetailModal('${t.taskId}')">
+            <td><span class="badge bg-light text-dark border px-2 py-1 fw-bold">${t.refNumber || '-'}</span></td>
+            <td>
+              <div class="fw-bold text-dark d-flex align-items-center flex-wrap gap-1">
+                <span>${t.subject}</span>
+                ${docLinkBtn}
+              </div>
+              <small class="text-secondary d-block mt-1">${t.instruction}</small>
+            </td>
+            <td><span class="nowrap-name text-dark">${t.assignedBy || '-'}</span></td>
+            <td><span class="nowrap-name text-dark fw-bold">${getUserName(t.assignedTo)}</span></td>
+            <td><small class="text-dark fw-semibold">${t.assignedDate || '-'}</small></td>
+            <td><small class="fw-bold text-danger">${t.dueDate || '-'}</small></td>
+            <td>${statusDisplay}</td>
+            <td class="text-center">
+              <div class="action-btn-group">
+                ${confirmApproveBtn}
+                ${(!isApprovedDone && !isCanceled) ? `<button class="btn btn-sm ${updateBtnClass} btn-action-custom shadow-sm" onclick="event.stopPropagation(); openUpdateModal('${t.taskId}')"><i class="bi bi-pencil-square"></i> ${updateBtnText}</button>` : ''}
+                ${cancelBtn}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function changeCalendarMonth(offset) {
+      calendarDate.setMonth(calendarDate.getMonth() + offset);
+      renderCalendar();
+    }
+
+    function resetCalendarMonth() {
+      calendarDate = new Date();
+      renderCalendar();
+    }
+
+    function parseToStandardDateStr(dateStr) {
+      if (!dateStr || dateStr === '-') return '';
+      const parts = dateStr.split('/');
+      if (parts.length === 3) {
+        let day = parts[0].padStart(2, '0');
+        let month = parts[1].padStart(2, '0');
+        let year = parseInt(parts[2], 10);
+        if (year > 2500) year -= 543;
+        return `${day}/${month}/${year}`;
+      }
+      return dateStr;
+    }
+
+    function renderCalendar() {
+      const mountPoint = document.getElementById('calendarMountPoint');
+      const titleElem = document.getElementById('calendarMonthTitle');
+      if (!mountPoint) return;
+
+      const year = calendarDate.getFullYear();
+      const month = calendarDate.getMonth();
+      const yearBuddhist = year + 543;
+
+      if (titleElem) titleElem.innerText = `${thaiMonthNames[month]} ${yearBuddhist}`;
+
+      const daysOfWeek = ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
+      let headerHtml = daysOfWeek.map(d => `<div class="calendar-header-day">${d}</div>`).join('');
+
+      const firstDayIndex = new Date(year, month, 1).getDay();
+      const totalDays = new Date(year, month + 1, 0).getDate();
+
+      let gridHtml = '';
+      for (let i = 0; i < firstDayIndex; i++) gridHtml += `<div class="calendar-day-cell bg-light opacity-50"></div>`;
+
+      for (let day = 1; day <= totalDays; day++) {
+        const dayTwoDigit = (day < 10 ? '0' : '') + day;
+        const monthTwoDigit = (month + 1 < 10 ? '0' : '') + (month + 1);
+        const targetDateStr = `${dayTwoDigit}/${monthTwoDigit}/${year}`;
+        
+        const dayTasks = rawTasks.filter(t => {
+          const stdDueDate = parseToStandardDateStr(t.dueDate);
+          const stdAssignDate = parseToStandardDateStr(t.assignedDate);
+          return stdDueDate === targetDateStr || stdAssignDate === targetDateStr;
+        });
+
+        let eventsHtml = dayTasks.map(t => {
+          let eventClass = 'event-pending';
+          if (t.status === 'อนุมัติเสร็จสิ้นแล้ว' || t.status === 'เสร็จสิ้น') eventClass = 'event-done';
+          if (t.status === 'พบปัญหา/ขัดข้อง') eventClass = 'event-issue';
+
+          return `<div class="calendar-event-item ${eventClass}" onclick="openDetailModal('${t.taskId}')" title="${t.subject} (${getUserName(t.assignedTo)})">
+            ${t.refNumber ? `[${t.refNumber}]` : ''} ${t.subject}
+          </div>`;
+        }).join('');
+
+        gridHtml += `
+          <div class="calendar-day-cell">
+            <div class="calendar-day-number">${day}</div>
+            ${eventsHtml}
+          </div>
+        `;
+      }
+
+      mountPoint.innerHTML = `
+        <div class="calendar-grid mb-2">${headerHtml}</div>
+        <div class="calendar-grid">${gridHtml}</div>
+      `;
+    }
+
+    async function handleQuickAck(taskId) {
+      const userName = currentUser.name || currentUser.Name;
+      const res = await callGasApi('acknowledgeTaskQuick', { taskId, actorName: userName });
+      if (res && res.success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'รับทราบภารกิจแล้ว',
+          text: 'ระบบส่งแจ้งเตือนการรับทราบไปยังผู้มอบหมายเรียบร้อย',
+          timer: 1500,
+          showConfirmButton: false
+        });
+        fetchTasks(true);
+      }
+    }
+
+    async function handleConfirmArchive(taskId) {
+      const userName = currentUser.name || currentUser.Name;
+      Swal.fire({
+        title: 'ยืนยันปิดภารกิจนี้?',
+        text: "เมื่อยืนยันแล้ว งานจะถูกย้ายไปยัง 'จัดเก็บงานที่แล้วเสร็จ' และส่งการแจ้งเตือนไปยังผู้ปฏิบัติงาน",
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonText: 'อนุมัติปิดงาน',
+        cancelButtonText: 'ยกเลิก',
+        confirmButtonColor: '#198754'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const res = await callGasApi('confirmCompleteTaskByExecutive', { taskId, actorName: userName });
+          if (res && res.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'อนุมัติปิดภารกิจเรียบร้อย',
+              text: 'ย้ายข้อมูลไปยังเมนูจัดเก็บงานที่แล้วเสร็จเรียบร้อยแล้ว',
+              timer: 1500,
+              showConfirmButton: false
+            });
+            fetchTasks(true);
+          }
+        }
+      });
+    }
+
+    async function handleCancelTask(taskId) {
+      const userName = currentUser.name || currentUser.Name;
+      Swal.fire({
+        title: 'ยืนยันยกเลิกภารกิจ?',
+        text: "เมื่อยกเลิกแล้ว ภารกิจนี้จะถูกย้ายไปจัดเก็บในเมนู 'จัดเก็บงานที่แล้วเสร็จ' ทันที",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ยกเลิกและนำเข้าคลังจัดเก็บ',
+        cancelButtonText: 'ถอยกลับ',
+        confirmButtonColor: '#dc3545'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const res = await callGasApi('cancelTaskByExecutive', { taskId, actorName: userName });
+          if (res && res.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'ยกเลิกภารกิจเรียบร้อย',
+              text: 'ภารกิจถูกย้ายเข้าคลังจัดเก็บเรียบร้อยแล้ว',
+              timer: 1500,
+              showConfirmButton: false
+            });
+            fetchTasks(true);
+          }
+        }
+      });
+    }
+
+    function getUserName(val) {
+      if (!val) return '-';
+      const target = String(val).trim().toLowerCase();
+      const u = publicUsers.find(x => 
+        String(x.Name).trim().toLowerCase() === target || 
+        String(x.Email).trim().toLowerCase() === target
+      );
+      return u ? u.Name : val;
+    }
+
+    async function handleCreateTask(e) {
+      e.preventDefault();
+      const userName = currentUser.name || currentUser.Name;
+      const btn = document.getElementById('btnSubmitTask');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> กำลังบันทึกสั่งการ...';
+
+      const formObj = {
+        refNumber: document.getElementById('refNumber').value,
+        subject: document.getElementById('subject').value,
+        assignedBy: userName,
+        assignedTo: document.getElementById('assignedTo').value,
+        instruction: document.getElementById('instruction').value,
+        docLink: document.getElementById('docLink').value,
+        assignedDate: document.getElementById('assignedDate').value,
+        dueDate: document.getElementById('dueDate').value
+      };
+
+      const res = await callGasApi('createTask', { formObj });
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-send-fill me-1"></i> บันทึกสั่งการ & ส่ง Telegram';
+
+      if (res && res.success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'บันทึกสั่งการสำเร็จ',
+          text: 'ระบบส่งแจ้งเตือน Telegram ไปยังผู้ปฏิบัติงานเรียบร้อย',
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        document.getElementById('refNumber').value = '';
+        document.getElementById('subject').value = '';
+        document.getElementById('instruction').value = '';
+        document.getElementById('docLink').value = '';
+        document.getElementById('dueDate').value = '';
+        fetchTasks(true);
+      }
+    }
+
+    function openUpdateModal(taskId) {
+      const t = rawTasks.find(x => String(x.taskId) === String(taskId));
+      if (!t) return;
+
+      const userRole = currentUser.role || currentUser.Role;
+      const isExec = userRole === 'ผู้บริหาร';
+
+      document.getElementById('modalTaskId').value = t.taskId;
+      document.getElementById('modalSubjectDisplay').innerText = `${t.refNumber ? '['+t.refNumber+'] ' : ''}${t.subject} (${t.instruction})`;
+      
+      const dLink = t.docLink || t.doclink || '';
+      const linkContainer = document.getElementById('modalDocLinkContainer');
+      if (dLink && dLink.trim().startsWith('http')) {
+        linkContainer.innerHTML = `
+          <div class="doc-link-banner mt-2 d-flex align-items-center justify-content-between shadow-sm border p-2 rounded-3 bg-light">
+            <div class="small fw-bold text-indigo" style="color: #3730a3;">
+              <i class="bi bi-file-earmark-pdf-fill me-1 fs-6"></i> หนังสือสารบรรณ / ไฟล์สั่งการต้นฉบับ
+            </div>
+            <a href="${dLink.trim()}" target="_blank" class="btn btn-sm text-white fw-bold rounded-pill px-3 shadow-sm" style="background-color: #4338ca;">
+              <i class="bi bi-box-arrow-up-right me-1"></i> เปิดดูไฟล์ต้นฉบับ
+            </a>
+          </div>
+        `;
+      } else {
+        linkContainer.innerHTML = `
+          <div class="p-2 rounded-3 mt-2 bg-light text-dark small border text-center fw-semibold">
+            <i class="bi bi-info-circle me-1"></i> ภารกิจนี้ไม่มีการแนบลิงก์สารบรรณต้นฉบับ
+          </div>
+        `;
+      }
+
+      const dueDateContainer = document.getElementById('modalDueDateContainer');
+      if (isExec) {
+        dueDateContainer.classList.remove('d-none');
+        document.getElementById('modalDueDate').value = t.dueDate && t.dueDate !== '-' ? t.dueDate : '';
+      } else {
+        dueDateContainer.classList.add('d-none');
+      }
+
+      document.getElementById('modalStatus').value = t.status === 'มอบหมายงานแล้ว' ? 'รับทราบงาน' : t.status;
+      document.getElementById('modalNote').value = '';
+      document.getElementById('modalRefDocNo').value = t.refDocNo || '';
+      document.getElementById('modalProofLink').value = t.proofLink || '';
+      
+      selectedImageBase64List = [];
+      document.getElementById('modalImageInput').value = '';
+      document.getElementById('imagePreviewContainer').innerHTML = '';
+
+      onStatusChange();
+      updateModalObj.show();
+    }
+
+    function onStatusChange() {
+      const st = document.getElementById('modalStatus').value;
+      const subContainer = document.getElementById('subStepContainer');
+      const proofContainer = document.getElementById('completionProofContainer');
+
+      if (st === 'กำลังดำเนินการ') {
+        subContainer.classList.remove('d-none');
+        proofContainer.classList.add('d-none');
+      } else if (st === 'เสร็จสิ้น') {
+        subContainer.classList.add('d-none');
+        proofContainer.classList.remove('d-none');
+      } else {
+        subContainer.classList.add('d-none');
+        proofContainer.classList.add('d-none');
+      }
+    }
+
+    function switchProofType(type) {
+      activeProofType = type;
+    }
+
+    function handleImageSelection(e) {
+      const files = Array.from(e.target.files);
+      if (files.length > 5) {
+        Swal.fire({ icon: 'warning', title: 'เลือกได้ไม่เกิน 5 รูป', text: 'กรุณาเลือกรูปภาพถ่ายหน้างานไม่เกิน 5 รูป' });
+        e.target.value = '';
+        return;
+      }
+
+      selectedImageBase64List = [];
+      const previewContainer = document.getElementById('imagePreviewContainer');
+      previewContainer.innerHTML = '';
+
+      files.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const b64 = evt.target.result;
+          selectedImageBase64List.push(b64);
+
+          const box = document.createElement('div');
+          box.className = 'img-preview-box';
+          box.innerHTML = `
+            <img src="${b64}">
+            <button type="button" class="btn-remove" onclick="removeSelectedImage(${index})">✕</button>
+          `;
+          previewContainer.appendChild(box);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function removeSelectedImage(index) {
+      selectedImageBase64List.splice(index, 1);
+      const previewContainer = document.getElementById('imagePreviewContainer');
+      previewContainer.innerHTML = '';
+      selectedImageBase64List.forEach((b64, idx) => {
+        const box = document.createElement('div');
+        box.className = 'img-preview-box';
+        box.innerHTML = `
+          <img src="${b64}">
+          <button type="button" class="btn-remove" onclick="removeSelectedImage(${idx})">✕</button>
+        `;
+        previewContainer.appendChild(box);
+      });
+    }
+
+    async function handleUpdateTask(e) {
+      e.preventDefault();
+      const userName = currentUser.name || currentUser.Name;
+      const userRole = currentUser.role || currentUser.Role;
+      const isExec = userRole === 'ผู้บริหาร';
+
+      const btn = document.getElementById('btnSaveUpdate');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> กำลังบันทึก...';
+
+      const st = document.getElementById('modalStatus').value;
+
+      const updateObj = {
+        taskId: document.getElementById('modalTaskId').value,
+        actorName: userName,
+        newStatus: st,
+        note: document.getElementById('modalNote').value || '',
+        refDocNo: document.getElementById('modalRefDocNo').value || '-',
+        proofLink: activeProofType === 'url' ? (document.getElementById('modalProofLink').value || '') : '',
+        images: activeProofType === 'photo' ? selectedImageBase64List : []
+      };
+
+      if (st === 'กำลังดำเนินการ') {
+        updateObj.subStep = document.getElementById('modalSubStep').value;
+      }
+
+      if (isExec) {
+        updateObj.dueDate = document.getElementById('modalDueDate').value || '-';
+      }
+
+      const res = await callGasApi('updateTaskStatus', { updateObj });
+      btn.disabled = false;
+      btn.innerHTML = 'บันทึกอัปเดต';
+
+      if (res && res.success) {
+        updateModalObj.hide();
+        Swal.fire({
+          icon: 'success',
+          title: 'อัปเดตสถานะสำเร็จ',
+          text: 'บันทึกรายงานความคืบหน้าเข้าสู่ระบบเรียบร้อยแล้ว',
+          timer: 1500,
+          showConfirmButton: false
+        });
+        fetchTasks(true);
+      }
+    }
+
+    function openDetailModal(taskId) {
+      const t = rawTasks.find(x => String(x.taskId) === String(taskId));
+      if (!t) return;
+
+      const body = document.getElementById('detailModalBody');
+      const dLink = t.docLink || t.doclink || '';
+      const docBtn = (dLink && dLink.trim().startsWith('http')) ? 
+        `<a href="${dLink.trim()}" target="_blank" class="btn btn-sm text-white rounded-pill mt-2 d-inline-block shadow-sm" style="background-color: #4338ca;"><i class="bi bi-file-earmark-pdf-fill me-1"></i> เปิดดูเอกสารสารบรรณต้นฉบับ</a>` : '';
+
+      let proofDisplay = '';
+      if (t.proofLink && t.proofLink.trim().length > 0) {
+        const rawProof = t.proofLink.trim();
+        if (rawProof.includes('lh3.googleusercontent.com')) {
+          const urls = rawProof.split(',');
+          const galleryItems = urls.map(url => `
+            <div class="photo-gallery-item" onclick="window.open('${url.trim()}', '_blank')">
+              <img src="${url.trim()}">
+            </div>
+          `).join('');
+
+          proofDisplay = `
+            <div class="mt-2">
+              <small class="text-dark fw-bold d-block"><i class="bi bi-images text-success me-1"></i> รูปภาพหลักฐานผลงาน (${urls.length} รูป):</small>
+              <div class="photo-gallery-grid">${galleryItems}</div>
+            </div>
+          `;
+        } else if (rawProof.startsWith('http')) {
+          proofDisplay = `<a href="${rawProof}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill mt-2 d-inline-block"><i class="bi bi-link-45deg me-1"></i> เปิดดูลิงก์หลักฐานผลงาน</a>`;
+        }
+      }
+
+      let subStepDisplay = '';
+      if (t.subStep || (t.lastNote && t.lastNote.includes('[ขั้นตอน:'))) {
+        let stepText = t.subStep || '';
+        if (!stepText && t.lastNote.includes('[ขั้นตอน:')) {
+          const match = t.lastNote.match(/\[ขั้นตอน:\s*([^\]]+)\]/);
+          if (match && match[1]) stepText = match[1];
+        }
+        if (stepText) {
+          subStepDisplay = `<div class="mt-1"><span class="badge bg-primary-subtle text-primary border border-primary px-2 py-1"><i class="bi bi-diagram-3-fill me-1"></i> ขั้นตอนหน้างาน: ${stepText}</span></div>`;
+        }
+      }
+
+      let cleanNote = t.lastNote || '';
+      if (cleanNote.includes('[ขั้นตอน:')) cleanNote = cleanNote.replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '').trim();
+
+      body.innerHTML = `
+        <div class="mb-2">
+          <small class="text-dark fw-bold d-block">เลขที่รับหนังสือ/คำร้อง:</small>
+          <span class="fs-6 fw-bold text-dark">${t.refNumber || '-'}</span>
+        </div>
+        <div class="mb-2">
+          <small class="text-dark fw-bold d-block">เรื่อง / ชื่อภารกิจ:</small>
+          <div class="fw-bold text-primary fs-6">${t.subject}</div>
+          ${docBtn}
+          ${proofDisplay}
+        </div>
+        <div class="mb-2">
+          <small class="text-dark fw-bold d-block">ข้อสั่งการ / รายละเอียดการปฏิบัติงาน:</small>
+          <div class="p-2 bg-light border rounded text-dark fw-semibold">${t.instruction || '-'}</div>
+        </div>
+        <hr class="my-2">
+        <div class="row g-2 mb-2">
+          <div class="col-6">
+            <small class="text-dark fw-bold d-block">ผู้สั่งการ:</small>
+            <span class="small fw-bold text-dark nowrap-name">${t.assignedBy || '-'}</span>
+          </div>
+          <div class="col-6">
+            <small class="text-dark fw-bold d-block">ผู้รับผิดชอบ:</small>
+            <span class="small fw-bold text-dark nowrap-name">${getUserName(t.assignedTo)}</span>
+          </div>
+          <div class="col-6">
+            <small class="text-dark fw-bold d-block">วันสั่งการ:</small>
+            <span class="small text-dark fw-bold">${t.assignedDate || '-'}</span>
+          </div>
+          <div class="col-6">
+            <small class="text-dark fw-bold d-block">กำหนดส่งงาน:</small>
+            <span class="small fw-bold text-danger">${t.dueDate || 'ไม่ได้ระบุ'}</span>
+          </div>
+        </div>
+        <hr class="my-2">
+        <div class="mb-2">
+          <small class="text-dark fw-bold d-block">สถานะการดำเนินงาน:</small>
+          <span class="badge bg-secondary mb-1">${t.status}</span>
+          ${subStepDisplay}
+        </div>
+        <div>
+          <small class="text-dark fw-bold d-block">บันทึกรายงานความคืบหน้าล่าสุด:</small>
+          <div class="p-2 border rounded bg-white text-dark fw-semibold small">${cleanNote || 'ไม่มีบันทึกเพิ่มเติม'}</div>
+        </div>
+      `;
+
+      detailModalObj.show();
+    }
+  </script>
+</body>
+</html>
