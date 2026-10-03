@@ -19,7 +19,7 @@
       --text-muted: #64748b;
       --exec-gradient: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
       --staff-gradient: linear-gradient(135deg, #064e3b 0%, #0f766e 100%);
-      --card-radius: 14px;
+      --card-radius: 16px;
       --border-color: #e2e8f0;
       --indigo-primary: #4338ca;
     }
@@ -244,69 +244,116 @@
     .event-pending { background: #dbeafe; color: #1e3a8a; border-left: 3px solid #2563eb; }
     .event-issue { background: #ffe4e6; color: #881337; border-left: 3px solid #e11d48; }
 
-    /* REDESIGNED MODERN LOGIN GATE & CARDS */
+    /* REDESIGNED MODERN LOGIN GATE & CARDS (EXECUTIVE HERO + STAFF MATRIX) */
     #landingAuthGate { 
       position: fixed; 
       top: 0; left: 0; width: 100%; height: 100%; 
-      background: linear-gradient(135deg, #020617 0%, #0f172a 60%, #1e1b4b 100%); 
+      background: #f1f5f9;
       z-index: 9999; 
       display: flex; align-items: center; justify-content: center; padding: 20px; 
       overflow-y: auto;
     }
 
     .login-container-card {
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-      max-width: 960px;
-      width: 100%;
-      padding: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .user-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 12px;
-      margin-top: 15px;
-    }
-
-    .user-select-card {
       background: #ffffff;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 14px 12px;
+      border-radius: 24px;
+      box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 1px 1px rgba(0,0,0,0.04);
+      max-width: 1120px;
+      width: 100%;
+      padding: 32px 28px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .portal-logo-icon {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);
+      color: #ffffff; border-radius: 16px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin-bottom: 10px;
+      box-shadow: 0 8px 16px -4px rgba(67, 56, 202, 0.3);
+    }
+
+    /* EXECUTIVE HERO + STAFF 3-COLUMN LAYOUT */
+    .portal-layout-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 16px;
+      margin-top: 24px;
+      align-items: stretch;
+    }
+
+    .exec-hero-card {
+      background: linear-gradient(145deg, #ffffff 0%, #f0fdf4 100%);
+      border: 2px solid #3b82f6 !important;
+      border-radius: var(--card-radius);
+      padding: 24px 20px;
       cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       position: relative;
-      overflow: hidden;
+      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.12);
+      min-height: 100%;
     }
 
-    .user-select-card:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 10px 20px rgba(67, 56, 202, 0.12);
-      border-color: #4338ca;
+    .exec-hero-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 16px 32px -8px rgba(59, 130, 246, 0.25) !important;
+      border-color: #2563eb !important;
     }
 
-    /* EXECUTIVE CARD PRIORITY (LEFT-MOST) */
-    .exec-user-card {
-      grid-column: span 1;
-      background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
-      border: 2px solid #f59e0b !important;
-      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.15);
+    .exec-shield-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      width: fit-content;
     }
-    .exec-user-card:hover {
-      box-shadow: 0 12px 28px rgba(245, 158, 11, 0.25) !important;
+
+    .staff-matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .staff-card-item {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: var(--card-radius);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .staff-card-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.08);
+      border-color: #0284c7;
+      background: #f8fafc;
+    }
+
+    .staff-avatar-icon {
+      width: 38px; height: 38px;
+      border-radius: 12px;
+      background: #f1f5f9;
+      color: #0284c7;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
     }
 
     .user-card-name {
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       color: #0f172a;
       white-space: nowrap;
       overflow: hidden;
@@ -314,7 +361,7 @@
     }
 
     .user-card-pos {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: #64748b;
       margin-top: 2px;
       white-space: nowrap;
@@ -322,24 +369,44 @@
       text-overflow: ellipsis;
     }
 
-    /* SMOOTH DIALOG BOX ANIMATION */
-    .modal.fade .modal-dialog {
-      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-      transform: scale(0.92);
+    /* PURE CSS GLASSMORPHISM DIALOG OVERLAY */
+    .custom-dialog-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 10050;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease-out;
     }
-    .modal.show .modal-dialog {
+
+    .custom-dialog-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .custom-dialog-box {
+      background: #ffffff;
+      border-radius: 20px;
+      max-width: 380px;
+      width: 90%;
+      padding: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      transform: scale(0.92);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .custom-dialog-overlay.active .custom-dialog-box {
       transform: scale(1);
     }
 
-    .dialog-glass-card {
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(16px);
-      border-radius: 20px;
-      border: 1px solid rgba(226, 232, 240, 0.9);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    }
-
-    /* REDESIGNED MULTI-SELECT CHECKBOX BOX */
+    /* MULTI-SELECT CHECKBOX BOX */
     .staff-checkbox-grid {
       max-height: 220px;
       min-height: 140px;
@@ -394,12 +461,13 @@
       overflow-wrap: anywhere !important;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
+      .portal-layout-grid { grid-template-columns: 1fr; }
+      .staff-matrix-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 576px) {
+      .staff-matrix-grid { grid-template-columns: 1fr; }
       .container-fluid { padding-left: 8px !important; padding-right: 8px !important; }
-      .portal-title { font-size: 1rem !important; }
-      .nav-tab-custom { overflow-x: auto; flex-wrap: nowrap; padding: 4px; }
-      .nav-tab-custom .nav-link { padding: 6px 12px; font-size: 0.8rem; white-space: nowrap; }
-      .user-cards-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -407,45 +475,39 @@
 
   <div id="customToastContainer"></div>
 
-  <!-- MODERN LOGIN GATE (AVATAR CARDS GRID) -->
+  <!-- MODERN LOGIN GATE (EXECUTIVE HERO + STAFF MATRIX) -->
   <div id="landingAuthGate">
     <div class="login-container-card text-center">
-      <div class="mb-2" style="color: #4338ca;"><i class="bi bi-shield-lock-fill fs-1"></i></div>
-      <h5 class="fw-bold text-dark mb-1">องค์การบริหารส่วนตำบลท่าก๊อ</h5>
-      <small class="text-primary fw-bold d-block mb-3" style="color: #4338ca !important;">ระบบบริหารจัดการดิจิทัล - เลือกบุคลากรเพื่อเข้าสู่ระบบ</small>
+      <div class="portal-logo-icon"><i class="bi bi-shield-check"></i></div>
+      <h4 class="fw-bold text-dark mb-1">องค์การบริหารส่วนตำบลท่าก๊อ</h4>
+      <div class="text-secondary fw-semibold small mb-4">ระบบบริหารจัดการดิจิทัล - กรุณาเลือกบุคลากรเพื่อเข้าสู่ระบบ</div>
 
-      <!-- USER CARDS GRID CONTAINER -->
-      <div id="userCardsContainer" class="user-cards-grid">
-        <div class="text-center py-4 col-12 text-muted">
-          <div class="spinner-border spinner-border-sm me-2 text-primary"></div>กำลังโหลดข้อมูลบุคลากร...
-        </div>
+      <!-- DYNAMIC LAYOUT GRID -->
+      <div id="portalLayoutGrid" class="portal-layout-grid text-start">
+        <!-- RENDERED BY JS INSTANTLY -->
       </div>
     </div>
   </div>
 
-  <!-- PASSWORD CONFIRMATION DIALOG MODAL -->
-  <div class="modal fade" id="passcodeDialogModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 380px;">
-      <div class="modal-content dialog-glass-card border-0">
-        <div class="modal-body p-4 text-center">
-          <div class="mb-2 text-primary fs-2"><i class="bi bi-person-badge-fill"></i></div>
-          <h6 class="fw-bold text-dark mb-1" id="dialogSelectedUserName">นายพชกร หอมนาน</h6>
-          <span class="badge bg-indigo-subtle text-indigo border border-indigo mb-3 px-3 py-1 fw-bold" id="dialogSelectedUserRole" style="color: #4338ca;">ผู้บริหาร</span>
+  <!-- PURE CSS/JS PASSCODE DIALOG OVERLAY -->
+  <div id="customPasscodeDialog" class="custom-dialog-overlay">
+    <div class="custom-dialog-box text-center">
+      <div class="mb-2 text-primary fs-1"><i class="bi bi-shield-lock-fill" style="color: #4338ca;"></i></div>
+      <h6 class="fw-bold text-dark mb-1 fs-6" id="dialogSelectedUserName">นายพชกร หอมนาน</h6>
+      <span class="badge bg-indigo-subtle border mb-3 px-3 py-1 fw-bold" id="dialogSelectedUserRole" style="color: #4338ca; background: #eef2ff; border-color: #c7d2fe !important;">ผู้บริหาร</span>
 
-          <div class="text-start mb-3">
-            <label class="form-label small fw-bold text-dark mb-1">ยืนยันรหัสผ่าน (UserId):</label>
-            <input type="password" id="dialogPasscode" class="form-control text-center fw-bold text-dark fs-5" placeholder="••••••" onkeyup="if(event.key === 'Enter') submitDialogAuth()">
-          </div>
+      <div class="text-start mb-3">
+        <label class="form-label small fw-bold text-dark mb-1">ยืนยันรหัสผ่าน (UserId):</label>
+        <input type="password" id="dialogPasscode" class="form-control text-center fw-bold text-dark fs-5" placeholder="••••••" onkeyup="if(event.key === 'Enter') submitDialogAuth()">
+      </div>
 
-          <div id="dialogAuthAlert" class="alert alert-danger d-none py-1 small mb-3 text-center" style="font-size: 0.8rem;">รหัสผ่านไม่ถูกต้อง!</div>
+      <div id="dialogAuthAlert" class="alert alert-danger d-none py-1 small mb-3 text-center" style="font-size: 0.8rem;">รหัสผ่านไม่ถูกต้อง!</div>
 
-          <div class="d-flex gap-2">
-            <button type="button" class="btn btn-light btn-sm rounded-pill w-50 fw-bold border" data-bs-dismiss="modal">ยกเลิก</button>
-            <button type="button" id="btnDialogSubmit" class="btn text-white btn-sm rounded-pill w-50 fw-bold shadow-sm" style="background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);" onclick="submitDialogAuth()">
-              <i class="bi bi-box-arrow-in-right me-1"></i> ตกลง
-            </button>
-          </div>
-        </div>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-light btn-sm rounded-pill w-50 fw-bold border" onclick="closePasscodeDialog()">ยกเลิก</button>
+        <button type="button" id="btnDialogSubmit" class="btn text-white btn-sm rounded-pill w-50 fw-bold shadow-sm" style="background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);" onclick="submitDialogAuth()">
+          <i class="bi bi-box-arrow-in-right me-1"></i> เข้าสู่ระบบ
+        </button>
       </div>
     </div>
   </div>
@@ -575,7 +637,7 @@
           <div id="executiveArchiveMountPoint"></div>
         </div>
 
-        <!-- REDESIGNED EXECUTIVE COMMAND PANEL -->
+        <!-- COMMAND PANEL -->
         <div class="tab-pane fade" id="tab-command" role="tabpanel">
           <div class="card p-3 p-md-4 mb-4 border shadow-sm rounded-4" style="background: #ffffff; border-top: 4px solid #4338ca !important;">
             <div class="d-flex align-items-center mb-3">
@@ -859,11 +921,31 @@
   <script>
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwHLDOFBUlwi1g8Nb4QZO7TdTqit7my6GkC4cqK4Jmz86B2C-dvEp8fMO923sJkYdtU/exec";
 
-    let publicUsers = [];
+    // STATIC INITIAL USER LIST FOR INSTANT ZERO-DELAY LOAD
+    const STATIC_USERS_DEFAULT = [
+      { Name: "นายพชกร หอมนาน", Role: "ผู้บริหาร", Position: "หัวหน้าฝ่ายแบบแผนและก่อสร้าง รักษาการผู้อำนวยการกองช่าง" },
+      { Name: "นายศราวุธ ฟ้าแลบ", Role: "ผู้ปฏิบัติงาน", Position: "นายช่างโยธาชำนาญงาน" },
+      { Name: "นายอัครพล โนเลจ", Role: "ผู้ปฏิบัติงาน", Position: "นายช่างโยธาปฏิบัติงาน" },
+      { Name: "นายศิริพงษ์ ศิริมานนท์", Role: "ผู้ปฏิบัติงาน", Position: "วิศวกรโยธาปฏิบัติการ" },
+      { Name: "นายจักรพงษ์ จุมปูนญ", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยช่างเขียนแบบ" },
+      { Name: "นายชาญณรงค์ กระทรง", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยช่างเขียนแบบ" },
+      { Name: "นายสิทธิพงษ์ กันศรี", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยนายช่างโยธา" },
+      { Name: "นายพงศ์พัทธ์ อุยี่", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยนายช่างโยธา" },
+      { Name: "นายสุทธิพงษ์ เกตุมรรคา", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยวิศวกรโยธา" },
+      { Name: "นายประยูร ศรีอ่อน", Role: "ผู้ปฏิบัติงาน", Position: "ลูกจ้างประจำ" },
+      { Name: "นางสาวมณฑาพร ขุนแท่น", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยเจ้าพนักงานธุรการ" },
+      { Name: "นางรินนา บุญส่ง่า", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยเจ้าพนักงานการเงินและบัญชี" },
+      { Name: "นางสาวนิรชา ภาณะจิตร", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยเจ้าพนักงานธุรการ" },
+      { Name: "นายอาหล่อง จ่วยลือ", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยเจ้าพนักงานป้องกันและบรรเทาสาธารณภัย" },
+      { Name: "นายพลวรรธน์ อื่นสุวรรณ์", Role: "ผู้ปฏิบัติงาน", Position: "คนงาน" },
+      { Name: "นายณรงค์ศักดิ์ วงศ์ยาง", Role: "ผู้ปฏิบัติงาน", Position: "จ้างเหมาบริการ" }
+    ];
+
+    let publicUsers = STATIC_USERS_DEFAULT;
     let currentUser = null;
     let selectedUserForLogin = null;
     let rawTasks = [];
-    let updateModalObj, detailModalObj, summaryModalObj, passcodeDialogObj;
+    let updateModalObj, detailModalObj, summaryModalObj;
     let currentActiveTab = 'tracking'; 
     let calendarDate = new Date();
     let smartPollingTimer = null;
@@ -883,11 +965,12 @@
       updateModalObj = new bootstrap.Modal(document.getElementById('updateModal'));
       detailModalObj = new bootstrap.Modal(document.getElementById('detailModal'));
       summaryModalObj = new bootstrap.Modal(document.getElementById('commandSummaryModal'));
-      passcodeDialogObj = new bootstrap.Modal(document.getElementById('passcodeDialogModal'));
 
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('assignedDate').value = today;
 
+      // INSTANT ZERO-DELAY RENDER
+      initPublicUsers(STATIC_USERS_DEFAULT);
       fetchPublicUsers();
     };
 
@@ -912,14 +995,14 @@
 
     async function fetchPublicUsers() {
       const res = await callGasApi('getUserPublicList', {}, 'GET');
-      if (res && res.success) {
+      if (res && res.success && res.data && res.data.length > 0) {
         initPublicUsers(res.data);
       }
     }
 
     function initPublicUsers(users) {
-      publicUsers = users || [];
-      renderUserAvatarCards();
+      publicUsers = users || STATIC_USERS_DEFAULT;
+      renderPortalLayoutGrid();
 
       const savedUserJson = sessionStorage.getItem('thako_user_session');
       if (savedUserJson) {
@@ -946,38 +1029,55 @@
       }
     }
 
-    /* RENDER AVATAR CARDS (EXECUTIVE LEFT-MOST PRIORITY) */
-    function renderUserAvatarCards() {
-      const container = document.getElementById('userCardsContainer');
+    /* RENDER EXECUTIVE HERO CARD + STAFF 3-COLUMN MATRIX */
+    function renderPortalLayoutGrid() {
+      const container = document.getElementById('portalLayoutGrid');
       if (!container) return;
 
       const validUsers = publicUsers.filter(u => u.Name && u.Name.trim() !== '');
-      if (validUsers.length === 0) {
-        container.innerHTML = '<div class="text-center text-muted py-4 col-12">ไม่พบรายชื่อผู้ใช้งาน</div>';
-        return;
-      }
+      const execUser = validUsers.find(u => u.Role === 'ผู้บริหาร') || validUsers[0];
+      const staffUsers = validUsers.filter(u => u.Name !== execUser.Name);
 
-      // Sort executive first
-      validUsers.sort((a, b) => (a.Role === 'ผู้บริหาร' ? -1 : 1));
+      const execPosText = execUser.Position || 'ผู้อำนวยการกองช่าง';
 
-      container.innerHTML = validUsers.map((u, idx) => {
-        const isExec = u.Role === 'ผู้บริหาร';
-        const cardClass = isExec ? 'user-select-card exec-user-card' : 'user-select-card';
-        const badgeIcon = isExec ? '👑 ' : '👤 ';
-        const posText = u.Position || (isExec ? 'ผู้บริหาร' : 'ผู้ปฏิบัติงาน');
-
+      // STAFF MATRIX 3-COLUMN ITEMS
+      const staffCardsHtml = staffUsers.map(u => {
+        const posText = u.Position || 'เจ้าหน้าที่ / ช่าง';
         return `
-          <div class="${cardClass}" onclick="openPasscodeDialog('${u.Name}')">
-            <div class="d-flex align-items-center gap-2 mb-1">
-              <span class="fs-6">${badgeIcon}</span>
+          <div class="staff-card-item" onclick="openPasscodeDialog('${u.Name}')">
+            <div class="staff-avatar-icon"><i class="bi bi-person-fill"></i></div>
+            <div style="min-width: 0; flex: 1;">
               <div class="user-card-name" title="${u.Name}">${u.Name}</div>
+              <div class="user-card-pos" title="${posText}">${posText}</div>
             </div>
-            <div class="user-card-pos" title="${posText}">${posText}</div>
           </div>
         `;
       }).join('');
+
+      container.innerHTML = `
+        <!-- LEFT: EXECUTIVE HERO CARD -->
+        <div class="exec-hero-card" onclick="openPasscodeDialog('${execUser.Name}')">
+          <div>
+            <div class="exec-shield-badge mb-3">
+              <i class="bi bi-shield-lock-fill"></i> ผู้บริหาร
+            </div>
+            <h5 class="fw-bold text-dark mb-1" style="font-size: 1.1rem;">${execUser.Name}</h5>
+            <p class="text-secondary small mb-0" style="line-height: 1.4;">${execPosText}</p>
+          </div>
+          <div class="mt-4 pt-3 border-top border-primary-subtle d-flex align-items-center justify-content-between text-primary fw-bold small">
+            <span>คลิกเข้าสู่ระบบ</span>
+            <i class="bi bi-arrow-right-circle-fill fs-5"></i>
+          </div>
+        </div>
+
+        <!-- RIGHT: STAFF 3-COLUMN MATRIX -->
+        <div class="staff-matrix-grid">
+          ${staffCardsHtml}
+        </div>
+      `;
     }
 
+    /* PURE CSS/JS DIALOG OVERLAY CONTROLS */
     function openPasscodeDialog(userName) {
       const user = publicUsers.find(u => u.Name === userName);
       if (!user) return;
@@ -988,10 +1088,17 @@
       document.getElementById('dialogPasscode').value = '';
       document.getElementById('dialogAuthAlert').classList.add('d-none');
 
-      passcodeDialogObj.show();
+      const overlay = document.getElementById('customPasscodeDialog');
+      overlay.classList.add('active');
+
       setTimeout(() => {
         document.getElementById('dialogPasscode').focus();
-      }, 350);
+      }, 200);
+    }
+
+    function closePasscodeDialog() {
+      const overlay = document.getElementById('customPasscodeDialog');
+      overlay.classList.remove('active');
     }
 
     async function submitDialogAuth() {
@@ -1011,12 +1118,12 @@
 
       const res = await callGasApi('loginUser', { userName: selectedUserForLogin.Name, inputPassword: passcode });
       btn.disabled = false;
-      btn.innerHTML = '<i class="bi bi-box-arrow-in-right me-1"></i> ตกลง';
+      btn.innerHTML = '<i class="bi bi-box-arrow-in-right me-1"></i> เข้าสู่ระบบ';
 
       if (res && res.success) {
         currentUser = res.user;
         sessionStorage.setItem('thako_user_session', JSON.stringify(currentUser));
-        passcodeDialogObj.hide();
+        closePasscodeDialog();
         document.getElementById('landingAuthGate').classList.add('d-none');
         applyRoleTheme();
         startSmartPolling();
