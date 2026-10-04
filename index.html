@@ -8,7 +8,8 @@
   <!-- CSS Dependencies -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- เปลี่ยนฟอนต์เป็น Sarabun (ฟอนต์มีหัว อ่านง่าย) -->
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
   <style>
@@ -25,7 +26,7 @@
     }
 
     body { 
-      font-family: 'Prompt', sans-serif; 
+      font-family: 'Sarabun', sans-serif; 
       background-color: var(--bg-main); 
       color: var(--text-main); 
       min-height: 100vh; 
@@ -46,7 +47,7 @@
     }
 
     .user-name-title { color: #ffffff !important; font-weight: 700; font-size: 1.25rem; }
-    .user-sub-detail { color: #e2e8f0 !important; font-size: 0.85rem; font-weight: 400; }
+    .user-sub-detail { color: #e2e8f0 !important; font-size: 0.95rem; font-weight: 400; }
 
     /* NAV TABS */
     .nav-tab-custom { 
@@ -69,7 +70,7 @@
       display: flex; 
       align-items: center; 
       gap: 8px; 
-      font-size: 0.875rem; 
+      font-size: 0.95rem; 
     }
     .exec-mode .nav-tab-custom .nav-link.active { 
       background: #312e81 !important; 
@@ -142,7 +143,7 @@
       background-color: #0f172a !important; 
       color: #f8fafc !important; 
       font-weight: 600; 
-      font-size: 0.825rem; 
+      font-size: 0.9rem; 
       padding: 12px 14px; 
       border-bottom: 2px solid #1e293b; 
       white-space: nowrap; 
@@ -151,7 +152,7 @@
       background-color: #042f2e !important; 
       color: #f8fafc !important; 
       font-weight: 600; 
-      font-size: 0.825rem; 
+      font-size: 0.9rem; 
       padding: 12px 14px; 
       border-bottom: 2px solid #115e59; 
       white-space: nowrap; 
@@ -160,7 +161,7 @@
     .modern-table tbody td { 
       padding: 10px 14px; 
       border-bottom: 1px solid #f1f5f9; 
-      font-size: 0.85rem; 
+      font-size: 0.9rem; 
       vertical-align: middle; 
       color: #0f172a;
     }
@@ -170,7 +171,7 @@
     .action-btn-group { display: flex; align-items: center; justify-content: center; gap: 4px; flex-wrap: nowrap; }
     .btn-action-custom { 
       white-space: nowrap !important; 
-      font-size: 0.75rem; 
+      font-size: 0.8rem; 
       padding: 4px 10px; 
       border-radius: 20px; 
       font-weight: 600; 
@@ -182,7 +183,7 @@
     }
 
     .status-pill { 
-      font-size: 0.75rem; 
+      font-size: 0.8rem; 
       padding: 5px 12px; 
       border-radius: 20px; 
       font-weight: 700; 
@@ -236,10 +237,10 @@
 
     /* CALENDAR GRID */
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-    .calendar-header-day { text-align: center; font-weight: 700; font-size: 0.8rem; padding: 6px; background: #f1f5f9; border-radius: 6px; color: #334155; }
+    .calendar-header-day { text-align: center; font-weight: 700; font-size: 0.85rem; padding: 6px; background: #f1f5f9; border-radius: 6px; color: #334155; }
     .calendar-day-cell { min-height: 100px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 10px; padding: 6px; display: flex; flex-direction: column; }
-    .calendar-day-number { font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 4px; }
-    .calendar-event-item { font-size: 0.7rem; padding: 3px 6px; border-radius: 5px; margin-bottom: 3px; font-weight: 600; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .calendar-day-number { font-size: 0.82rem; font-weight: 700; color: #475569; margin-bottom: 4px; }
+    .calendar-event-item { font-size: 0.75rem; padding: 3px 6px; border-radius: 5px; margin-bottom: 3px; font-weight: 600; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .event-done { background: #dcfce7; color: #14532d; border-left: 3px solid #16a34a; }
     .event-pending { background: #dbeafe; color: #1e3a8a; border-left: 3px solid #2563eb; }
     .event-issue { background: #ffe4e6; color: #881337; border-left: 3px solid #e11d48; }
@@ -306,7 +307,7 @@
       backdrop-filter: blur(8px);
       padding: 6px 16px;
       border-radius: 30px;
-      font-size: 0.875rem;
+      font-size: 0.9rem;
       font-weight: 600;
       color: #ffffff;
       border: 1px solid rgba(255, 255, 255, 0.3);
@@ -360,7 +361,7 @@
       color: #ffffff;
       padding: 6px 14px;
       border-radius: 20px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 700;
       width: fit-content;
       box-shadow: 0 4px 10px rgba(67, 56, 202, 0.2);
@@ -413,7 +414,7 @@
 
     .user-card-name {
       font-weight: 700;
-      font-size: 0.875rem;
+      font-size: 0.92rem;
       color: #0f172a;
       white-space: nowrap;
       overflow: hidden;
@@ -426,7 +427,7 @@
     }
 
     .user-card-pos {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: #64748b;
       margin-top: 1px;
       display: -webkit-box;
@@ -542,7 +543,7 @@
         margin-bottom: 14px; 
       }
       .banner-title-text { font-size: 1.35rem; }
-      .banner-sub-badge { font-size: 0.78rem; padding: 4px 12px; }
+      .banner-sub-badge { font-size: 0.8rem; padding: 4px 12px; }
 
       .exec-hero-card { padding: 16px 14px; min-height: auto; }
       .exec-hero-card .user-exec-title { font-size: 1.05rem; }
@@ -550,8 +551,8 @@
       .staff-matrix-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
       .staff-card-item { padding: 8px 10px; min-height: 68px; max-height: 68px; gap: 8px; }
       .staff-avatar-icon { width: 32px; height: 32px; font-size: 0.95rem; }
-      .user-card-name { font-size: 0.82rem; }
-      .user-card-pos { font-size: 0.7rem; }
+      .user-card-name { font-size: 0.85rem; }
+      .user-card-pos { font-size: 0.75rem; }
 
       .container-fluid { padding-left: 6px !important; padding-right: 6px !important; }
       #customToastContainer { right: 10px; bottom: 10px; max-width: calc(100vw - 20px); }
@@ -574,7 +575,7 @@
             <i class="bi bi-gear-fill"></i> ระบบบริหารจัดการดิจิทัล • กองช่าง
           </div>
         </div>
-        <div class="text-white-50 small fw-semibold text-center text-md-end mt-2 mt-md-0" style="font-size: 0.8rem;">
+        <div class="text-white-50 small fw-semibold text-center text-md-end mt-2 mt-md-0" style="font-size: 0.85rem;">
           <i class="bi bi-person-bounding-box me-1"></i> เลือกบุคลากรเพื่อเข้าสู่ระบบ
         </div>
       </div>
@@ -595,7 +596,7 @@
       <!-- EXECUTIVE BADGE & MULTI-LINE POSITION PREVENT OVERFLOW -->
       <div class="mb-3">
         <span class="badge bg-indigo-subtle border px-3 py-1 fw-bold" id="dialogSelectedUserRole" style="color: #4338ca; background: #eef2ff; border-color: #c7d2fe !important;">ผู้บริหาร</span>
-        <div class="text-secondary small fw-semibold mt-2 px-2" id="dialogSelectedUserPosition" style="font-size: 0.8rem; line-height: 1.35;"></div>
+        <div class="text-secondary small fw-semibold mt-2 px-2" id="dialogSelectedUserPosition" style="font-size: 0.85rem; line-height: 1.35;"></div>
       </div>
 
       <div class="text-start mb-3">
@@ -603,7 +604,7 @@
         <input type="password" id="dialogPasscode" class="form-control text-center fw-bold text-dark fs-5" placeholder="••••••" onkeyup="if(event.key === 'Enter') submitDialogAuth()">
       </div>
 
-      <div id="dialogAuthAlert" class="alert alert-danger d-none py-1 small mb-3 text-center" style="font-size: 0.8rem;">รหัสผ่านไม่ถูกต้อง!</div>
+      <div id="dialogAuthAlert" class="alert alert-danger d-none py-1 small mb-3 text-center" style="font-size: 0.85rem;">รหัสผ่านไม่ถูกต้อง!</div>
 
       <div class="d-flex gap-2">
         <button type="button" class="btn btn-light btn-sm rounded-pill w-50 fw-bold border" onclick="closePasscodeDialog()">ยกเลิก</button>
@@ -978,12 +979,12 @@
               <div class="tab-content" id="proofTypeTabContent">
                 <div class="tab-pane fade show active" id="proof-photo" role="tabpanel">
                   <input type="file" id="modalImageInput" class="form-control form-control-sm" accept="image/*" multiple onchange="handleImageSelection(event)">
-                  <small class="text-muted d-block mt-1" style="font-size: 0.72rem;">* เลือกรูปถ่ายหน้างานได้ 1 ถึง 5 รูป (ระบบสร้างโฟลเดอร์ให้อัตโนมัติใน Drive)</small>
+                  <small class="text-muted d-block mt-1" style="font-size: 0.78rem;">* เลือกรูปถ่ายหน้างานได้ 1 ถึง 5 รูป (ระบบสร้างโฟลเดอร์ให้อัตโนมัติใน Drive)</small>
                   <div id="imagePreviewContainer" class="img-preview-container"></div>
                 </div>
                 <div class="tab-pane fade" id="proof-url" role="tabpanel">
                   <input type="url" id="modalProofLink" class="form-control form-control-sm text-dark fw-semibold" placeholder="https://photos.app.goo.gl/... หรือ Google Drive Link">
-                  <small class="text-muted d-block mt-1" style="font-size: 0.72rem;">* นำลิงก์รูปภาพ หรือลิงก์จากระบบอื่นมาวางได้</small>
+                  <small class="text-muted d-block mt-1" style="font-size: 0.78rem;">* นำลิงก์รูปภาพ หรือลิงก์จากระบบอื่นมาวางได้</small>
                 </div>
               </div>
             </div>
@@ -1152,7 +1153,7 @@
       const execUser = validUsers.find(u => u.Role === 'ผู้บริหาร') || validUsers[0];
       const staffUsers = validUsers.filter(u => u.Name !== execUser.Name);
 
-      const execPosText = "หัวหน้าฝ่ายแบบแผนและก่อสร้าง<br><span style='font-size:0.78rem;'>รักษาราชการแทนผู้อำนวยการกองช่าง</span>";
+      const execPosText = "หัวหน้าฝ่ายแบบแผนและก่อสร้าง<br><span style='font-size:0.82rem;'>รักษาราชการแทนผู้อำนวยการกองช่าง</span>";
 
       const staffCardsHtml = staffUsers.map(u => {
         const posText = u.Position || 'เจ้าหน้าที่ / ช่าง';
@@ -1549,7 +1550,7 @@
           if (!isExec && isTaskAssignedToMe) {
             const title = `<span class="text-primary"><i class="bi bi-bell-fill me-1"></i> มอบหมายภารกิจใหม่</span>`;
             const body = `
-              <div style="font-size:0.83rem;">
+              <div style="font-size:0.85rem;">
                 <div class="fw-bold text-dark">${refNoText}${t.subject}</div>
                 <div class="text-dark small mt-1"><strong>ข้อสั่งการ:</strong> ${t.instruction}</div>
                 <div class="mt-1 d-flex justify-content-between align-items-center">
@@ -1580,7 +1581,7 @@
           }
 
           const body = `
-            <div style="font-size:0.83rem;" class="mt-1">
+            <div style="font-size:0.85rem;" class="mt-1">
               <div class="fw-bold text-dark fs-6">${refNoText}${t.subject}</div>
               <div class="text-dark small mt-1"><strong>รายงานล่าสุด:</strong> ${t.lastNote || 'มีการอัปเดตขั้นตอน'}</div>
               <div class="text-dark small mt-1"><strong>ผู้รับผิดชอบ:</strong> ${getUserName(t.assignedTo)}</div>
@@ -1750,7 +1751,7 @@
         const dLink = t.docLink || t.doclink || '';
         const docLinkBtn = (dLink && dLink.trim().startsWith('http')) ? 
           `<a href="${dLink.trim()}" target="_blank" onclick="event.stopPropagation();" class="btn btn-sm text-white rounded-pill ms-1 py-0 px-2 fw-bold small shadow-sm" style="background-color: #4338ca;"><i class="bi bi-file-earmark-pdf-fill me-1"></i> เปิดดูหนังสือ</a>` : 
-          `<span class="badge bg-light text-dark border ms-1 fw-normal" style="font-size: 0.7rem;">ไม่มีไฟล์แนบ</span>`;
+          `<span class="badge bg-light text-dark border ms-1 fw-normal" style="font-size: 0.75rem;">ไม่มีไฟล์แนบ</span>`;
 
         const cancelBtn = (isExec && !isCanceled && !isApprovedDone) ?
           `<button class="btn btn-sm btn-outline-danger rounded-circle p-1 ms-1" title="ยกเลิกภารกิจ" onclick="event.stopPropagation(); handleCancelTask('${t.taskId}')"><i class="bi bi-slash-circle"></i></button>` : '';
