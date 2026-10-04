@@ -1023,7 +1023,7 @@
   <script>
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwHLDOFBUlwi1g8Nb4QZO7TdTqit7my6GkC4cqK4Jmz86B2C-dvEp8fMO923sJkYdtU/exec";
 
-    // STATIC INITIAL USER LIST FOR INSTANT ZERO-DELAY LOAD
+    // STATIC INITIAL USER LIST FOR INSTANT ZERO-DELAY LOAD (SYNCHRONIZED WITH GOOGLE SHEETS)
     const STATIC_USERS_DEFAULT = [
       { Name: "นายพชกร หอมนาน", Role: "ผู้บริหาร", Position: "หัวหน้าฝ่ายแบบแผนและก่อสร้าง รักษาราชการแทนผู้อำนวยการกองช่าง" },
       { Name: "นายศราวุธ ฟ้าแลบ", Role: "ผู้ปฏิบัติงาน", Position: "นายช่างโยธาชำนาญงาน" },
@@ -1121,7 +1121,8 @@
       if (savedUserJson) {
         try {
           const cachedUser = JSON.parse(savedUserJson);
-          const found = publicUsers.find(u => String(u.Name).trim().toLowerCase() === String(cachedUser.name || cachedUser.Name).trim().toLowerCase());
+          const cachedCleanName = String(cachedUser.name || cachedUser.Name).replace(/\s+/g, '').toLowerCase();
+          const found = publicUsers.find(u => String(u.Name).replace(/\s+/g, '').toLowerCase() === cachedCleanName);
           if (found) {
             currentUser = {
               name: found.Name,
@@ -1147,7 +1148,7 @@
       const container = document.getElementById('portalLayoutGrid');
       if (!container) return;
 
-      const validUsers = publicUsers.filter(u => u.Name && u.Name.trim() !== '');
+      const validUsers = publicUsers.filter(u => u.Name && String(u.Name).trim() !== '');
       const execUser = validUsers.find(u => u.Role === 'ผู้บริหาร') || validUsers[0];
       const staffUsers = validUsers.filter(u => u.Name !== execUser.Name);
 
@@ -1191,7 +1192,8 @@
 
     /* PURE CSS/JS DIALOG OVERLAY CONTROLS */
     function openPasscodeDialog(userName) {
-      const user = publicUsers.find(u => u.Name === userName);
+      const cleanTarget = String(userName).replace(/\s+/g, '').toLowerCase();
+      const user = publicUsers.find(u => String(u.Name).replace(/\s+/g, '').toLowerCase() === cleanTarget);
       if (!user) return;
 
       selectedUserForLogin = user;
@@ -1531,13 +1533,15 @@
       const userEmail = currentUser.email || currentUser.Email;
       const isExec = userRole === 'ผู้บริหาร';
 
+      const cleanUserName = String(userName).replace(/\s+/g, '').toLowerCase();
+
       currentTasks.forEach(t => {
         const key = String(t.taskId);
         const prev = previousTaskMap.get(key);
 
-        const assignedStr = String(t.assignedTo).trim().toLowerCase();
-        const isTaskAssignedToMe = assignedStr === String(userName).trim().toLowerCase() || assignedStr === String(userEmail).trim().toLowerCase();
-        const isTaskAssignedByMe = String(t.assignedBy).trim().toLowerCase() === String(userName).trim().toLowerCase();
+        const assignedStr = String(t.assignedTo).replace(/\s+/g, '').toLowerCase();
+        const isTaskAssignedToMe = assignedStr === cleanUserName || assignedStr === String(userEmail).trim().toLowerCase();
+        const isTaskAssignedByMe = String(t.assignedBy).replace(/\s+/g, '').toLowerCase() === cleanUserName;
 
         const refNoText = t.refNumber ? `[เลขที่รับ: ${t.refNumber}] ` : '';
 
@@ -1675,7 +1679,7 @@
 
       const search = searchInput ? searchInput.value.toLowerCase() : '';
       const status = statusFilter ? statusFilter.value : '';
-      const selectedStaffVal = staffFilter ? staffFilter.value.toLowerCase() : '';
+      const selectedStaffVal = staffFilter ? staffFilter.value.replace(/\s+/g, '').toLowerCase() : '';
 
       const filtered = rawTasks.filter(t => {
         const isArchived = (t.status === 'อนุมัติเสร็จสิ้นแล้ว' || t.status === 'ยกเลิกภารกิจ');
@@ -1685,8 +1689,8 @@
           if (isArchived) return false;
         }
 
-        const assignedStr = String(t.assignedTo || '').trim().toLowerCase();
-        const matchStaff = selectedStaffVal === '' ? true : (assignedStr === selectedStaffVal || getUserName(t.assignedTo).toLowerCase() === selectedStaffVal);
+        const assignedStr = String(t.assignedTo || '').replace(/\s+/g, '').toLowerCase();
+        const matchStaff = selectedStaffVal === '' ? true : (assignedStr === selectedStaffVal || getUserName(t.assignedTo).replace(/\s+/g, '').toLowerCase() === selectedStaffVal);
 
         const matchSearch = String(t.refNumber).toLowerCase().includes(search) || 
                             String(t.subject).toLowerCase().includes(search) ||
@@ -1933,9 +1937,9 @@
 
     function getUserName(val) {
       if (!val) return '-';
-      const target = String(val).trim().toLowerCase();
+      const target = String(val).replace(/\s+/g, '').toLowerCase();
       const u = publicUsers.find(x => 
-        String(x.Name).trim().toLowerCase() === target || 
+        String(x.Name).replace(/\s+/g, '').toLowerCase() === target || 
         String(x.Email).trim().toLowerCase() === target
       );
       return u ? u.Name : val;
