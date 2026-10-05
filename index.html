@@ -1054,7 +1054,6 @@
     let selectedImageBase64List = [];
     let activeProofType = 'photo';
     let pendingCreatePayload = null;
-    let audioCtx = null;
     
     let previousTaskMap = new Map();
     let isFirstFetch = true;
@@ -1083,21 +1082,14 @@
 
       initPublicUsers(publicUsers);
       fetchPublicUsers();
-
-      // ปลดล็อก AudioContext ทันทีที่มีการสัมผัสจอ
-      document.body.addEventListener('click', initAudioContextOnUserInteraction, { once: true });
-      document.body.addEventListener('touchstart', initAudioContextOnUserInteraction, { once: true });
     };
 
-    function initAudioContextOnUserInteraction() {
-      try {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-      } catch(e) {}
+    // ฟังก์ชันช่วยเปรียบเทียบชื่อ ยืดหยุ่นรองรับคำนำหน้าและช่องว่าง
+    function isMatchingUser(targetA, targetB) {
+      if (!targetA || !targetB) return false;
+      const cleanA = String(targetA).replace(/^(นาย|นางสาว|นาง)\s*/, '').replace(/\s+/g, '').toLowerCase();
+      const cleanB = String(targetB).replace(/^(นาย|นางสาว|นาง)\s*/, '').replace(/\s+/g, '').toLowerCase();
+      return cleanA === cleanB || cleanA.includes(cleanB) || cleanB.includes(cleanA);
     }
 
     async function callGasApi(actionName, payloadObj = {}, method = 'POST') {
@@ -1136,8 +1128,7 @@
       if (savedUserJson) {
         try {
           const cachedUser = JSON.parse(savedUserJson);
-          const cachedCleanName = String(cachedUser.name || cachedUser.Name).replace(/\s+/g, '').toLowerCase();
-          const found = publicUsers.find(u => String(u.Name).replace(/\s+/g, '').toLowerCase() === cachedCleanName);
+          const found = publicUsers.find(u => isMatchingUser(u.Name, cachedUser.name || cachedUser.Name));
           if (found) {
             currentUser = {
               name: found.Name,
@@ -1204,9 +1195,7 @@
     }
 
     function openPasscodeDialog(userName) {
-      initAudioContextOnUserInteraction();
-      const cleanTarget = String(userName).replace(/\s+/g, '').toLowerCase();
-      const user = publicUsers.find(u => String(u.Name).replace(/\s+/g, '').toLowerCase() === cleanTarget);
+      const user = publicUsers.find(u => isMatchingUser(u.Name, userName));
       if (!user) return;
 
       selectedUserForLogin = user;
@@ -1466,41 +1455,39 @@
       }
     }
 
+    // Dynamic Web Audio Engine สำหรับเล่นเสียงบนเบราว์เซอร์อย่างแม่นยำ
     function playNotificationSound(type = 'normal') {
       try {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
+        const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtxClass) return;
+        const ctx = new AudioCtxClass();
 
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
         osc.type = 'sine';
 
         if (type === 'warning') {
-          osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-          osc.frequency.setValueAtTime(440, audioCtx.currentTime + 0.15);
-          gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+          osc.frequency.setValueAtTime(880, ctx.currentTime);
+          osc.frequency.setValueAtTime(440, ctx.currentTime + 0.15);
+          gain.gain.setValueAtTime(0.3, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
         } else if (type === 'success') {
-          osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
-          osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
-          osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2);
-          gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
+          osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+          osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+          osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2);
+          gain.gain.setValueAtTime(0.25, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.45);
         } else {
-          osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
-          osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.1);
-          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+          osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+          osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1);
+          gain.gain.setValueAtTime(0.2, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
         }
 
         osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        gain.connect(ctx.destination);
         osc.start();
-        osc.stop(audioCtx.currentTime + 0.45);
+        osc.stop(ctx.currentTime + 0.45);
       } catch(e) {}
     }
 
@@ -1552,16 +1539,12 @@
       const userEmail = currentUser.email || currentUser.Email;
       const isExec = userRole === 'ผู้บริหาร';
 
-      const cleanUserName = String(userName).replace(/\s+/g, '').toLowerCase();
-      const cleanUserEmail = String(userEmail || '').trim().toLowerCase();
-
       currentTasks.forEach(t => {
         const key = String(t.taskId);
         const prev = previousTaskMap.get(key);
 
-        const assignedStr = String(t.assignedTo).replace(/\s+/g, '').toLowerCase();
-        const isTaskAssignedToMe = assignedStr === cleanUserName || (cleanUserEmail !== '' && assignedStr === cleanUserEmail);
-        const isTaskAssignedByMe = String(t.assignedBy).replace(/\s+/g, '').toLowerCase() === cleanUserName;
+        const isTaskAssignedToMe = isMatchingUser(t.assignedTo, userName) || (userEmail && isMatchingUser(t.assignedTo, userEmail));
+        const isTaskAssignedByMe = isMatchingUser(t.assignedBy, userName);
 
         const refNoText = t.refNumber ? `[เลขที่รับ: ${t.refNumber}] ` : '';
 
@@ -1709,8 +1692,7 @@
           if (isArchived) return false;
         }
 
-        const assignedStr = String(t.assignedTo || '').replace(/\s+/g, '').toLowerCase();
-        const matchStaff = selectedStaffVal === '' ? true : (assignedStr === selectedStaffVal || getUserName(t.assignedTo).replace(/\s+/g, '').toLowerCase() === selectedStaffVal);
+        const matchStaff = selectedStaffVal === '' ? true : isMatchingUser(t.assignedTo, selectedStaffVal);
 
         const matchSearch = String(t.refNumber).toLowerCase().includes(search) || 
                             String(t.subject).toLowerCase().includes(search) ||
@@ -1957,11 +1939,7 @@
 
     function getUserName(val) {
       if (!val) return '-';
-      const target = String(val).replace(/\s+/g, '').toLowerCase();
-      const u = publicUsers.find(x => 
-        String(x.Name).replace(/\s+/g, '').toLowerCase() === target || 
-        (x.Email && String(x.Email).trim().toLowerCase() === target)
-      );
+      const u = publicUsers.find(x => isMatchingUser(x.Name, val) || (x.Email && isMatchingUser(x.Email, val)));
       return u ? u.Name : val;
     }
 
