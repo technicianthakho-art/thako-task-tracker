@@ -32,7 +32,7 @@
       min-height: 100vh; 
     }
 
-    /* HEADER STYLES (APP INTERNAL - HIDDEN ON LOGIN) */
+    /* HEADER STYLES */
     .executive-theme-bg { 
       background: var(--exec-gradient); 
       color: #ffffff; 
@@ -271,7 +271,6 @@
       border: 1px solid #cbd5e1;
     }
 
-    /* VIBRANT BLUE FADE HEADER BANNER */
     .login-header-banner {
       background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
       border-radius: 20px;
@@ -321,7 +320,6 @@
       align-items: stretch;
     }
 
-    /* EXECUTIVE HERO CARD */
     .exec-hero-card {
       background: #ffffff;
       position: relative;
@@ -472,7 +470,6 @@
 
     .custom-dialog-overlay.active .custom-dialog-box { transform: scale(1); }
 
-    /* MULTI-SELECT CHECKBOX BOX */
     .staff-checkbox-grid {
       max-height: 220px;
       min-height: 140px;
@@ -496,19 +493,16 @@
       padding: 2px 8px !important;
     }
 
-    /* PHOTO PREVIEW THUMBNAILS */
     .img-preview-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
     .img-preview-box { position: relative; width: 65px; height: 65px; border-radius: 8px; overflow: hidden; border: 1px solid #cbd5e1; }
     .img-preview-box img { width: 100%; height: 100%; object-fit: cover; }
     .img-preview-box .btn-remove { position: absolute; top: 2px; right: 2px; background: rgba(220, 38, 38, 0.85); color: #fff; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-    /* GALLERY GRID IN DETAIL MODAL */
     .photo-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 8px; margin-top: 8px; }
     .photo-gallery-item { aspect-ratio: 1; border-radius: 8px; overflow: hidden; border: 1px solid #cbd5e1; cursor: pointer; }
     .photo-gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
     .photo-gallery-item:hover img { transform: scale(1.08); }
 
-    /* VIBRANT MODAL DETAIL DESIGN */
     .modal-vibrant-header {
       background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);
       color: #ffffff;
@@ -527,7 +521,6 @@
       overflow-wrap: anywhere !important;
     }
 
-    /* MOBILE RESPONSIVE OPTIMIZATIONS */
     @media (max-width: 992px) {
       .portal-layout-grid { grid-template-columns: 1fr; gap: 14px; }
       .staff-matrix-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -536,24 +529,16 @@
     @media (max-width: 576px) {
       #landingAuthGate { padding: 12px 8px; }
       .login-container-card { padding: 14px; border-radius: 18px; }
-      
-      .login-header-banner { 
-        padding: 16px 18px; 
-        border-radius: 16px; 
-        margin-bottom: 14px; 
-      }
+      .login-header-banner { padding: 16px 18px; border-radius: 16px; margin-bottom: 14px; }
       .banner-title-text { font-size: 1.35rem; }
       .banner-sub-badge { font-size: 0.8rem; padding: 4px 12px; }
-
       .exec-hero-card { padding: 16px 14px; min-height: auto; }
       .exec-hero-card .user-exec-title { font-size: 1.05rem; }
-
       .staff-matrix-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
       .staff-card-item { padding: 8px 10px; min-height: 68px; max-height: 68px; gap: 8px; }
       .staff-avatar-icon { width: 32px; height: 32px; font-size: 0.95rem; }
       .user-card-name { font-size: 0.85rem; }
       .user-card-pos { font-size: 0.75rem; }
-
       .container-fluid { padding-left: 6px !important; padding-right: 6px !important; }
       #customToastContainer { right: 10px; bottom: 10px; max-width: calc(100vw - 20px); }
     }
@@ -566,8 +551,6 @@
   <!-- MODERN LOGIN GATE -->
   <div id="landingAuthGate">
     <div class="login-container-card">
-      
-      <!-- PROMINENT VIBRANT BLUE FADE HEADER BANNER -->
       <div class="login-header-banner text-center text-md-start d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 gap-md-3">
         <div>
           <div class="banner-title-text mb-1">องค์การบริหารส่วนตำบลท่าก๊อ</div>
@@ -580,14 +563,11 @@
         </div>
       </div>
 
-      <!-- DYNAMIC BENTO GRID LAYOUT -->
-      <div id="portalLayoutGrid" class="portal-layout-grid text-start">
-        <!-- RENDERED BY JAVASCRIPT INSTANTLY -->
-      </div>
+      <div id="portalLayoutGrid" class="portal-layout-grid text-start"></div>
     </div>
   </div>
 
-  <!-- PURE CSS/JS PASSCODE DIALOG OVERLAY -->
+  <!-- PASSCODE DIALOG OVERLAY -->
   <div id="customPasscodeDialog" class="custom-dialog-overlay">
     <div class="custom-dialog-box text-center">
       <div class="mb-2 text-primary fs-1"><i class="bi bi-shield-lock-fill" style="color: #4338ca;"></i></div>
@@ -672,8 +652,6 @@
     <div id="executiveView" class="d-none">
       <div class="tab-content" id="execTabContent">
         <div class="tab-pane fade show active" id="tab-tracking" role="tabpanel">
-          
-          <!-- SLIM HORIZONTAL BENTO KPI CARDS -->
           <div class="kpi-row-inline mb-3">
             <div class="kpi-col-5" onclick="filterByStatus('')">
               <div class="kpi-box-slim border-start border-4 border-primary shadow-sm">
@@ -716,7 +694,6 @@
               </div>
             </div>
           </div>
-
           <div id="executiveTableMountPoint"></div>
         </div>
 
@@ -1003,7 +980,7 @@
     </div>
   </div>
 
-  <!-- MODAL: VIBRANT DETAIL VIEW -->
+  <!-- MODAL: DETAIL VIEW -->
   <div class="modal fade" id="detailModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4 bg-white overflow-hidden">
@@ -1023,7 +1000,6 @@
   <script>
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwHLDOFBUlwi1g8Nb4QZO7TdTqit7my6GkC4cqK4Jmz86B2C-dvEp8fMO923sJkYdtU/exec";
 
-    // STATIC INITIAL USER LIST FOR INSTANT LOAD
     const STATIC_USERS_DEFAULT = [
       { Name: "นายพชกร หอมนาน", Role: "ผู้บริหาร", Position: "หัวหน้าฝ่ายแบบแผนและก่อสร้าง รักษาราชการแทนผู้อำนวยการกองช่าง" },
       { Name: "นายศราวุธ ฟ้าแลบ", Role: "ผู้ปฏิบัติงาน", Position: "นายช่างโยธาชำนาญงาน" },
@@ -1073,18 +1049,13 @@
 
       const cachedUsers = localStorage.getItem('thako_public_users_cache');
       if (cachedUsers) {
-        try {
-          publicUsers = JSON.parse(cachedUsers);
-        } catch(e) {
-          publicUsers = STATIC_USERS_DEFAULT;
-        }
+        try { publicUsers = JSON.parse(cachedUsers); } catch(e) { publicUsers = STATIC_USERS_DEFAULT; }
       }
 
       initPublicUsers(publicUsers);
       fetchPublicUsers();
     };
 
-    // ฟังก์ชันช่วยเปรียบเทียบชื่อ ยืดหยุ่นรองรับคำนำหน้าและช่องว่าง
     function isMatchingUser(targetA, targetB) {
       if (!targetA || !targetB) return false;
       const cleanA = String(targetA).replace(/^(นาย|นางสาว|นาง)\s*/, '').replace(/\s+/g, '').toLowerCase();
@@ -1230,17 +1201,20 @@
 
       const passcode = document.getElementById('dialogPasscode').value.trim();
       const btn = document.getElementById('btnDialogSubmit');
+      const alertBox = document.getElementById('dialogAuthAlert');
 
       if (!passcode) {
-        document.getElementById('dialogAuthAlert').innerText = "กรุณากรอกรหัสผ่าน";
-        document.getElementById('dialogAuthAlert').classList.remove('d-none');
+        alertBox.innerText = "กรุณากรอกรหัสผ่าน";
+        alertBox.classList.remove('d-none');
         return;
       }
 
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> ตรวจสอบ...';
+      alertBox.classList.add('d-none');
 
       const res = await callGasApi('loginUser', { userName: selectedUserForLogin.Name, inputPassword: passcode });
+      
       btn.disabled = false;
       btn.innerHTML = '<i class="bi bi-box-arrow-in-right me-1"></i> เข้าสู่ระบบ';
 
@@ -1256,12 +1230,13 @@
           icon: 'success',
           title: 'เข้าสู่ระบบสำเร็จ',
           text: `ยินดีต้อนรับ: ${currentUser.name}`,
-          timer: 1500,
+          timer: 1200,
           showConfirmButton: false
         });
       } else {
-        document.getElementById('dialogAuthAlert').innerText = (res ? res.message : null) || "รหัสผ่านไม่ถูกต้อง!";
-        document.getElementById('dialogAuthAlert').classList.remove('d-none');
+        alertBox.innerText = (res ? res.message : null) || "รหัสผ่านไม่ถูกต้อง!";
+        alertBox.classList.remove('d-none');
+        document.getElementById('dialogPasscode').select();
       }
     }
 
@@ -1455,7 +1430,6 @@
       }
     }
 
-    // Dynamic Web Audio Engine สำหรับเล่นเสียงบนเบราว์เซอร์อย่างแม่นยำ
     function playNotificationSound(type = 'normal') {
       try {
         const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
@@ -1557,7 +1531,7 @@
                 <div class="text-dark small mt-1"><strong>ข้อสั่งการ:</strong> ${t.instruction}</div>
                 <div class="mt-1 d-flex justify-content-between align-items-center">
                   <span class="badge bg-primary-subtle text-primary border border-primary">ผู้สั่งการ: ${t.assignedBy}</span>
-                  <small class="text-primary fw-bold">คลิกเพื่อดูรายละเอียด <i class="bi bi-chevron-right"></i></small>
+                  <small class="text-primary fw-bold">คลิกดูรายละเอียด <i class="bi bi-chevron-right"></i></small>
                 </div>
               </div>
             `;
@@ -1587,7 +1561,7 @@
               <div class="fw-bold text-dark fs-6">${refNoText}${t.subject}</div>
               <div class="text-dark small mt-1"><strong>รายงานล่าสุด:</strong> ${t.lastNote || 'มีการอัปเดตขั้นตอน'}</div>
               <div class="text-dark small mt-1"><strong>ผู้รับผิดชอบ:</strong> ${getUserName(t.assignedTo)}</div>
-              <div class="text-end mt-1"><small class="text-primary fw-bold">คลิกเพื่อดูรายละเอียด <i class="bi bi-chevron-right"></i></small></div>
+              <div class="text-end mt-1"><small class="text-primary fw-bold">คลิกดูรายละเอียด <i class="bi bi-chevron-right"></i></small></div>
             </div>
           `;
 
@@ -2011,7 +1985,7 @@
 
       const btn = document.getElementById('btnConfirmSubmitTask');
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> กำลังส่งบันทึก...';
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> ส่งบันทึก...';
 
       const res = await callGasApi('createTask', { formObj: pendingCreatePayload });
       btn.disabled = false;
@@ -2232,7 +2206,7 @@
 
           proofDisplay = `
             <div class="p-3 mb-3 rounded-3" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
-              <small class="text-success fw-bold d-block mb-1"><i class="bi bi-images me-1"></i> รูปภาพหลักฐานผลงานที่แนบ (${urls.length} รูป):</small>
+              <small class="text-success fw-bold d-block mb-1"><i class="bi bg-images me-1"></i> รูปภาพหลักฐานผลงานที่แนบ (${urls.length} รูป):</small>
               <div class="photo-gallery-grid">${galleryItems}</div>
             </div>
           `;
