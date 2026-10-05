@@ -8,7 +8,6 @@
   <!-- CSS Dependencies -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <!-- ฟอนต์ Sarabun -->
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
@@ -32,7 +31,6 @@
       min-height: 100vh; 
     }
 
-    /* HEADER STYLES */
     .executive-theme-bg { 
       background: var(--exec-gradient); 
       color: #ffffff; 
@@ -49,7 +47,6 @@
     .user-name-title { color: #ffffff !important; font-weight: 700; font-size: 1.25rem; }
     .user-sub-detail { color: #e2e8f0 !important; font-size: 0.95rem; font-weight: 400; }
 
-    /* NAV TABS */
     .nav-tab-custom { 
       display: flex; 
       gap: 6px; 
@@ -87,7 +84,6 @@
       color: #0f172a; 
     }
 
-    /* SLIM HORIZONTAL BENTO KPI CARDS */
     .kpi-row-inline { 
       display: flex !important; 
       flex-wrap: nowrap !important; 
@@ -126,7 +122,6 @@
     @keyframes pulse-danger { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(220, 38, 38, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); } }
     @keyframes pulse-info { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(2, 132, 199, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(2, 132, 199, 0); } }
 
-    /* TABLE DISPLAY & STICKY HEADER */
     .tracking-table-card { 
       background: #ffffff; 
       border: 1px solid var(--border-color); 
@@ -200,7 +195,6 @@
     .clickable-row { cursor: pointer; transition: background-color 0.15s ease; }
     .clickable-row:hover { background-color: #f1f5f9 !important; }
 
-    /* STACKED TOAST NOTIFICATION CARD */
     #customToastContainer { 
       position: fixed; 
       bottom: 20px; 
@@ -235,7 +229,6 @@
     .toast-border-warning { border-left: 5px solid #dc2626 !important; }
     .toast-border-success { border-left: 5px solid #16a34a !important; }
 
-    /* CALENDAR GRID */
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
     .calendar-header-day { text-align: center; font-weight: 700; font-size: 0.85rem; padding: 6px; background: #f1f5f9; border-radius: 6px; color: #334155; }
     .calendar-day-cell { min-height: 100px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 10px; padding: 6px; display: flex; flex-direction: column; }
@@ -245,7 +238,6 @@
     .event-pending { background: #dbeafe; color: #1e3a8a; border-left: 3px solid #2563eb; }
     .event-issue { background: #ffe4e6; color: #881337; border-left: 3px solid #e11d48; }
 
-    /* MODERN TECHNICAL BACKGROUND FOR LOGIN GATE */
     #landingAuthGate { 
       position: fixed; 
       top: 0; left: 0; width: 100vw; height: 100vh; 
@@ -282,14 +274,6 @@
       overflow: hidden;
     }
 
-    .login-header-banner::after {
-      content: '';
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-      background: radial-gradient(circle at 90% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
-      pointer-events: none;
-    }
-
     .banner-title-text {
       font-weight: 800;
       font-size: 1.85rem;
@@ -312,7 +296,6 @@
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    /* BENTO GRID LAYOUT */
     .portal-layout-grid {
       display: grid;
       grid-template-columns: 290px minmax(0, 1fr);
@@ -365,7 +348,6 @@
       box-shadow: 0 4px 10px rgba(67, 56, 202, 0.2);
     }
 
-    /* STAFF MATRIX 3-COLUMN GRID */
     .staff-matrix-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -441,7 +423,6 @@
       font-weight: 500;
     }
 
-    /* PURE CSS/JS DIALOG OVERLAY */
     .custom-dialog-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -548,7 +529,7 @@
 
   <div id="customToastContainer"></div>
 
-  <!-- MODERN LOGIN GATE -->
+  <!-- LOGIN GATE -->
   <div id="landingAuthGate">
     <div class="login-container-card">
       <div class="login-header-banner text-center text-md-start d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 gap-md-3">
@@ -567,7 +548,7 @@
     </div>
   </div>
 
-  <!-- PASSCODE DIALOG OVERLAY -->
+  <!-- PASSCODE DIALOG -->
   <div id="customPasscodeDialog" class="custom-dialog-overlay">
     <div class="custom-dialog-box text-center">
       <div class="mb-2 text-primary fs-1"><i class="bi bi-shield-lock-fill" style="color: #4338ca;"></i></div>
@@ -716,7 +697,6 @@
           <div id="executiveArchiveMountPoint"></div>
         </div>
 
-        <!-- COMMAND PANEL -->
         <div class="tab-pane fade" id="tab-command" role="tabpanel">
           <div class="card p-3 p-md-4 mb-4 border shadow-sm rounded-4" style="background: #ffffff; border-top: 4px solid #4338ca !important;">
             <div class="d-flex align-items-center mb-3">
@@ -873,7 +853,7 @@
 
   </div>
 
-  <!-- MODAL: PRE-SEND CONFIRMATION SUMMARY -->
+  <!-- MODALS -->
   <div class="modal fade" id="commandSummaryModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4 bg-white">
@@ -892,7 +872,6 @@
     </div>
   </div>
 
-  <!-- MODAL: UPDATE TASK -->
   <div class="modal fade" id="updateModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4 bg-white">
@@ -980,7 +959,6 @@
     </div>
   </div>
 
-  <!-- MODAL: DETAIL VIEW -->
   <div class="modal fade" id="detailModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4 bg-white overflow-hidden">
@@ -1003,7 +981,7 @@
     const STATIC_USERS_DEFAULT = [
       { Name: "นายพชกร หอมนาน", Role: "ผู้บริหาร", Position: "หัวหน้าฝ่ายแบบแผนและก่อสร้าง รักษาราชการแทนผู้อำนวยการกองช่าง" },
       { Name: "นายศราวุธ ฟ้าแลบ", Role: "ผู้ปฏิบัติงาน", Position: "นายช่างโยธาชำนาญงาน" },
-      { Name: "นายจักรพงษ์ จุมปูนญ", Role: "ผู้ปฏิบัติงาน", Position: "เจ้าพนักงานธุรการปฏิบัติงาน" },
+      { Name: "นายจักรพงศ์ จุมปูบุญ", Role: "ผู้ปฏิบัติงาน", Position: "เจ้าพนักงานธุรการปฏิบัติงาน" },
       { Name: "นายนคร ศรีสุราษฎร์", Role: "ผู้ปฏิบัติงาน", Position: "ลูกจ้างประจำ" },
       { Name: "นายประยูร ศรีอ่อน", Role: "ผู้ปฏิบัติงาน", Position: "ลูกจ้างประจำ" },
       { Name: "นางรินนา บุญส่ง่า", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยเจ้าพนักงานการเงินและบัญชี" },
@@ -1042,7 +1020,7 @@
     function normalizeNameStr(str) {
       if (!str) return '';
       return String(str)
-        .replace(/^(นาย|นางสาว|นาง)\s*/, '')
+        .replace(/^(นาย|นางสาว|นาง)\s*/g, '')
         .replace(/\s+/g, '')
         .toLowerCase();
     }
@@ -1230,7 +1208,6 @@
         currentUser = res.user;
         sessionStorage.setItem('thako_user_session', JSON.stringify(currentUser));
         
-        // Reset Notification State เมื่อเปลี่ยนยูสเซอร์
         previousTaskMap.clear();
         sessionStorage.removeItem('thako_previous_task_map');
         isFirstFetch = true;
@@ -1439,9 +1416,15 @@
       const userEmail = currentUser.email || currentUser.Email;
       const userRole = currentUser.role || currentUser.Role;
 
-      const res = await callGasApi('getTasks', { userName, userEmail, userRole }, 'GET');
-      if (res && res.success) {
-        renderTasks(res.data);
+      try {
+        const res = await callGasApi('getTasks', { userName, userEmail, userRole }, 'GET');
+        if (res && res.success && Array.isArray(res.data)) {
+          renderTasks(res.data);
+        } else {
+          renderTasks([]);
+        }
+      } catch (err) {
+        renderTasks([]);
       }
     }
 
@@ -1516,9 +1499,6 @@
       }
     }
 
-    // ==========================================
-    // INSTANT IN-APP TOAST NOTIFICATION ENGINE
-    // ==========================================
     function checkInAppNotifications(currentTasks) {
       const savedMapJson = sessionStorage.getItem('thako_previous_task_map');
       if (savedMapJson && previousTaskMap.size === 0) {
@@ -1542,8 +1522,6 @@
         const isTaskAssignedByMe = isMatchingUser(t.assignedBy, userName);
         const refNoText = t.refNumber ? `[เลขที่รับ: ${t.refNumber}] ` : '';
 
-        // กรณีที่ 1: เปิดเข้าแอปพลิเคชันครั้งแรก (isFirstFetch = true) 
-        // สแกนหางานใหม่ที่ยังไม่ได้กดรับทราบ หรือ งานที่ติดขัด เพื่อเด้ง Toast เตือนที่มุมขวาล่างทันที
         if (isFirstFetch) {
           if (!isExec && isTaskAssignedToMe && (t.status === 'มอบหมายงานแล้ว' || t.status === 'พบปัญหา/ขัดข้อง')) {
             const isIssue = t.status === 'พบปัญหา/ขัดข้อง';
@@ -1577,7 +1555,6 @@
             showInAppStackToast(title, body, 'toast-border-info', 'success', t.taskId);
           }
         } 
-        // กรณีที่ 2: เปิดแอปทิ้งไว้แล้วมีการอัปเดตสดๆ (Polling Cycle)
         else {
           if (!prev) {
             if (!isExec && isTaskAssignedToMe) {
