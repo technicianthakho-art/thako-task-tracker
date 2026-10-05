@@ -1229,6 +1229,12 @@
       if (res && res.success) {
         currentUser = res.user;
         sessionStorage.setItem('thako_user_session', JSON.stringify(currentUser));
+        
+        // Reset Notification State เมื่อเปลี่ยนยูสเซอร์
+        previousTaskMap.clear();
+        sessionStorage.removeItem('thako_previous_task_map');
+        isFirstFetch = true;
+
         closePasscodeDialog();
         document.getElementById('landingAuthGate').classList.add('d-none');
         applyRoleTheme();
@@ -1510,6 +1516,9 @@
       }
     }
 
+    // ==========================================
+    // INSTANT IN-APP TOAST NOTIFICATION ENGINE
+    // ==========================================
     function checkInAppNotifications(currentTasks) {
       const savedMapJson = sessionStorage.getItem('thako_previous_task_map');
       if (savedMapJson && previousTaskMap.size === 0) {
@@ -1520,16 +1529,9 @@
         } catch(e) {}
       }
 
-      if (isFirstFetch) {
-        currentTasks.forEach(t => previousTaskMap.set(String(t.taskId), t));
-        sessionStorage.setItem('thako_previous_task_map', JSON.stringify(Array.from(previousTaskMap.entries())));
-        isFirstFetch = false;
-        return;
-      }
-
-      const userRole = currentUser.role || currentUser.Role;
-      const userName = currentUser.name || currentUser.Name;
-      const userEmail = currentUser.email || currentUser.Email;
+      const userRole = currentUser ? (currentUser.role || currentUser.Role) : '';
+      const userName = currentUser ? (currentUser.name || currentUser.Name) : '';
+      const userEmail = currentUser ? (currentUser.email || currentUser.Email) : '';
       const isExec = userRole === 'ผู้บริหาร';
 
       currentTasks.forEach(t => {
@@ -1538,62 +1540,101 @@
 
         const isTaskAssignedToMe = isMatchingUser(t.assignedTo, userName) || (userEmail && isMatchingUser(t.assignedTo, userEmail));
         const isTaskAssignedByMe = isMatchingUser(t.assignedBy, userName);
-
         const refNoText = t.refNumber ? `[เลขที่รับ: ${t.refNumber}] ` : '';
 
-        if (!prev) {
-          if (!isExec && isTaskAssignedToMe) {
-            const title = `<span class="text-primary"><i class="bi bi-bell-fill me-1"></i> มอบหมายภารกิจใหม่</span>`;
+        // กรณีที่ 1: เปิดเข้าแอปพลิเคชันครั้งแรก (isFirstFetch = true) 
+        // สแกนหางานใหม่ที่ยังไม่ได้กดรับทราบ หรือ งานที่ติดขัด เพื่อเด้ง Toast เตือนที่มุมขวาล่างทันที
+        if (isFirstFetch) {
+          if (!isExec && isTaskAssignedToMe && (t.status === 'มอบหมายงานแล้ว' || t.status === 'พบปัญหา/ขัดข้อง')) {
+            const isIssue = t.status === 'พบปัญหา/ขัดข้อง';
+            const title = isIssue ? 
+              `<span class="text-danger"><i class="bi bi-exclamation-triangle-fill me-1"></i> ภารกิจติดขัด/รอดำเนินการ</span>` : 
+              `<span class="text-primary"><i class="bi bi-bell-fill me-1"></i> มีข้อสั่งการใหม่ (ยังไม่ได้กดรับทราบ)</span>`;
+            
+            const borderClass = isIssue ? 'toast-border-warning' : 'toast-border-info';
+            const soundType = isIssue ? 'warning' : 'normal';
+
             const body = `
               <div style="font-size:0.85rem;">
                 <div class="fw-bold text-dark">${refNoText}${t.subject}</div>
                 <div class="text-dark small mt-1"><strong>ข้อสั่งการ:</strong> ${t.instruction}</div>
-                <div class="mt-1 d-flex justify-content-between align-items-center">
+                <div class="mt-2 d-flex justify-content-between align-items-center">
                   <span class="badge bg-primary-subtle text-primary border border-primary">ผู้สั่งการ: ${t.assignedBy}</span>
                   <small class="text-primary fw-bold">คลิกดูรายละเอียด <i class="bi bi-chevron-right"></i></small>
                 </div>
               </div>
             `;
-            showInAppStackToast(title, body, 'toast-border-info', 'normal', t.taskId);
+            showInAppStackToast(title, body, borderClass, soundType, t.taskId);
+          } else if (isExec && isTaskAssignedByMe && t.status === 'เสร็จสิ้น') {
+            const title = `<span class="text-info"><i class="bi bi-check-circle-fill me-1"></i> มีรายงานรอการอนุมัติ</span>`;
+            const body = `
+              <div style="font-size:0.85rem;">
+                <div class="fw-bold text-dark">${refNoText}${t.subject}</div>
+                <div class="text-dark small mt-1"><strong>ผู้ปฏิบัติงาน:</strong> ${getUserName(t.assignedTo)}</div>
+                <div class="text-end mt-2"><small class="text-primary fw-bold">คลิกเพื่อตรวจรับงาน <i class="bi bi-chevron-right"></i></small></div>
+              </div>
+            `;
+            showInAppStackToast(title, body, 'toast-border-info', 'success', t.taskId);
           }
-        } else if (prev.status !== t.status || prev.lastNote !== t.lastNote) {
-          let borderClass = 'toast-border-info';
-          let soundType = 'normal';
-          let title = `<span class="text-info"><i class="bi bi-arrow-repeat me-1"></i> อัปเดตสถานะ: ${t.status}</span>`;
+        } 
+        // กรณีที่ 2: เปิดแอปทิ้งไว้แล้วมีการอัปเดตสดๆ (Polling Cycle)
+        else {
+          if (!prev) {
+            if (!isExec && isTaskAssignedToMe) {
+              const title = `<span class="text-primary"><i class="bi bi-bell-fill me-1"></i> มอบหมายภารกิจใหม่</span>`;
+              const body = `
+                <div style="font-size:0.85rem;">
+                  <div class="fw-bold text-dark">${refNoText}${t.subject}</div>
+                  <div class="text-dark small mt-1"><strong>ข้อสั่งการ:</strong> ${t.instruction}</div>
+                  <div class="mt-1 d-flex justify-content-between align-items-center">
+                    <span class="badge bg-primary-subtle text-primary border border-primary">ผู้สั่งการ: ${t.assignedBy}</span>
+                    <small class="text-primary fw-bold">คลิกดูรายละเอียด <i class="bi bi-chevron-right"></i></small>
+                  </div>
+                </div>
+              `;
+              showInAppStackToast(title, body, 'toast-border-info', 'normal', t.taskId);
+            }
+          } else if (prev.status !== t.status || prev.lastNote !== t.lastNote) {
+            let borderClass = 'toast-border-info';
+            let soundType = 'normal';
+            let title = `<span class="text-info"><i class="bi bi-arrow-repeat me-1"></i> อัปเดตสถานะ: ${t.status}</span>`;
 
-          if (t.status === 'พบปัญหา/ขัดข้อง') {
-            borderClass = 'toast-border-warning';
-            soundType = 'warning';
-            title = `<span class="text-danger"><i class="bi bi-exclamation-triangle-fill me-1"></i> รายงานปัญหา/ติดขัด</span>`;
-          } else if (t.status === 'เสร็จสิ้น') {
-            borderClass = 'toast-border-success';
-            soundType = 'success';
-            title = `<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i> ส่งรายงานเสร็จสิ้น (รออนุมัติ)</span>`;
-          } else if (t.status === 'อนุมัติเสร็จสิ้นแล้ว') {
-            borderClass = 'toast-border-success';
-            soundType = 'success';
-            title = `<span class="text-success"><i class="bi bi-award-fill me-1"></i> อนุมัติปิดภารกิจแล้ว</span>`;
-          }
+            if (t.status === 'พบปัญหา/ขัดข้อง') {
+              borderClass = 'toast-border-warning';
+              soundType = 'warning';
+              title = `<span class="text-danger"><i class="bi bi-exclamation-triangle-fill me-1"></i> รายงานปัญหา/ติดขัด</span>`;
+            } else if (t.status === 'เสร็จสิ้น') {
+              borderClass = 'toast-border-success';
+              soundType = 'success';
+              title = `<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i> ส่งรายงานเสร็จสิ้น (รออนุมัติ)</span>`;
+            } else if (t.status === 'อนุมัติเสร็จสิ้นแล้ว') {
+              borderClass = 'toast-border-success';
+              soundType = 'success';
+              title = `<span class="text-success"><i class="bi bi-award-fill me-1"></i> อนุมัติปิดภารกิจแล้ว</span>`;
+            }
 
-          const body = `
-            <div style="font-size:0.85rem;" class="mt-1">
-              <div class="fw-bold text-dark fs-6">${refNoText}${t.subject}</div>
-              <div class="text-dark small mt-1"><strong>รายงานล่าสุด:</strong> ${t.lastNote || 'มีการอัปเดตขั้นตอน'}</div>
-              <div class="text-dark small mt-1"><strong>ผู้รับผิดชอบ:</strong> ${getUserName(t.assignedTo)}</div>
-              <div class="text-end mt-1"><small class="text-primary fw-bold">คลิกดูรายละเอียด <i class="bi bi-chevron-right"></i></small></div>
-            </div>
-          `;
+            const body = `
+              <div style="font-size:0.85rem;" class="mt-1">
+                <div class="fw-bold text-dark fs-6">${refNoText}${t.subject}</div>
+                <div class="text-dark small mt-1"><strong>รายงานล่าสุด:</strong> ${t.lastNote || 'มีการอัปเดตขั้นตอน'}</div>
+                <div class="text-dark small mt-1"><strong>ผู้รับผิดชอบ:</strong> ${getUserName(t.assignedTo)}</div>
+                <div class="text-end mt-1"><small class="text-primary fw-bold">คลิกดูรายละเอียด <i class="bi bi-chevron-right"></i></small></div>
+              </div>
+            `;
 
-          if (t.status === 'อนุมัติเสร็จสิ้นแล้ว') {
-            if (!isExec && isTaskAssignedToMe) showInAppStackToast(title, body, borderClass, soundType, t.taskId);
-          } else {
-            if (isExec && isTaskAssignedByMe) showInAppStackToast(title, body, borderClass, soundType, t.taskId);
+            if (t.status === 'อนุมัติเสร็จสิ้นแล้ว') {
+              if (!isExec && isTaskAssignedToMe) showInAppStackToast(title, body, borderClass, soundType, t.taskId);
+            } else {
+              if (isExec && isTaskAssignedByMe) showInAppStackToast(title, body, borderClass, soundType, t.taskId);
+            }
           }
         }
+
         previousTaskMap.set(key, t);
       });
 
       sessionStorage.setItem('thako_previous_task_map', JSON.stringify(Array.from(previousTaskMap.entries())));
+      isFirstFetch = false;
     }
 
     function renderTasks(tasks) {
@@ -2257,7 +2298,7 @@
 
       let cleanNote = t.lastNote || '';
       if (cleanNote.includes('[ขั้นตอน:')) cleanNote = cleanNote.replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '').trim();
-      if (cleanNote.includes('[หลักฐาน:')) cleanNote = cleanNote.replace(/\[หลักฐาน:\s*[^\]]+\]/g, '').trim();
+      if (cleanNote.includes('[หลักฐาน:')) cleanNote = cleanNote.replace(/\[หลักฐาน:\_?[^\]]+\]/g, '').trim();
 
       let statusBadgeHtml = '';
       if (t.status === 'เสร็จสิ้น') {
