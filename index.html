@@ -1003,18 +1003,18 @@
     const STATIC_USERS_DEFAULT = [
       { Name: "นายพชกร หอมนาน", Role: "ผู้บริหาร", Position: "หัวหน้าฝ่ายแบบแผนและก่อสร้าง รักษาราชการแทนผู้อำนวยการกองช่าง" },
       { Name: "นายศราวุธ ฟ้าแลบ", Role: "ผู้ปฏิบัติงาน", Position: "นายช่างโยธาชำนาญงาน" },
-      { Name: "นายอัครพล โนเลจ", Role: "ผู้ปฏิบัติงาน", Position: "นายช่างโยธาปฏิบัติงาน" },
-      { Name: "นายศิริพงษ์ ศิริมานนท์", Role: "ผู้ปฏิบัติงาน", Position: "วิศวกรโยธาปฏิบัติการ" },
-      { Name: "นายจักรพงษ์ จุมปูนญ", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยช่างเขียนแบบ" },
-      { Name: "นายชาญณรงค์ กระทรง", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยช่างเขียนแบบ" },
-      { Name: "นายสิทธิพงษ์ กันศรี", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยนายช่างโยธา" },
-      { Name: "นายพงศ์พัทธ์ อุยี่", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยนายช่างโยธา" },
-      { Name: "นายสุทธิพงษ์ เกตุมรรคา", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยวิศวกรโยธา" },
+      { Name: "นายจักรพงษ์ จุมปูนญ", Role: "ผู้ปฏิบัติงาน", Position: "เจ้าพนักงานธุรการปฏิบัติงาน" },
+      { Name: "นายนคร ศรีสุราษฎร์", Role: "ผู้ปฏิบัติงาน", Position: "ลูกจ้างประจำ" },
       { Name: "นายประยูร ศรีอ่อน", Role: "ผู้ปฏิบัติงาน", Position: "ลูกจ้างประจำ" },
-      { Name: "นางสาวมณฑาพร ขุนแท่น", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยเจ้าพนักงานธุรการ" },
       { Name: "นางรินนา บุญส่ง่า", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยเจ้าพนักงานการเงินและบัญชี" },
       { Name: "นางสาวนิรชา ภาณะจิตร", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยเจ้าพนักงานธุรการ" },
+      { Name: "นายสิทธิพงษ์ ศิริมานนท์", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยเจ้าพนักงานธุรการ" },
+      { Name: "นางสาวมันทนาพร ขุนแท่น", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยเจ้าพนักงานธุรการ" },
+      { Name: "นายชาญณรงค์ กระทรง", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยนายช่างเขียนแบบ" },
       { Name: "นายอาหล่อง จ่วยลือ", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยเจ้าพนักงานป้องกันและบรรเทาสาธารณภัย" },
+      { Name: "นายสุทธิพงษ์ เกตุมรรคา", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยวิศวกรโยธา" },
+      { Name: "นายสิทธิพงษ์ กันศรี", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยนายช่างโยธา" },
+      { Name: "นายพงศ์พัทธ์ อุยี่", Role: "ผู้ปฏิบัติงาน", Position: "ผู้ช่วยนายช่างโยธา" },
       { Name: "นายพลวรรธน์ อื่นสุวรรณ์", Role: "ผู้ปฏิบัติงาน", Position: "คนงาน" },
       { Name: "นายณรงค์ศักดิ์ วงศ์ยาง", Role: "ผู้ปฏิบัติงาน", Position: "จ้างเหมาบริการ" }
     ];
@@ -1039,6 +1039,21 @@
       "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
     ];
 
+    function normalizeNameStr(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/^(นาย|นางสาว|นาง)\s*/, '')
+        .replace(/\s+/g, '')
+        .toLowerCase();
+    }
+
+    function isMatchingUser(targetA, targetB) {
+      if (!targetA || !targetB) return false;
+      const cleanA = normalizeNameStr(targetA);
+      const cleanB = normalizeNameStr(targetB);
+      return cleanA === cleanB || cleanA.includes(cleanB) || cleanB.includes(cleanA);
+    }
+
     window.onload = function() {
       updateModalObj = new bootstrap.Modal(document.getElementById('updateModal'));
       detailModalObj = new bootstrap.Modal(document.getElementById('detailModal'));
@@ -1055,13 +1070,6 @@
       initPublicUsers(publicUsers);
       fetchPublicUsers();
     };
-
-    function isMatchingUser(targetA, targetB) {
-      if (!targetA || !targetB) return false;
-      const cleanA = String(targetA).replace(/^(นาย|นางสาว|นาง)\s*/, '').replace(/\s+/g, '').toLowerCase();
-      const cleanB = String(targetB).replace(/^(นาย|นางสาว|นาง)\s*/, '').replace(/\s+/g, '').toLowerCase();
-      return cleanA === cleanB || cleanA.includes(cleanB) || cleanB.includes(cleanA);
-    }
 
     async function callGasApi(actionName, payloadObj = {}, method = 'POST') {
       try {
@@ -1251,6 +1259,7 @@
       }).then((result) => {
         if (result.isConfirmed) {
           sessionStorage.removeItem('thako_user_session');
+          sessionStorage.removeItem('thako_previous_task_map');
           currentUser = null;
           previousTaskMap.clear();
           isFirstFetch = true;
@@ -1272,7 +1281,7 @@
         if (!document.hidden && currentUser) {
           fetchTasks(true);
         }
-      }, 20000);
+      }, 15000);
 
       window.addEventListener('focus', () => {
         if (currentUser) fetchTasks(true);
@@ -1502,8 +1511,18 @@
     }
 
     function checkInAppNotifications(currentTasks) {
+      const savedMapJson = sessionStorage.getItem('thako_previous_task_map');
+      if (savedMapJson && previousTaskMap.size === 0) {
+        try {
+          const parsedArr = JSON.parse(savedMapJson);
+          parsedArr.forEach(([k, v]) => previousTaskMap.set(k, v));
+          isFirstFetch = false;
+        } catch(e) {}
+      }
+
       if (isFirstFetch) {
         currentTasks.forEach(t => previousTaskMap.set(String(t.taskId), t));
+        sessionStorage.setItem('thako_previous_task_map', JSON.stringify(Array.from(previousTaskMap.entries())));
         isFirstFetch = false;
         return;
       }
@@ -1573,6 +1592,8 @@
         }
         previousTaskMap.set(key, t);
       });
+
+      sessionStorage.setItem('thako_previous_task_map', JSON.stringify(Array.from(previousTaskMap.entries())));
     }
 
     function renderTasks(tasks) {
@@ -1656,7 +1677,7 @@
 
       const search = searchInput ? searchInput.value.toLowerCase() : '';
       const status = statusFilter ? statusFilter.value : '';
-      const selectedStaffVal = staffFilter ? staffFilter.value.replace(/\s+/g, '').toLowerCase() : '';
+      const selectedStaffVal = staffFilter ? normalizeNameStr(staffFilter.value) : '';
 
       const filtered = rawTasks.filter(t => {
         const isArchived = (t.status === 'อนุมัติเสร็จสิ้นแล้ว' || t.status === 'ยกเลิกภารกิจ');
