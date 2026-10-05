@@ -1054,6 +1054,7 @@
     let selectedImageBase64List = [];
     let activeProofType = 'photo';
     let pendingCreatePayload = null;
+    let audioCtx = null;
     
     let previousTaskMap = new Map();
     let isFirstFetch = true;
@@ -1082,7 +1083,22 @@
 
       initPublicUsers(publicUsers);
       fetchPublicUsers();
+
+      // ปลดล็อก AudioContext ทันทีที่มีการสัมผัสจอ
+      document.body.addEventListener('click', initAudioContextOnUserInteraction, { once: true });
+      document.body.addEventListener('touchstart', initAudioContextOnUserInteraction, { once: true });
     };
+
+    function initAudioContextOnUserInteraction() {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      } catch(e) {}
+    }
 
     async function callGasApi(actionName, payloadObj = {}, method = 'POST') {
       try {
@@ -1128,7 +1144,8 @@
               role: found.Role,
               position: found.Position,
               email: found.Email,
-              department: found.Department
+              department: found.Department,
+              chatId: found.ChatId || found.chatId || ''
             };
             sessionStorage.setItem('thako_user_session', JSON.stringify(currentUser));
             document.getElementById('landingAuthGate').classList.add('d-none');
@@ -1187,6 +1204,7 @@
     }
 
     function openPasscodeDialog(userName) {
+      initAudioContextOnUserInteraction();
       const cleanTarget = String(userName).replace(/\s+/g, '').toLowerCase();
       const user = publicUsers.find(u => String(u.Name).replace(/\s+/g, '').toLowerCase() === cleanTarget);
       if (!user) return;
@@ -1450,7 +1468,13 @@
 
     function playNotificationSound(type = 'normal') {
       try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sine';
@@ -1529,13 +1553,14 @@
       const isExec = userRole === 'ผู้บริหาร';
 
       const cleanUserName = String(userName).replace(/\s+/g, '').toLowerCase();
+      const cleanUserEmail = String(userEmail || '').trim().toLowerCase();
 
       currentTasks.forEach(t => {
         const key = String(t.taskId);
         const prev = previousTaskMap.get(key);
 
         const assignedStr = String(t.assignedTo).replace(/\s+/g, '').toLowerCase();
-        const isTaskAssignedToMe = assignedStr === cleanUserName || assignedStr === String(userEmail).trim().toLowerCase();
+        const isTaskAssignedToMe = assignedStr === cleanUserName || (cleanUserEmail !== '' && assignedStr === cleanUserEmail);
         const isTaskAssignedByMe = String(t.assignedBy).replace(/\s+/g, '').toLowerCase() === cleanUserName;
 
         const refNoText = t.refNumber ? `[เลขที่รับ: ${t.refNumber}] ` : '';
@@ -1935,7 +1960,7 @@
       const target = String(val).replace(/\s+/g, '').toLowerCase();
       const u = publicUsers.find(x => 
         String(x.Name).replace(/\s+/g, '').toLowerCase() === target || 
-        String(x.Email).trim().toLowerCase() === target
+        (x.Email && String(x.Email).trim().toLowerCase() === target)
       );
       return u ? u.Name : val;
     }
