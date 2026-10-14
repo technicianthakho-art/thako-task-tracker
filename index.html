@@ -934,7 +934,7 @@
               <div class="tab-content" id="proofTypeTabContent">
                 <div class="tab-pane fade show active" id="proof-photo" role="tabpanel">
                   <input type="file" id="modalImageInput" class="form-control form-control-sm" accept="image/*" multiple onchange="handleImageSelection(event)">
-                  <small class="text-muted d-block mt-1" style="font-size: 0.78rem;">* เลือกรูปถ่ายหน้างานได้ 1 ถึง 5 รูป (ระบบสร้างโฟลเดอร์ให้อัตโนมัติใน Drive)</small>
+                  <small class="text-muted d-block mt-1" style="font-size: 0.78rem;">* เลือกรูปถ่ายหน้างานได้ 1 ถึง 5 รูป (ระบบสร้าง Sub-folder ให้อัตโนมัติใน Google Drive)</small>
                   <div id="imagePreviewContainer" class="img-preview-container"></div>
                 </div>
                 <div class="tab-pane fade" id="proof-url" role="tabpanel">
@@ -2093,7 +2093,12 @@
       
       // ทำความสะอาดข้อความเพื่อดึงเฉพาะส่วนบันทึกของผู้ใช้เดิม
       let existingNote = t.lastNote || '';
-      existingNote = existingNote.replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '').replace(/\[หลักฐาน:\s*[^\]]+\]/g, '').replace(/\[อ้างอิง:\s*[^\]]+\]/g, '').trim();
+      existingNote = existingNote
+        .replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '')
+        .replace(/\[หลักฐาน:\s*[^\]]+\]/g, '')
+        .replace(/\[FolderLink:\s*[^\]]+\]/g, '')
+        .replace(/\[อ้างอิง:\s*[^\]]+\]/g, '')
+        .trim();
       
       document.getElementById('modalNote').value = existingNote;
       document.getElementById('modalRefDocNo').value = t.refDocNo || '';
@@ -2236,7 +2241,7 @@
       const docBtn = (dLink && dLink.trim().startsWith('http')) ? 
         `<a href="${dLink.trim()}" target="_blank" class="btn btn-sm text-white rounded-pill mt-2 d-inline-block shadow-sm" style="background-color: #4338ca;"><i class="bi bi-file-earmark-pdf-fill me-1"></i> เปิดดูเอกสารสารบรรณต้นฉบับ</a>` : '';
 
-      // 1. สกัด URL หลักฐานจาก t.proofLink หรือ t.lastNote อย่างสมบูรณ์แบบ
+      // 1. สกัด URL หลักฐานจาก t.proofLink หรือ t.lastNote อย่างรัดกุม
       let extractedProofUrl = (t.proofLink && t.proofLink.trim().length > 0) ? t.proofLink.trim() : '';
       if (!extractedProofUrl && t.lastNote && t.lastNote.indexOf('[หลักฐาน:') !== -1) {
         const match = t.lastNote.match(/\[หลักฐาน:\s*([^\]]+)\]/);
@@ -2245,36 +2250,66 @@
         }
       }
 
-      // 2. ประกอบการแสดงผลอัลบั้มรูปภาพ หรือลิงก์หลักฐาน
+      // 2. สกัด URL โฟลเดอร์จาก t.folderLink หรือ t.lastNote
+      let extractedFolderUrl = (t.folderLink && t.folderLink.trim().length > 0) ? t.folderLink.trim() : '';
+      if (!extractedFolderUrl && t.lastNote && t.lastNote.indexOf('[FolderLink:') !== -1) {
+        const fMatch = t.lastNote.match(/\[FolderLink:\s*([^\]]+)\]/);
+        if (fMatch && fMatch[1]) {
+          extractedFolderUrl = fMatch[1].trim();
+        }
+      }
+
+      // 3. ประกอบการแสดงผลอัลบั้มรูปภาพ และปุ่มเปิด Sub-folder บน Google Drive
       let proofDisplay = '';
-      if (extractedProofUrl) {
-        const urls = extractedProofUrl.split(',');
-        if (extractedProofUrl.includes('lh3.googleusercontent.com') || extractedProofUrl.includes('drive.google.com')) {
-          const galleryItems = urls.map(url => `
+      if (extractedProofUrl || extractedFolderUrl) {
+        let galleryItemsHtml = '';
+        if (extractedProofUrl && (extractedProofUrl.includes('lh3.googleusercontent.com') || extractedProofUrl.includes('drive.google.com'))) {
+          const urls = extractedProofUrl.split(',');
+          galleryItemsHtml = urls.map(url => `
             <div class="photo-gallery-item" onclick="window.open('${url.trim()}', '_blank')" title="คลิกเพื่อขยายดูรูปภาพเต็ม">
               <img src="${url.trim()}" alt="หลักฐานผลงาน">
             </div>
           `).join('');
+        }
 
-          proofDisplay = `
-            <div class="p-3 mb-3 rounded-3" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
-              <small class="text-success fw-bold d-block mb-2"><i class="bi bi-images me-1"></i> รูปภาพหลักฐานผลงานที่แนบ (${urls.length} รูป):</small>
-              <div class="photo-gallery-grid">${galleryItems}</div>
+        let folderBtnHtml = '';
+        if (extractedFolderUrl) {
+          folderBtnHtml = `
+            <div class="mt-2 text-end">
+              <a href="${extractedFolderUrl}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill fw-bold px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.8rem;">
+                <i class="bi bi-folder2-open me-1"></i> เปิด Sub-folder คลังภาพบน Google Drive
+              </a>
             </div>
           `;
-        } else if (extractedProofUrl.startsWith('http')) {
-          proofDisplay = `
-            <div class="p-3 mb-3 rounded-3" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
-              <small class="text-success fw-bold d-block mb-1"><i class="bi bi-link-45deg me-1"></i> ลิงก์หลักฐานผลงานที่แนบ:</small>
+        } else if (extractedProofUrl && extractedProofUrl.startsWith('http') && !galleryItemsHtml) {
+          folderBtnHtml = `
+            <div class="mt-1">
               <a href="${extractedProofUrl}" target="_blank" class="btn btn-sm btn-success rounded-pill fw-bold px-3 py-1 text-white shadow-sm d-inline-flex align-items-center gap-1">
                 <i class="bi bi-box-arrow-up-right me-1"></i> คลิกเพื่อเปิดดูไฟล์/ลิงก์อ้างอิง
               </a>
             </div>
           `;
         }
+
+        proofDisplay = `
+          <div class="p-3 mb-3 rounded-3" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+            ${galleryItemsHtml ? `<small class="text-success fw-bold d-block mb-2"><i class="bi bi-images me-1"></i> รูปภาพหลักฐานผลงานที่แนบ:</small><div class="photo-gallery-grid">${galleryItemsHtml}</div>` : ''}
+            ${folderBtnHtml}
+          </div>
+        `;
+      } else if (t.status === 'เสร็จสิ้น' || t.status === 'รอตรวจสอบอนุมัติ') {
+        const driveParentUrl = `https://drive.google.com/drive/folders/1i6gYSyRLtEunEUJQJDkn65uJMqQEzn0e`;
+        proofDisplay = `
+          <div class="p-3 mb-3 rounded-3 bg-light border text-center">
+            <small class="text-muted d-block mb-2 fw-semibold">ไม่พบคลังรูปภาพย่อยในบันทึก (สามารถเข้าดูที่โฟลเดอร์หลักบน Drive)</small>
+            <a href="${driveParentUrl}" target="_blank" class="btn btn-sm text-white rounded-pill px-3 fw-bold shadow-sm" style="background-color: #059669;">
+              <i class="bi bi-folder2-open me-1"></i> เปิดโฟลเดอร์หลัก Google Drive
+            </a>
+          </div>
+        `;
       }
 
-      // 3. สกัดขั้นตอนย่อย
+      // 4. สกัดขั้นตอนย่อย
       let subStepDisplay = '';
       if (t.subStep || (t.lastNote && t.lastNote.includes('[ขั้นตอน:'))) {
         let stepText = t.subStep || '';
@@ -2287,11 +2322,12 @@
         }
       }
 
-      // 4. ทำความสะอาดข้อความรายงานความคืบหน้า ไม่ให้มีแท็กหลุดลอกมาแสดง
+      // 5. ทำความสะอาดข้อความรายงานความคืบหน้า ลบเฉพาะแท็กระบบออก
       let cleanNote = t.lastNote || '';
       cleanNote = cleanNote
         .replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '')
         .replace(/\[หลักฐาน:\s*[^\]]+\]/g, '')
+        .replace(/\[FolderLink:\s*[^\]]+\]/g, '')
         .replace(/\[อ้างอิง:\s*[^\]]+\]/g, '')
         .trim();
 
