@@ -479,23 +479,28 @@
     .img-preview-box img { width: 100%; height: 100%; object-fit: cover; }
     .img-preview-box .btn-remove { position: absolute; top: 2px; right: 2px; background: rgba(220, 38, 38, 0.85); color: #fff; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-    .photo-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; margin-top: 8px; }
-    .photo-gallery-item { aspect-ratio: 1; border-radius: 8px; overflow: hidden; border: 1px solid #cbd5e1; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-    .photo-gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
-    .photo-gallery-item:hover img { transform: scale(1.08); }
+    .photo-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; margin-top: 10px; }
+    .photo-gallery-item { aspect-ratio: 1; border-radius: 10px; overflow: hidden; border: 2px solid #bbf7d0; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: relative; background: #e2e8f0; }
+    .photo-gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.25s ease; }
+    .photo-gallery-item:hover img { transform: scale(1.1); }
+    .photo-gallery-item .zoom-badge { position: absolute; bottom: 4px; right: 4px; background: rgba(15, 23, 42, 0.75); color: #fff; font-size: 0.7rem; padding: 2px 6px; border-radius: 12px; }
 
     .modal-vibrant-header {
-      background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
       color: #ffffff;
       border-top-left-radius: 14px;
       border-top-right-radius: 14px;
     }
     .vibrant-card-box {
-      background: #f8fafc;
+      background: #ffffff;
       border-left: 4px solid #4338ca;
       border-radius: 10px;
-      padding: 10px 12px;
-      margin-bottom: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      border-top: 1px solid #f1f5f9;
+      border-right: 1px solid #f1f5f9;
+      border-bottom: 1px solid #f1f5f9;
     }
     .word-break-all {
       word-break: break-word !important;
@@ -710,7 +715,7 @@
                   <div class="row g-2 g-md-3">
                     <div class="col-12 col-md-4">
                       <label class="form-label fw-bold small text-dark">เลขที่หนังสือ / คำร้อง</label>
-                      <input type="text" id="refNumber" class="form-control form-control-sm text-dark fw-semibold" required placeholder="เช่น 02891">
+                      <input type="text" id="refNumber" class="form-control form-control-sm text-dark fw-semibold" required placeholder="เช่น 3499">
                     </div>
                     <div class="col-12 col-md-8">
                       <label class="form-label fw-bold small text-dark">เรื่อง / ชื่อภารกิจ</label>
@@ -959,15 +964,19 @@
     </div>
   </div>
 
+  <!-- DETAIL & EXECUTIVE REVIEW MODAL -->
   <div class="modal fade" id="detailModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-0 shadow-lg rounded-4 bg-white overflow-hidden">
-        <div class="modal-header modal-vibrant-header border-0">
-          <h6 class="fw-bold mb-0 text-white"><i class="bi bi-info-circle-fill me-2"></i>รายละเอียดภารกิจและข้อสั่งการ</h6>
+        <div class="modal-header modal-vibrant-header border-0 py-3">
+          <div class="d-flex align-items-center gap-2">
+            <span class="fs-5 text-warning"><i class="bi bi-file-earmark-check-fill"></i></span>
+            <h6 class="fw-bold mb-0 text-white fs-6" id="detailModalTitle">รายละเอียดภารกิจและรายงานผลงาน</h6>
+          </div>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body p-3 p-md-4" id="detailModalBody"></div>
-        <div class="modal-footer border-0 bg-light">
+        <div class="modal-footer border-0 bg-light d-flex justify-content-between align-items-center" id="detailModalFooter">
           <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4 fw-bold" data-bs-dismiss="modal">ปิดหน้าต่าง</button>
         </div>
       </div>
@@ -1771,10 +1780,10 @@
           `<button class="btn btn-sm btn-outline-danger rounded-circle p-1 ms-1" title="ยกเลิกภารกิจ" onclick="event.stopPropagation(); handleCancelTask('${t.taskId}')"><i class="bi bi-slash-circle"></i></button>` : '';
 
         const confirmApproveBtn = (isExec && isPendingReview) ?
-          `<button class="btn btn-sm btn-success btn-action-custom shadow-sm" title="อนุมัติการทำงานเข้าคลังจัดเก็บ" onclick="event.stopPropagation(); handleConfirmArchive('${t.taskId}')"><i class="bi bi-check-all fs-6"></i> อนุมัติ</button>` : '';
+          `<button class="btn btn-sm btn-success btn-action-custom shadow-sm" title="ตรวจงานและอนุมัติปิดภารกิจ" onclick="event.stopPropagation(); openDetailModal('${t.taskId}')"><i class="bi bi-shield-check fs-6"></i> ตรวจงาน</button>` : '';
 
-        const updateBtnText = (isExec && isPendingReview) ? 'ตรวจงาน' : 'อัปเดต';
-        const updateBtnClass = (isExec && isPendingReview) ? 'btn-outline-info' : 'btn-outline-primary';
+        const updateBtnText = (isExec && isPendingReview) ? 'แก้ไขข้อสั่งการ' : 'อัปเดต';
+        const updateBtnClass = (isExec && isPendingReview) ? 'btn-outline-secondary' : 'btn-outline-primary';
 
         return `
           <tr class="${rowClass}" onclick="openDetailModal('${t.taskId}')">
@@ -1899,21 +1908,22 @@
     async function handleConfirmArchive(taskId) {
       const userName = currentUser.name || currentUser.Name;
       Swal.fire({
-        title: 'ยืนยันปิดภารกิจนี้?',
-        text: "เมื่อยืนยันแล้ว งานจะถูกย้ายไปยัง 'จัดเก็บงานที่แล้วเสร็จ' และส่งการแจ้งเตือนไปยังผู้ปฏิบัติงาน",
+        title: 'ยืนยันการตรวจงานและอนุมัติปิดภารกิจ?',
+        text: "เมื่ออนุมัติแล้ว งานจะถูกย้ายไปยัง 'จัดเก็บงานที่แล้วเสร็จ' และระบบจะส่ง Telegram แจ้งเตือนผู้ปฏิบัติงานทันที",
         icon: 'success',
         showCancelButton: true,
-        confirmButtonText: 'อนุมัติปิดงาน',
+        confirmButtonText: '🟢 ยืนยันอนุมัติปิดงาน',
         cancelButtonText: 'ยกเลิก',
-        confirmButtonColor: '#198754'
+        confirmButtonColor: '#16a34a'
       }).then(async (result) => {
         if (result.isConfirmed) {
           const res = await callGasApi('confirmCompleteTaskByExecutive', { taskId, actorName: userName });
           if (res && res.success) {
+            detailModalObj.hide();
             Swal.fire({
               icon: 'success',
-              title: 'อนุมัติปิดภารกิจเรียบร้อย',
-              text: 'ย้ายข้อมูลไปยังเมนูจัดเก็บงานที่แล้วเสร็จเรียบร้อยแล้ว',
+              title: 'อนุมัติปิดภารกิจเรียบร้อยแล้ว',
+              text: 'ย้ายข้อมูลเข้าคลังจัดเก็บเรียบร้อยแล้ว',
               timer: 1500,
               showConfirmButton: false
             });
@@ -1937,6 +1947,7 @@
         if (result.isConfirmed) {
           const res = await callGasApi('cancelTaskByExecutive', { taskId, actorName: userName });
           if (res && res.success) {
+            detailModalObj.hide();
             Swal.fire({
               icon: 'success',
               title: 'ยกเลิกภารกิจเรียบร้อย',
@@ -2091,7 +2102,6 @@
 
       document.getElementById('modalStatus').value = t.status === 'มอบหมายงานแล้ว' ? 'รับทราบงาน' : t.status;
       
-      // ทำความสะอาดข้อความเพื่อดึงเฉพาะส่วนบันทึกของผู้ใช้เดิม
       let existingNote = t.lastNote || '';
       existingNote = existingNote
         .replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '')
@@ -2103,7 +2113,6 @@
       document.getElementById('modalNote').value = existingNote;
       document.getElementById('modalRefDocNo').value = t.refDocNo || '';
       
-      // ดึงลิงก์หลักฐานเดิม
       let existingProof = t.proofLink || '';
       if (!existingProof && t.lastNote && t.lastNote.indexOf('[หลักฐาน:') !== -1) {
         const m = t.lastNote.match(/\[หลักฐาน:\s*([^\]]+)\]/);
@@ -2232,16 +2241,31 @@
       }
     }
 
+    // ==========================================
+    // EXECUTIVE REVIEW & DETAIL DISPLAY ENGINE
+    // ==========================================
     function openDetailModal(taskId) {
       const t = rawTasks.find(x => String(x.taskId) === String(taskId));
       if (!t) return;
 
+      const userRole = currentUser.role || currentUser.Role;
+      const isExec = userRole === 'ผู้บริหาร';
+
       const body = document.getElementById('detailModalBody');
+      const footer = document.getElementById('detailModalFooter');
+      const modalTitle = document.getElementById('detailModalTitle');
+
+      if (isExec && t.status === 'เสร็จสิ้น') {
+        modalTitle.innerText = "ตรวจรับงานและพิจารณาอนุมัติปิดภารกิจ";
+      } else {
+        modalTitle.innerText = "รายละเอียดภารกิจและข้อสั่งการ";
+      }
+
       const dLink = t.docLink || t.doclink || '';
       const docBtn = (dLink && dLink.trim().startsWith('http')) ? 
-        `<a href="${dLink.trim()}" target="_blank" class="btn btn-sm text-white rounded-pill mt-2 d-inline-block shadow-sm" style="background-color: #4338ca;"><i class="bi bi-file-earmark-pdf-fill me-1"></i> เปิดดูเอกสารสารบรรณต้นฉบับ</a>` : '';
+        `<a href="${dLink.trim()}" target="_blank" class="btn btn-sm text-white rounded-pill mt-2 d-inline-flex align-items-center gap-1 shadow-sm" style="background-color: #4338ca;"><i class="bi bi-file-earmark-pdf-fill me-1"></i> เปิดดูเอกสารสารบรรณต้นฉบับ</a>` : '';
 
-      // 1. สกัด URL หลักฐานจาก t.proofLink หรือ t.lastNote อย่างรัดกุม
+      // 1. สกัด URL รูปภาพหลักฐาน
       let extractedProofUrl = (t.proofLink && t.proofLink.trim().length > 0) ? t.proofLink.trim() : '';
       if (!extractedProofUrl && t.lastNote && t.lastNote.indexOf('[หลักฐาน:') !== -1) {
         const match = t.lastNote.match(/\[หลักฐาน:\s*([^\]]+)\]/);
@@ -2250,7 +2274,7 @@
         }
       }
 
-      // 2. สกัด URL โฟลเดอร์จาก t.folderLink หรือ t.lastNote
+      // 2. สกัด URL Sub-folder Google Drive
       let extractedFolderUrl = (t.folderLink && t.folderLink.trim().length > 0) ? t.folderLink.trim() : '';
       if (!extractedFolderUrl && t.lastNote && t.lastNote.indexOf('[FolderLink:') !== -1) {
         const fMatch = t.lastNote.match(/\[FolderLink:\s*([^\]]+)\]/);
@@ -2259,15 +2283,17 @@
         }
       }
 
-      // 3. ประกอบการแสดงผลอัลบั้มรูปภาพ และปุ่มเปิด Sub-folder บน Google Drive
+      // 3. แสดงผลอัลบั้มภาพถ่าย และปุ่มเปิด Sub-folder บน Google Drive
       let proofDisplay = '';
       if (extractedProofUrl || extractedFolderUrl) {
         let galleryItemsHtml = '';
+        
         if (extractedProofUrl && (extractedProofUrl.includes('lh3.googleusercontent.com') || extractedProofUrl.includes('drive.google.com'))) {
           const urls = extractedProofUrl.split(',');
-          galleryItemsHtml = urls.map(url => `
-            <div class="photo-gallery-item" onclick="window.open('${url.trim()}', '_blank')" title="คลิกเพื่อขยายดูรูปภาพเต็ม">
-              <img src="${url.trim()}" alt="หลักฐานผลงาน">
+          galleryItemsHtml = urls.map((url, idx) => `
+            <div class="photo-gallery-item" onclick="window.open('${url.trim()}', '_blank')" title="รูปที่ ${idx+1}: คลิกเพื่อเปิดภาพถ่ายขนาดใหญ่">
+              <img src="${url.trim()}" alt="รูปหลักฐาน ${idx+1}">
+              <span class="zoom-badge"><i class="bi bi-search"></i> รูปที่ ${idx+1}</span>
             </div>
           `).join('');
         }
@@ -2275,25 +2301,28 @@
         let folderBtnHtml = '';
         if (extractedFolderUrl) {
           folderBtnHtml = `
-            <div class="mt-2 text-end">
-              <a href="${extractedFolderUrl}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill fw-bold px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 0.8rem;">
-                <i class="bi bi-folder2-open me-1"></i> เปิด Sub-folder คลังภาพบน Google Drive
+            <div class="mt-3 text-end">
+              <a href="${extractedFolderUrl}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill fw-bold px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1">
+                <i class="bi bi-folder2-open me-1"></i> เปิดดู Sub-folder คลังรูปภาพฉบับเต็มบน Google Drive
               </a>
             </div>
           `;
         } else if (extractedProofUrl && extractedProofUrl.startsWith('http') && !galleryItemsHtml) {
           folderBtnHtml = `
-            <div class="mt-1">
+            <div class="mt-2">
               <a href="${extractedProofUrl}" target="_blank" class="btn btn-sm btn-success rounded-pill fw-bold px-3 py-1 text-white shadow-sm d-inline-flex align-items-center gap-1">
-                <i class="bi bi-box-arrow-up-right me-1"></i> คลิกเพื่อเปิดดูไฟล์/ลิงก์อ้างอิง
+                <i class="bi bi-box-arrow-up-right me-1"></i> เปิดดูไฟล์/ลิงก์หลักฐานอ้างอิงที่แนบ
               </a>
             </div>
           `;
         }
 
         proofDisplay = `
-          <div class="p-3 mb-3 rounded-3" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
-            ${galleryItemsHtml ? `<small class="text-success fw-bold d-block mb-2"><i class="bi bi-images me-1"></i> รูปภาพหลักฐานผลงานที่แนบ:</small><div class="photo-gallery-grid">${galleryItemsHtml}</div>` : ''}
+          <div class="p-3 mb-3 rounded-3" style="background-color: #f0fdf4; border: 1.5px solid #bbf7d0;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-success fw-bold small"><i class="bi bi-camera-fill me-1"></i> รูปภาพและหลักฐานผลงานที่รายงาน:</span>
+            </div>
+            ${galleryItemsHtml ? `<div class="photo-gallery-grid">${galleryItemsHtml}</div>` : ''}
             ${folderBtnHtml}
           </div>
         `;
@@ -2322,7 +2351,7 @@
         }
       }
 
-      // 5. ทำความสะอาดข้อความรายงานความคืบหน้า ลบเฉพาะแท็กระบบออก
+      // 5. ทำความสะอาดข้อความรายงานความคืบหน้า
       let cleanNote = t.lastNote || '';
       cleanNote = cleanNote
         .replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '')
@@ -2355,30 +2384,30 @@
           ${docBtn}
         </div>
         <div class="vibrant-card-box">
-          <small class="text-muted fw-bold d-block">ข้อสั่งการ / รายละเอียดการปฏิบัติงาน:</small>
+          <small class="text-muted fw-bold d-block">ข้อสั่งการ / รายละเอียดการปฏิบัติงานเดิม:</small>
           <div class="text-dark fw-semibold small mt-1">${t.instruction || '-'}</div>
         </div>
         <div class="row g-2 mb-2">
           <div class="col-6">
-            <div class="p-2 border rounded bg-white">
+            <div class="p-2 border rounded bg-light">
               <small class="text-muted fw-bold d-block">ผู้สั่งการ:</small>
               <span class="small fw-bold text-dark nowrap-name">${t.assignedBy || '-'}</span>
             </div>
           </div>
           <div class="col-6">
-            <div class="p-2 border rounded bg-white">
-              <small class="text-muted fw-bold d-block">ผู้รับผิดชอบ:</small>
-              <span class="small fw-bold text-dark nowrap-name">${getUserName(t.assignedTo)}</span>
+            <div class="p-2 border rounded bg-light">
+              <small class="text-muted fw-bold d-block">ผู้รายงานผลปฏิบัติงาน:</small>
+              <span class="small fw-bold text-primary nowrap-name">${getUserName(t.assignedTo)}</span>
             </div>
           </div>
           <div class="col-6">
-            <div class="p-2 border rounded bg-white">
+            <div class="p-2 border rounded bg-light">
               <small class="text-muted fw-bold d-block">วันสั่งการ:</small>
               <span class="small text-dark fw-bold">${t.assignedDate || '-'}</span>
             </div>
           </div>
           <div class="col-6">
-            <div class="p-2 border rounded bg-white">
+            <div class="p-2 border rounded bg-light">
               <small class="text-muted fw-bold d-block">กำหนดส่งงาน:</small>
               <span class="small fw-bold text-danger">${t.dueDate || 'ไม่ได้ระบุ'}</span>
             </div>
@@ -2386,7 +2415,7 @@
         </div>
 
         <div class="vibrant-card-box mb-3">
-          <small class="text-muted fw-bold d-block mb-1">สถานะการดำเนินงาน:</small>
+          <small class="text-muted fw-bold d-block mb-1">สถานะภารกิจปัจจุบัน:</small>
           <div class="d-flex align-items-center flex-wrap gap-2 mt-1">
             ${statusBadgeHtml}
             ${subStepDisplay}
@@ -2396,10 +2425,29 @@
         ${proofDisplay}
 
         <div class="vibrant-card-box mb-0">
-          <small class="text-muted fw-bold d-block">บันทึกรายงานความคืบหน้าล่าสุด:</small>
+          <small class="text-muted fw-bold d-block">ข้อความรายงานความคืบหน้าฉบับเต็มจากผู้ปฏิบัติงาน:</small>
           <div class="text-dark fw-semibold small word-break-all mt-1">${cleanNote || 'ไม่มีบันทึกเพิ่มเติม'}</div>
         </div>
       `;
+
+      // ปรับปรุง Footer ให้ผู้บริหารมีปุ่มตรวจอนุมัติได้โดยตรงใน Modal
+      if (isExec && t.status === 'เสร็จสิ้น') {
+        footer.innerHTML = `
+          <button type="button" class="btn btn-light btn-sm rounded-pill px-3 border" data-bs-dismiss="modal">ปิดหน้าต่าง</button>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-bold" onclick="openUpdateModal('${t.taskId}')">
+              <i class="bi bi-pencil-square me-1"></i> สั่งการเพิ่ม
+            </button>
+            <button type="button" class="btn btn-success btn-sm rounded-pill px-4 fw-bold shadow-sm" onclick="handleConfirmArchive('${t.taskId}')">
+              <i class="bi bi-check-circle-fill me-1"></i> 🟢 อนุมัติปิดภารกิจ
+            </button>
+          </div>
+        `;
+      } else {
+        footer.innerHTML = `
+          <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4 fw-bold" data-bs-dismiss="modal">ปิดหน้าต่าง</button>
+        `;
+      }
 
       detailModalObj.show();
     }
