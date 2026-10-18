@@ -30,11 +30,19 @@
     .user-name-title { color: #ffffff !important; font-weight: 700; font-size: 1.25rem; }
     .user-sub-detail { color: #e2e8f0 !important; font-size: 0.95rem; font-weight: 400; }
 
-    .nav-tab-custom { display: flex; gap: 6px; background: #ffffff; padding: 6px; border-radius: 14px; border: 1px solid var(--border-color); box-shadow: 0 2px 5px rgba(0,0,0,0.03); overflow-x: auto; }
+    .nav-tab-custom { display: flex; gap: 6px; background: #ffffff; padding: 6px; border-radius: 14px; border: 1px solid var(--border-color); box-shadow: 0 2px 5px rgba(0,0,0,0.03); overflow-x: auto; align-items: center; }
     .nav-tab-custom .nav-link { border: none !important; color: #475569; font-weight: 600; border-radius: 10px; padding: 8px 18px; background: transparent; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 8px; font-size: 0.95rem; white-space: nowrap; }
     .exec-mode .nav-tab-custom .nav-link.active { background: #312e81 !important; color: #ffffff !important; box-shadow: 0 4px 14px rgba(49, 46, 129, 0.3); }
     .staff-mode .nav-tab-custom .nav-link.active { background: #0f766e !important; color: #ffffff !important; box-shadow: 0 4px 14px rgba(15, 118, 110, 0.3); }
     .nav-tab-custom .nav-link:hover:not(.active) { background: #f1f5f9; color: #0f172a; }
+
+    /* VIBRANT GLASS PILL TAB STYLE FOR PERSONAL TASKS (OPTION 1) */
+    .vibrant-glass-pill-tab { position: relative; background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%) !important; border: 1.5px solid #fde68a !important; color: #9a3412 !important; font-weight: 700 !important; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15) !important; }
+    .vibrant-glass-pill-tab:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25) !important; }
+    .exec-mode .nav-tab-custom .vibrant-glass-pill-tab.active { background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important; color: #ffffff !important; border-color: #f59e0b !important; box-shadow: 0 6px 18px rgba(217, 119, 6, 0.4) !important; }
+    .staff-mode .nav-tab-custom .vibrant-glass-pill-tab.active { background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important; color: #ffffff !important; border-color: #2dd4bf !important; box-shadow: 0 6px 18px rgba(13, 148, 136, 0.4) !important; }
+    .tab-icon-badge-gold { background: #f59e0b; color: #ffffff; padding: 4px 8px; border-radius: 8px; font-size: 0.9rem; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(217, 119, 6, 0.3); }
+    .vibrant-glass-pill-tab.active .tab-icon-badge-gold { background: #ffffff; color: #d97706; }
 
     .kpi-row-inline { display: flex !important; flex-wrap: nowrap !important; overflow-x: auto; gap: 10px; padding-bottom: 6px; }
     .kpi-col-5 { flex: 1 0 0% !important; min-width: 140px; }
@@ -138,18 +146,21 @@
     .word-break-all { word-break: break-word !important; overflow-wrap: anywhere !important; }
 
     /* ==========================================
-       PERSONAL TASKS BENTO GRID STYLES
+       PERSONAL TASKS BENTO GRID & GOOGLE TASKS STYLE
        ========================================== */
-    .bento-personal-layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 16px; align-items: start; }
+    .bento-personal-layout { display: grid; grid-template-columns: 330px minmax(0, 1fr); gap: 16px; align-items: start; }
     .bento-input-card { background: #ffffff; border-radius: var(--card-radius); border: 1px solid var(--border-color); padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
     .bento-list-card { background: #ffffff; border-radius: var(--card-radius); border: 1px solid var(--border-color); padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); min-height: 480px; }
-    .personal-item-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; transition: all 0.25s ease; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .personal-item-card:hover { background: #ffffff; border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06); transform: translateY(-1px); }
-    .personal-item-card.completed { background: #f0fdf4; border-color: #bbf7d0; opacity: 0.7; }
+    .personal-item-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; transition: all 0.2s ease; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+    .personal-item-card:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06); transform: translateY(-1px); }
+    .personal-item-card.completed { background: #f8fafc; border-color: #f1f5f9; opacity: 0.75; }
     .personal-item-card.completed .personal-title { text-decoration: line-through; color: #64748b; }
-    .personal-chk-custom { width: 20px; height: 20px; cursor: pointer; border-radius: 6px; }
+    .personal-chk-custom { width: 22px; height: 22px; cursor: pointer; border-radius: 6px; flex-shrink: 0; }
     .priority-pill-urgent { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; font-weight: 700; }
     .priority-pill-normal { background: #e0f2fe; color: #075985; border: 1px solid #7dd3fc; font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; font-weight: 700; }
+
+    .completed-accordion-header { background: #f1f5f9; border-radius: 10px; padding: 8px 14px; font-size: 0.85rem; font-weight: 700; color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: space-between; margin-top: 18px; margin-bottom: 10px; transition: background-color 0.2s ease; }
+    .completed-accordion-header:hover { background: #e2e8f0; }
 
     @media (max-width: 992px) {
       .portal-layout-grid { grid-template-columns: 1fr; gap: 14px; }
@@ -262,9 +273,9 @@
           <span class="tab-icon-wrapper"><i class="bi bi-send-plus-fill"></i></span>
           <span>แผนสั่งการและมอบหมายงาน</span>
         </button>
-        <button class="nav-link" id="tab-personal-exec-tab" data-bs-toggle="tab" data-bs-target="#tab-personal-exec" type="button" role="tab" onclick="switchExecutiveTab('personal')">
-          <span class="tab-icon-wrapper"><i class="bi bi-bookmark-check-fill text-warning"></i></span>
-          <span>📌 สมุดงานส่วนตัวผู้บริหาร</span>
+        <button class="nav-link vibrant-glass-pill-tab" id="tab-personal-exec-tab" data-bs-toggle="tab" data-bs-target="#tab-personal-exec" type="button" role="tab" onclick="switchExecutiveTab('personal')">
+          <span class="tab-icon-badge-gold"><i class="bi bi-pin-angle-fill"></i></span>
+          <span>งานส่วนตัวของฉัน (My To-Do List)</span>
         </button>
       </div>
     </div>
@@ -280,9 +291,9 @@
           <span class="tab-icon-wrapper"><i class="bi bi-archive-fill"></i></span>
           <span>จัดเก็บงานที่แล้วเสร็จ</span>
         </button>
-        <button class="nav-link" id="staff-tab-personal-tab" data-bs-toggle="tab" data-bs-target="#staff-tab-personal" type="button" role="tab" onclick="switchExecutiveTab('personal')">
-          <span class="tab-icon-wrapper"><i class="bi bi-bookmark-check-fill text-success"></i></span>
-          <span>📌 งานส่วนตัวของฉัน (My To-Do List)</span>
+        <button class="nav-link vibrant-glass-pill-tab" id="staff-tab-personal-tab" data-bs-toggle="tab" data-bs-target="#staff-tab-personal" type="button" role="tab" onclick="switchExecutiveTab('personal')">
+          <span class="tab-icon-badge-gold"><i class="bi bi-pin-angle-fill"></i></span>
+          <span>งานส่วนตัวของฉัน (My To-Do List)</span>
         </button>
       </div>
     </div>
@@ -517,7 +528,7 @@
       </div>
     </div>
 
-    <!-- TEMPLATE PERSONAL TASKS BENTO GRID -->
+    <!-- TEMPLATE PERSONAL TASKS BENTO GRID (WITH URL LINK + GOOGLE TASKS SORTING) -->
     <div id="personalBentoTemplate" class="d-none">
       <div class="bento-personal-layout">
         <!-- Quick Task Input Card -->
@@ -545,6 +556,10 @@
             <div class="mb-3">
               <label class="form-label small fw-bold text-dark">โน้ตรายละเอียดส่วนตัว</label>
               <textarea class="form-control form-control-sm personalNotesInput text-dark" rows="3" placeholder="ระบุรายละเอียดส่วนตัวกันลืม..."></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-primary"><i class="bi bi-link-45deg me-1"></i> ลิงก์อ้างอิง / URL (ถ้ามี)</label>
+              <input type="url" class="form-control form-control-sm personalUrlInput text-dark fw-semibold" placeholder="https://...">
             </div>
             <button type="submit" class="btn btn-primary btn-sm rounded-pill w-100 py-2 fw-bold shadow-sm">
               <i class="bi bi-save-fill me-1"></i> บันทึกงานส่วนตัว
@@ -730,6 +745,7 @@
     let selectedImageBase64List = [];
     let activeProofType = 'photo';
     let pendingCreatePayload = null;
+    let isCompletedSectionOpen = true;
     
     let previousTaskMap = new Map();
     let isFirstFetch = true;
@@ -1165,7 +1181,7 @@
     }
 
     // ==========================================
-    // PERSONAL TASKS LOGIC (BENTO GRID ENGINE)
+    // PERSONAL TASKS LOGIC (BENTO + GOOGLE TASKS SORTING + OPTIMISTIC UI)
     // ==========================================
     async function fetchPersonalTasks(isPolling = false) {
       if (!currentUser) return;
@@ -1201,31 +1217,84 @@
         return;
       }
 
-      listContainer.innerHTML = tasks.map(t => {
-        const isDone = t.status === 'เสร็จแล้ว';
-        const isUrgent = t.priority === 'ด่วนมาก';
-        const priorityBadge = isUrgent ? '<span class="priority-pill-urgent"><i class="bi bi-exclamation-circle-fill me-1"></i>ด่วนมาก</span>' : '<span class="priority-pill-normal">ปกติ</span>';
+      // 1. Separate Active vs Completed Tasks
+      const activeTasks = tasks.filter(t => t.status !== 'เสร็จแล้ว');
+      const completedTasks = tasks.filter(t => t.status === 'เสร็จแล้ว');
 
-        return `
-          <div class="personal-item-card ${isDone ? 'completed' : ''}">
-            <div class="d-flex align-items-center gap-3" style="min-width: 0; flex: 1;">
-              <input type="checkbox" class="form-check-input personal-chk-custom" ${isDone ? 'checked' : ''} onchange="togglePersonalStatus('${t.taskId}', this.checked)">
-              <div style="min-width: 0; flex: 1;">
-                <div class="fw-bold text-dark personal-title mb-1">${t.title}</div>
-                <div class="d-flex align-items-center flex-wrap gap-2 small">
-                  ${priorityBadge}
-                  ${t.dueDate && t.dueDate !== '-' ? `<span class="text-danger fw-semibold"><i class="bi bi-clock me-1"></i>${t.dueDate}</span>` : ''}
-                  ${t.notes ? `<span class="text-secondary"><i class="bi bi-card-text me-1"></i>${t.notes}</span>` : ''}
-                </div>
-              </div>
-            </div>
-            <div class="d-flex align-items-center gap-1">
-              ${isExec ? `<button class="btn btn-sm btn-outline-primary rounded-pill px-2 py-1 small fw-bold" onclick="elevatePersonalTask('${t.taskId}')" title="แปลงเป็นงานสั่งการหลัก"><i class="bi bi-arrow-up-right-circle me-1"></i>สั่งการ</button>` : ''}
-              <button class="btn btn-sm btn-outline-danger rounded-circle p-1" onclick="deletePersonalTask('${t.taskId}')" title="ลบงานส่วนตัว"><i class="bi bi-trash"></i></button>
-            </div>
+      // 2. Hierarchical Sorting for Active Tasks
+      activeTasks.sort((a, b) => {
+        // Priority 1: ด่วนมาก comes before ปกติ
+        if (a.priority === 'ด่วนมาก' && b.priority !== 'ด่วนมาก') return -1;
+        if (a.priority !== 'ด่วนมาก' && b.priority === 'ด่วนมาก') return 1;
+
+        // Priority 2: Sort by Due Date (Early due date first)
+        const dateA = (a.dueDate && a.dueDate !== '-') ? new Date(parseToStandardDateStr(a.dueDate).split('/').reverse().join('-')) : new Date(9999, 11, 31);
+        const dateB = (b.dueDate && b.dueDate !== '-') ? new Date(parseToStandardDateStr(b.dueDate).split('/').reverse().join('-')) : new Date(9999, 11, 31);
+        return dateA - dateB;
+      });
+
+      // 3. Render Active Task Cards
+      const activeCardsHtml = activeTasks.map(t => renderSinglePersonalCard(t, isExec)).join('');
+
+      // 4. Render Completed Task Cards (Google Tasks Accordion Style)
+      let completedSectionHtml = '';
+      if (completedTasks.length > 0) {
+        const completedCardsHtml = completedTasks.map(t => renderSinglePersonalCard(t, isExec)).join('');
+        completedSectionHtml = `
+          <div class="completed-accordion-header" onclick="toggleCompletedAccordion()">
+            <span><i class="bi bi-check2-all text-success me-1"></i> งานที่เสร็จแล้ว (${completedTasks.length})</span>
+            <i class="bi ${isCompletedSectionOpen ? 'bi-chevron-up' : 'bi-chevron-down'}"></i>
+          </div>
+          <div id="completedTaskCollapseContainer" class="${isCompletedSectionOpen ? '' : 'd-none'}">
+            ${completedCardsHtml}
           </div>
         `;
-      }).join('');
+      }
+
+      listContainer.innerHTML = activeCardsHtml + completedSectionHtml;
+    }
+
+    function renderSinglePersonalCard(t, isExec) {
+      const isDone = t.status === 'เสร็จแล้ว';
+      const isUrgent = t.priority === 'ด่วนมาก';
+      const priorityBadge = isUrgent ? '<span class="priority-pill-urgent"><i class="bi bi-exclamation-circle-fill me-1"></i>ด่วนมาก</span>' : '<span class="priority-pill-normal">ปกติ</span>';
+
+      let urlBtnHtml = '';
+      if (t.urlLink && t.urlLink.trim().startsWith('http')) {
+        urlBtnHtml = `<a href="${t.urlLink.trim()}" target="_blank" onclick="event.stopPropagation();" class="badge bg-indigo-subtle text-indigo border border-indigo px-2 py-1 text-decoration-none fw-bold" style="color: #4338ca; background: #eef2ff;"><i class="bi bi-link-45deg me-1"></i>เปิดลิงก์ข้อมูล</a>`;
+      }
+
+      let completedBadgeHtml = '';
+      if (isDone) {
+        completedBadgeHtml = `<span class="text-success fw-bold small me-2"><i class="bi bi-check-circle-fill me-1"></i>เสร็จแล้ว${t.completedAt ? ' เมื่อ ' + t.completedAt : ''}</span>`;
+      }
+
+      return `
+        <div class="personal-item-card ${isDone ? 'completed' : ''}" id="pcard_${t.taskId}">
+          <div class="d-flex align-items-center gap-3" style="min-width: 0; flex: 1;">
+            <input type="checkbox" class="form-check-input personal-chk-custom" ${isDone ? 'checked' : ''} onchange="togglePersonalStatusOptimistic('${t.taskId}', this.checked)">
+            <div style="min-width: 0; flex: 1;">
+              <div class="fw-bold text-dark personal-title mb-1">${t.title}</div>
+              <div class="d-flex align-items-center flex-wrap gap-2 small">
+                ${priorityBadge}
+                ${t.dueDate && t.dueDate !== '-' ? `<span class="text-danger fw-semibold"><i class="bi bi-clock me-1"></i>${t.dueDate}</span>` : ''}
+                ${t.notes ? `<span class="text-secondary"><i class="bi bi-card-text me-1"></i>${t.notes}</span>` : ''}
+                ${urlBtnHtml}
+                ${completedBadgeHtml}
+              </div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-1">
+            ${(isExec && !isDone) ? `<button class="btn btn-sm btn-outline-primary rounded-pill px-2 py-1 small fw-bold" onclick="elevatePersonalTask('${t.taskId}')" title="แปลงเป็นงานสั่งการหลัก"><i class="bi bi-arrow-up-right-circle me-1"></i>สั่งการ</button>` : ''}
+            <button class="btn btn-sm btn-outline-danger rounded-circle p-1" onclick="deletePersonalTask('${t.taskId}')" title="ลบงานส่วนตัว"><i class="bi bi-trash"></i></button>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleCompletedAccordion() {
+      isCompletedSectionOpen = !isCompletedSectionOpen;
+      renderPersonalTasks(rawPersonalTasks);
     }
 
     async function handleCreatePersonalTask(e) {
@@ -1241,6 +1310,7 @@
       const priorityInput = container.querySelector('.personalPriorityInput');
       const dueDateInput = container.querySelector('.personalDueDateInput');
       const notesInput = container.querySelector('.personalNotesInput');
+      const urlInput = container.querySelector('.personalUrlInput');
 
       if (!titleInput.value.trim()) return;
 
@@ -1249,7 +1319,8 @@
         title: titleInput.value.trim(),
         priority: priorityInput.value,
         dueDate: dueDateInput.value || '-',
-        notes: notesInput.value.trim()
+        notes: notesInput.value.trim(),
+        urlLink: urlInput ? urlInput.value.trim() : ''
       };
 
       const res = await callGasApi('createPersonalTask', { taskObj });
@@ -1257,18 +1328,37 @@
         titleInput.value = '';
         notesInput.value = '';
         dueDateInput.value = '';
+        if (urlInput) urlInput.value = '';
         fetchPersonalTasks();
         Swal.fire({ icon: 'success', title: 'บันทึกงานส่วนตัวสำเร็จ', timer: 1200, showConfirmButton: false });
       }
     }
 
-    async function togglePersonalStatus(taskId, isChecked) {
+    // OPTIMISTIC UI FOR HIGH-SPEED CHECKBOX TOGGLE
+    async function togglePersonalStatusOptimistic(taskId, isChecked) {
       if (!currentUser) return;
       const userName = currentUser.name || currentUser.Name;
-      const newStatus = isChecked ? 'เสร็จแล้ว' : 'กำลังทำ';
 
+      // 1. Instantly update local array (0.05s response)
+      const target = rawPersonalTasks.find(t => String(t.taskId) === String(taskId));
+      if (target) {
+        target.status = isChecked ? 'เสร็จแล้ว' : 'กำลังทำ';
+        if (isChecked) {
+          const now = new Date();
+          const day = String(now.getDate()).padStart(2, '0');
+          const month = String(now.getMonth() + 1).padStart(2, '0');
+          const year = now.getFullYear() + 543;
+          const time = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+          target.completedAt = `${day}/${month}/${year} ${time}`;
+        } else {
+          target.completedAt = '';
+        }
+        renderPersonalTasks(rawPersonalTasks);
+      }
+
+      // 2. Background Sync to Google Apps Script
+      const newStatus = isChecked ? 'เสร็จแล้ว' : 'กำลังทำ';
       await callGasApi('updatePersonalTaskStatus', { taskId, newStatus, ownerUser: userName });
-      fetchPersonalTasks(true);
     }
 
     async function deletePersonalTask(taskId) {
