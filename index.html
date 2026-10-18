@@ -85,12 +85,12 @@
     .toast-border-success { border-left: 5px solid #16a34a !important; }
 
     /* ==========================================
-       CALENDAR FIXED RESPONSIVE (NO HORIZONTAL SCROLLBAR)
+       CALENDAR FIXED RESPONSIVE & DAY DETAILS MODAL STYLING
        ========================================== */
     .calendar-grid { 
       display: grid !important; 
       grid-template-columns: repeat(7, minmax(0, 1fr)) !important; 
-      gap: 4px !important; 
+      gap: 6px !important; 
       width: 100% !important; 
       max-width: 100% !important;
       box-sizing: border-box !important;
@@ -98,39 +98,45 @@
     .calendar-header-day { 
       text-align: center; 
       font-weight: 700; 
-      font-size: 0.8rem; 
-      padding: 6px 2px; 
+      font-size: 0.85rem; 
+      padding: 8px 2px; 
       background: #f1f5f9; 
-      border-radius: 6px; 
+      border-radius: 8px; 
       color: #334155; 
       white-space: nowrap; 
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .calendar-day-cell { 
-      min-height: 90px; 
-      max-height: 120px; 
+      min-height: 110px; 
       background: #ffffff; 
       border: 1px solid var(--border-color); 
-      border-radius: 8px; 
-      padding: 4px; 
+      border-radius: 10px; 
+      padding: 6px; 
       display: flex; 
       flex-direction: column; 
-      overflow-y: auto; 
+      justify-content: flex-start;
+      align-items: stretch;
       min-width: 0 !important; 
       box-sizing: border-box !important;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+    .calendar-day-cell:hover {
+      border-color: #a5b4fc;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
     }
     .calendar-day-number { 
-      font-size: 0.78rem; 
+      font-size: 0.8rem; 
       font-weight: 700; 
       color: #475569; 
-      margin-bottom: 3px; 
+      margin-bottom: 4px; 
     }
     .calendar-event-item { 
       font-size: 0.72rem; 
-      padding: 2px 4px; 
-      border-radius: 4px; 
-      margin-bottom: 2px; 
+      padding: 3px 6px; 
+      border-radius: 6px; 
+      margin-bottom: 3px; 
       font-weight: 600; 
       cursor: pointer; 
       white-space: nowrap; 
@@ -138,10 +144,50 @@
       text-overflow: ellipsis; 
       display: block; 
       max-width: 100%;
+      line-height: 1.25;
+      transition: transform 0.15s ease;
+    }
+    .calendar-event-item:hover {
+      transform: translateY(-1px);
     }
     .event-done { background: #dcfce7; color: #14532d; border-left: 3px solid #16a34a; }
     .event-pending { background: #dbeafe; color: #1e3a8a; border-left: 3px solid #2563eb; }
     .event-issue { background: #ffe4e6; color: #881337; border-left: 3px solid #e11d48; }
+
+    .calendar-more-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #4338ca;
+      background: #eef2ff;
+      border: 1px dashed #c7d2fe;
+      border-radius: 6px;
+      padding: 2px 4px;
+      text-align: center;
+      margin-top: 2px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .calendar-more-badge:hover {
+      background: #4338ca;
+      color: #ffffff;
+      border-style: solid;
+    }
+
+    /* DAY DETAILS CARD ITEM IN MODAL */
+    .day-task-card-item {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .day-task-card-item:hover {
+      border-color: #818cf8;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.1);
+      transform: translateY(-1px);
+    }
 
     #landingAuthGate { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 10% 20%, rgba(67, 56, 202, 0.08) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.08) 0%, transparent 40%), linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); background-size: 100% 100%; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
     .login-container-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: 24px; box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.8); max-width: 1180px; width: 100%; padding: 24px; border: 1px solid #cbd5e1; }
@@ -633,6 +679,27 @@
 
   </div>
 
+  <!-- DAY DETAILS MODAL (เพิ่มระบบขยายดูภารกิจรายวัน) -->
+  <div class="modal fade" id="dayTasksModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+      <div class="modal-content border-0 shadow-lg rounded-4 bg-white overflow-hidden">
+        <div class="modal-header modal-vibrant-header border-0 py-3">
+          <div class="d-flex align-items-center gap-2">
+            <span class="fs-5 text-warning"><i class="bi bi-calendar-event-fill"></i></span>
+            <h6 class="fw-bold mb-0 text-white fs-6" id="dayTasksModalTitle">ภารกิจประจำวันที่...</h6>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-3 p-md-4" id="dayTasksModalBody">
+          <!-- Rendered via JS -->
+        </div>
+        <div class="modal-footer border-0 bg-light">
+          <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4 fw-bold" data-bs-dismiss="modal">ปิดหน้าต่าง</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MODALS -->
   <div class="modal fade" id="commandSummaryModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -786,7 +853,7 @@
     let selectedUserForLogin = null;
     let rawTasks = [];
     let rawPersonalTasks = [];
-    let updateModalObj, detailModalObj, summaryModalObj;
+    let updateModalObj, detailModalObj, summaryModalObj, dayTasksModalObj;
     let currentActiveTab = 'tracking'; 
     let calendarDate = new Date();
     let smartPollingTimer = null;
@@ -822,6 +889,7 @@
       updateModalObj = new bootstrap.Modal(document.getElementById('updateModal'));
       detailModalObj = new bootstrap.Modal(document.getElementById('detailModal'));
       summaryModalObj = new bootstrap.Modal(document.getElementById('commandSummaryModal'));
+      dayTasksModalObj = new bootstrap.Modal(document.getElementById('dayTasksModal'));
 
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('assignedDate').value = today;
@@ -1847,6 +1915,9 @@
       return dateStr;
     }
 
+    // ============================================================
+    // CALENDAR RENDERER & DAY DETAILS MODAL LOGIC (MAX 2 VISIBLE ITEMS)
+    // ============================================================
     function renderCalendar() {
       const mountPoint = document.getElementById('calendarMountPoint');
       const titleElem = document.getElementById('calendarMonthTitle');
@@ -1865,7 +1936,9 @@
       const totalDays = new Date(year, month + 1, 0).getDate();
 
       let gridHtml = '';
-      for (let i = 0; i < firstDayIndex; i++) gridHtml += `<div class="calendar-day-cell bg-light opacity-50"></div>`;
+      for (let i = 0; i < firstDayIndex; i++) gridHtml += `<div class="calendar-day-cell bg-light opacity-50" style="cursor: default;"></div>`;
+
+      const MAX_VISIBLE_EVENTS = 2;
 
       for (let day = 1; day <= totalDays; day++) {
         const dayTwoDigit = (day < 10 ? '0' : '') + day;
@@ -1878,18 +1951,30 @@
           return stdDueDate === targetDateStr || stdAssignDate === targetDateStr;
         });
 
-        let eventsHtml = dayTasks.map(t => {
+        const visibleTasks = dayTasks.slice(0, MAX_VISIBLE_EVENTS);
+        const remainingCount = dayTasks.length - MAX_VISIBLE_EVENTS;
+
+        let eventsHtml = visibleTasks.map(t => {
           let eventClass = 'event-pending';
           if (t.status === 'อนุมัติเสร็จสิ้นแล้ว' || t.status === 'เสร็จสิ้น') eventClass = 'event-done';
           if (t.status === 'พบปัญหา/ขัดข้อง') eventClass = 'event-issue';
 
-          return `<div class="calendar-event-item ${eventClass}" onclick="openDetailModal('${t.taskId}')" title="${t.subject} (${getUserName(t.assignedTo)})">
-            ${t.refNumber ? `[${t.refNumber}]` : ''} ${t.subject}
+          const refText = t.refNumber ? `[${t.refNumber}] ` : '';
+          return `<div class="calendar-event-item ${eventClass}" onclick="event.stopPropagation(); openDetailModal('${t.taskId}')" title="${t.subject} (${getUserName(t.assignedTo)})">
+            <strong>${refText}</strong>${t.subject}
           </div>`;
         }).join('');
 
+        if (remainingCount > 0) {
+          eventsHtml += `
+            <div class="calendar-more-badge" onclick="event.stopPropagation(); openDayTasksModal('${targetDateStr}')">
+              + อีก ${remainingCount} รายการ
+            </div>
+          `;
+        }
+
         gridHtml += `
-          <div class="calendar-day-cell">
+          <div class="calendar-day-cell" onclick="openDayTasksModal('${targetDateStr}')">
             <div class="calendar-day-number">${day}</div>
             ${eventsHtml}
           </div>
@@ -1900,6 +1985,48 @@
         <div class="calendar-grid mb-2">${headerHtml}</div>
         <div class="calendar-grid">${gridHtml}</div>
       `;
+    }
+
+    function openDayTasksModal(targetDateStr) {
+      const dayTasks = rawTasks.filter(t => {
+        const stdDueDate = parseToStandardDateStr(t.dueDate);
+        const stdAssignDate = parseToStandardDateStr(t.assignedDate);
+        return stdDueDate === targetDateStr || stdAssignDate === targetDateStr;
+      });
+
+      const parts = targetDateStr.split('/');
+      const formattedDateTitle = `${parseInt(parts[0], 10)} ${thaiMonthNames[parseInt(parts[1], 10) - 1]} ${parseInt(parts[2], 10) + 543}`;
+
+      document.getElementById('dayTasksModalTitle').innerText = `ภารกิจประจำวันที่ ${formattedDateTitle} (${dayTasks.length} รายการ)`;
+      const bodyElem = document.getElementById('dayTasksModalBody');
+
+      if (dayTasks.length === 0) {
+        bodyElem.innerHTML = `<div class="text-center py-4 text-muted"><i class="bi bi-calendar-x fs-2 d-block mb-1"></i>ไม่มีภารกิจที่มีกำหนดในวันนี้</div>`;
+      } else {
+        bodyElem.innerHTML = dayTasks.map(t => {
+          let badgeClass = 'bg-primary';
+          if (t.status === 'อนุมัติเสร็จสิ้นแล้ว' || t.status === 'เสร็จสิ้น') badgeClass = 'bg-success';
+          if (t.status === 'พบปัญหา/ขัดข้อง') badgeClass = 'bg-danger';
+          if (t.status === 'กำลังดำเนินการ') badgeClass = 'bg-warning text-dark';
+
+          return `
+            <div class="day-task-card-item shadow-sm" onclick="dayTasksModalObj.hide(); openDetailModal('${t.taskId}');">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="badge bg-light text-dark border fw-bold">[${t.refNumber || '-'}]</span>
+                <span class="badge ${badgeClass} fw-bold">${t.status}</span>
+              </div>
+              <div class="fw-bold text-dark fs-6 mb-1">${t.subject}</div>
+              <div class="text-muted small mb-2">${t.instruction}</div>
+              <div class="d-flex justify-content-between align-items-center text-secondary small pt-2 border-top">
+                <span><i class="bi bi-person-fill me-1"></i>ผู้รับผิดชอบ: <strong>${getUserName(t.assignedTo)}</strong></span>
+                <span class="text-primary fw-bold">ดูรายละเอียด <i class="bi bi-chevron-right"></i></span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      dayTasksModalObj.show();
     }
 
     async function handleQuickAck(taskId) {
