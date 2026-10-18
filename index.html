@@ -36,7 +36,7 @@
     .staff-mode .nav-tab-custom .nav-link.active { background: #0f766e !important; color: #ffffff !important; box-shadow: 0 4px 14px rgba(15, 118, 110, 0.3); }
     .nav-tab-custom .nav-link:hover:not(.active) { background: #f1f5f9; color: #0f172a; }
 
-    /* VIBRANT GLASS PILL TAB STYLE FOR PERSONAL TASKS (OPTION 1) */
+    /* VIBRANT GLASS PILL TAB STYLE FOR PERSONAL TASKS */
     .vibrant-glass-pill-tab { position: relative; background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%) !important; border: 1.5px solid #fde68a !important; color: #9a3412 !important; font-weight: 700 !important; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15) !important; }
     .vibrant-glass-pill-tab:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25) !important; }
     .exec-mode .nav-tab-custom .vibrant-glass-pill-tab.active { background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important; color: #ffffff !important; border-color: #f59e0b !important; box-shadow: 0 6px 18px rgba(217, 119, 6, 0.4) !important; }
@@ -84,11 +84,61 @@
     .toast-border-warning { border-left: 5px solid #dc2626 !important; }
     .toast-border-success { border-left: 5px solid #16a34a !important; }
 
-    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-    .calendar-header-day { text-align: center; font-weight: 700; font-size: 0.85rem; padding: 6px; background: #f1f5f9; border-radius: 6px; color: #334155; }
-    .calendar-day-cell { min-height: 100px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 10px; padding: 6px; display: flex; flex-direction: column; }
-    .calendar-day-number { font-size: 0.82rem; font-weight: 700; color: #475569; margin-bottom: 4px; }
-    .calendar-event-item { font-size: 0.75rem; padding: 3px 6px; border-radius: 5px; margin-bottom: 3px; font-weight: 600; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    /* ==========================================
+       CALENDAR FIXED RESPONSIVE (NO HORIZONTAL SCROLLBAR)
+       ========================================== */
+    .calendar-grid { 
+      display: grid !important; 
+      grid-template-columns: repeat(7, minmax(0, 1fr)) !important; 
+      gap: 4px !important; 
+      width: 100% !important; 
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    .calendar-header-day { 
+      text-align: center; 
+      font-weight: 700; 
+      font-size: 0.8rem; 
+      padding: 6px 2px; 
+      background: #f1f5f9; 
+      border-radius: 6px; 
+      color: #334155; 
+      white-space: nowrap; 
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .calendar-day-cell { 
+      min-height: 90px; 
+      max-height: 120px; 
+      background: #ffffff; 
+      border: 1px solid var(--border-color); 
+      border-radius: 8px; 
+      padding: 4px; 
+      display: flex; 
+      flex-direction: column; 
+      overflow-y: auto; 
+      min-width: 0 !important; 
+      box-sizing: border-box !important;
+    }
+    .calendar-day-number { 
+      font-size: 0.78rem; 
+      font-weight: 700; 
+      color: #475569; 
+      margin-bottom: 3px; 
+    }
+    .calendar-event-item { 
+      font-size: 0.72rem; 
+      padding: 2px 4px; 
+      border-radius: 4px; 
+      margin-bottom: 2px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      white-space: nowrap; 
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+      display: block; 
+      max-width: 100%;
+    }
     .event-done { background: #dcfce7; color: #14532d; border-left: 3px solid #16a34a; }
     .event-pending { background: #dbeafe; color: #1e3a8a; border-left: 3px solid #2563eb; }
     .event-issue { background: #ffe4e6; color: #881337; border-left: 3px solid #e11d48; }
@@ -145,9 +195,7 @@
     .vibrant-card-box { background: #ffffff; border-left: 4px solid #4338ca; border-radius: 10px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); border-top: 1px solid #f1f5f9; border-right: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; }
     .word-break-all { word-break: break-word !important; overflow-wrap: anywhere !important; }
 
-    /* ==========================================
-       PERSONAL TASKS BENTO GRID & GOOGLE TASKS STYLE
-       ========================================== */
+    /* PERSONAL TASKS BENTO GRID & GOOGLE TASKS STYLE */
     .bento-personal-layout { display: grid; grid-template-columns: 330px minmax(0, 1fr); gap: 16px; align-items: start; }
     .bento-input-card { background: #ffffff; border-radius: var(--card-radius); border: 1px solid var(--border-color); padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
     .bento-list-card { background: #ffffff; border-radius: var(--card-radius); border: 1px solid var(--border-color); padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); min-height: 480px; }
@@ -348,7 +396,7 @@
         </div>
 
         <div class="tab-pane fade" id="tab-calendar" role="tabpanel">
-          <div class="card p-3 p-md-4 bg-white rounded-4 border shadow-sm mb-4">
+          <div class="card p-3 p-md-4 bg-white rounded-4 border shadow-sm mb-4" style="overflow-x: hidden;">
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
               <div class="d-flex align-items-center gap-2">
                 <h6 class="fw-bold text-dark mb-0 me-2"><i class="bi bi-calendar-week text-primary me-2"></i>ปฏิทินติดตามกำหนดส่งงาน</h6>
@@ -358,7 +406,7 @@
                 <button class="btn btn-sm btn-light rounded-pill px-3 ms-1 fw-bold border" onclick="resetCalendarMonth()">วันนี้</button>
               </div>
             </div>
-            <div id="calendarMountPoint"></div>
+            <div id="calendarMountPoint" style="width: 100%; overflow-x: hidden;"></div>
           </div>
         </div>
 
@@ -528,7 +576,7 @@
       </div>
     </div>
 
-    <!-- TEMPLATE PERSONAL TASKS BENTO GRID (WITH URL LINK + GOOGLE TASKS SORTING) -->
+    <!-- TEMPLATE PERSONAL TASKS BENTO GRID -->
     <div id="personalBentoTemplate" class="d-none">
       <div class="bento-personal-layout">
         <!-- Quick Task Input Card -->
@@ -1180,9 +1228,7 @@
       }
     }
 
-    // ==========================================
-    // PERSONAL TASKS LOGIC (BENTO + GOOGLE TASKS SORTING + OPTIMISTIC UI)
-    // ==========================================
+    // PERSONAL TASKS LOGIC
     async function fetchPersonalTasks(isPolling = false) {
       if (!currentUser) return;
       const userName = currentUser.name || currentUser.Name;
@@ -1217,26 +1263,20 @@
         return;
       }
 
-      // 1. Separate Active vs Completed Tasks
       const activeTasks = tasks.filter(t => t.status !== 'เสร็จแล้ว');
       const completedTasks = tasks.filter(t => t.status === 'เสร็จแล้ว');
 
-      // 2. Hierarchical Sorting for Active Tasks
       activeTasks.sort((a, b) => {
-        // Priority 1: ด่วนมาก comes before ปกติ
         if (a.priority === 'ด่วนมาก' && b.priority !== 'ด่วนมาก') return -1;
         if (a.priority !== 'ด่วนมาก' && b.priority === 'ด่วนมาก') return 1;
 
-        // Priority 2: Sort by Due Date (Early due date first)
         const dateA = (a.dueDate && a.dueDate !== '-') ? new Date(parseToStandardDateStr(a.dueDate).split('/').reverse().join('-')) : new Date(9999, 11, 31);
         const dateB = (b.dueDate && b.dueDate !== '-') ? new Date(parseToStandardDateStr(b.dueDate).split('/').reverse().join('-')) : new Date(9999, 11, 31);
         return dateA - dateB;
       });
 
-      // 3. Render Active Task Cards
       const activeCardsHtml = activeTasks.map(t => renderSinglePersonalCard(t, isExec)).join('');
 
-      // 4. Render Completed Task Cards (Google Tasks Accordion Style)
       let completedSectionHtml = '';
       if (completedTasks.length > 0) {
         const completedCardsHtml = completedTasks.map(t => renderSinglePersonalCard(t, isExec)).join('');
@@ -1334,12 +1374,10 @@
       }
     }
 
-    // OPTIMISTIC UI FOR HIGH-SPEED CHECKBOX TOGGLE
     async function togglePersonalStatusOptimistic(taskId, isChecked) {
       if (!currentUser) return;
       const userName = currentUser.name || currentUser.Name;
 
-      // 1. Instantly update local array (0.05s response)
       const target = rawPersonalTasks.find(t => String(t.taskId) === String(taskId));
       if (target) {
         target.status = isChecked ? 'เสร็จแล้ว' : 'กำลังทำ';
@@ -1356,7 +1394,6 @@
         renderPersonalTasks(rawPersonalTasks);
       }
 
-      // 2. Background Sync to Google Apps Script
       const newStatus = isChecked ? 'เสร็จแล้ว' : 'กำลังทำ';
       await callGasApi('updatePersonalTaskStatus', { taskId, newStatus, ownerUser: userName });
     }
@@ -2324,7 +2361,7 @@
       let cleanNote = t.lastNote || '';
       cleanNote = cleanNote
         .replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '')
-        .replace(/\[หลักฐาน:\s*([^\]]+)\]/g, '')
+        .replace(/\[หลักฐาน:\s*[^\]]+\]/g, '')
         .replace(/\[FolderLink:\s*[^\]]+\]/g, '')
         .replace(/\[อ้างอิง:\s*[^\]]+\]/g, '')
         .trim();
