@@ -30,8 +30,8 @@
     .user-name-title { color: #ffffff !important; font-weight: 700; font-size: 1.25rem; }
     .user-sub-detail { color: #e2e8f0 !important; font-size: 0.95rem; font-weight: 400; }
 
-    .nav-tab-custom { display: flex; gap: 6px; background: #ffffff; padding: 6px; border-radius: 14px; border: 1px solid var(--border-color); box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-    .nav-tab-custom .nav-link { border: none !important; color: #475569; font-weight: 600; border-radius: 10px; padding: 8px 18px; background: transparent; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 8px; font-size: 0.95rem; }
+    .nav-tab-custom { display: flex; gap: 6px; background: #ffffff; padding: 6px; border-radius: 14px; border: 1px solid var(--border-color); box-shadow: 0 2px 5px rgba(0,0,0,0.03); overflow-x: auto; }
+    .nav-tab-custom .nav-link { border: none !important; color: #475569; font-weight: 600; border-radius: 10px; padding: 8px 18px; background: transparent; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 8px; font-size: 0.95rem; white-space: nowrap; }
     .exec-mode .nav-tab-custom .nav-link.active { background: #312e81 !important; color: #ffffff !important; box-shadow: 0 4px 14px rgba(49, 46, 129, 0.3); }
     .staff-mode .nav-tab-custom .nav-link.active { background: #0f766e !important; color: #ffffff !important; box-shadow: 0 4px 14px rgba(15, 118, 110, 0.3); }
     .nav-tab-custom .nav-link:hover:not(.active) { background: #f1f5f9; color: #0f172a; }
@@ -137,9 +137,24 @@
     .vibrant-card-box { background: #ffffff; border-left: 4px solid #4338ca; border-radius: 10px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); border-top: 1px solid #f1f5f9; border-right: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; }
     .word-break-all { word-break: break-word !important; overflow-wrap: anywhere !important; }
 
+    /* ==========================================
+       PERSONAL TASKS BENTO GRID STYLES
+       ========================================== */
+    .bento-personal-layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 16px; align-items: start; }
+    .bento-input-card { background: #ffffff; border-radius: var(--card-radius); border: 1px solid var(--border-color); padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .bento-list-card { background: #ffffff; border-radius: var(--card-radius); border: 1px solid var(--border-color); padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); min-height: 480px; }
+    .personal-item-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; transition: all 0.25s ease; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .personal-item-card:hover { background: #ffffff; border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06); transform: translateY(-1px); }
+    .personal-item-card.completed { background: #f0fdf4; border-color: #bbf7d0; opacity: 0.7; }
+    .personal-item-card.completed .personal-title { text-decoration: line-through; color: #64748b; }
+    .personal-chk-custom { width: 20px; height: 20px; cursor: pointer; border-radius: 6px; }
+    .priority-pill-urgent { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; font-weight: 700; }
+    .priority-pill-normal { background: #e0f2fe; color: #075985; border: 1px solid #7dd3fc; font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; font-weight: 700; }
+
     @media (max-width: 992px) {
       .portal-layout-grid { grid-template-columns: 1fr; gap: 14px; }
       .staff-matrix-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .bento-personal-layout { grid-template-columns: 1fr; gap: 14px; }
     }
 
     @media (max-width: 576px) {
@@ -247,6 +262,10 @@
           <span class="tab-icon-wrapper"><i class="bi bi-send-plus-fill"></i></span>
           <span>แผนสั่งการและมอบหมายงาน</span>
         </button>
+        <button class="nav-link" id="tab-personal-exec-tab" data-bs-toggle="tab" data-bs-target="#tab-personal-exec" type="button" role="tab" onclick="switchExecutiveTab('personal')">
+          <span class="tab-icon-wrapper"><i class="bi bi-bookmark-check-fill text-warning"></i></span>
+          <span>📌 สมุดงานส่วนตัวผู้บริหาร</span>
+        </button>
       </div>
     </div>
 
@@ -260,6 +279,10 @@
         <button class="nav-link" id="staff-tab-archive-tab" data-bs-toggle="tab" data-bs-target="#staff-tab-archive" type="button" role="tab" onclick="switchExecutiveTab('archive')">
           <span class="tab-icon-wrapper"><i class="bi bi-archive-fill"></i></span>
           <span>จัดเก็บงานที่แล้วเสร็จ</span>
+        </button>
+        <button class="nav-link" id="staff-tab-personal-tab" data-bs-toggle="tab" data-bs-target="#staff-tab-personal" type="button" role="tab" onclick="switchExecutiveTab('personal')">
+          <span class="tab-icon-wrapper"><i class="bi bi-bookmark-check-fill text-success"></i></span>
+          <span>📌 งานส่วนตัวของฉัน (My To-Do List)</span>
         </button>
       </div>
     </div>
@@ -394,6 +417,10 @@
             </form>
           </div>
         </div>
+
+        <div class="tab-pane fade" id="tab-personal-exec" role="tabpanel">
+          <div id="execPersonalMountPoint"></div>
+        </div>
       </div>
     </div>
 
@@ -449,6 +476,10 @@
         <div class="tab-pane fade" id="staff-tab-archive" role="tabpanel">
           <div id="staffArchiveMountPoint"></div>
         </div>
+
+        <div class="tab-pane fade" id="staff-tab-personal" role="tabpanel">
+          <div id="staffPersonalMountPoint"></div>
+        </div>
       </div>
     </div>
 
@@ -482,6 +513,57 @@
               <tr><td colspan="8" class="text-center py-4 text-dark">กรุณาเข้าสู่ระบบเพื่อดูข้อมูลภารกิจ</td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEMPLATE PERSONAL TASKS BENTO GRID -->
+    <div id="personalBentoTemplate" class="d-none">
+      <div class="bento-personal-layout">
+        <!-- Quick Task Input Card -->
+        <div class="bento-input-card">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <span class="fs-5 text-warning"><i class="bi bi-plus-circle-fill"></i></span>
+            <h6 class="fw-bold text-dark mb-0">สร้างบันทึกงานส่วนตัว</h6>
+          </div>
+          <form onsubmit="handleCreatePersonalTask(event)">
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-dark">เรื่อง / งานส่วนตัวกันลืม</label>
+              <input type="text" class="form-control form-control-sm personalTitleInput text-dark fw-semibold" required placeholder="เช่น เตรียมจัดทำราคากลาง ม.5...">
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-dark">ระดับความสำคัญ</label>
+              <select class="form-select form-select-sm personalPriorityInput text-dark fw-semibold">
+                <option value="ปกติ">🔵 ปกติ</option>
+                <option value="ด่วนมาก">🔴 ด่วนมาก</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-dark">วันที่ต้องทำ / กำหนดส่ง</label>
+              <input type="date" class="form-control form-control-sm personalDueDateInput text-dark fw-semibold">
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-dark">โน้ตรายละเอียดส่วนตัว</label>
+              <textarea class="form-control form-control-sm personalNotesInput text-dark" rows="3" placeholder="ระบุรายละเอียดส่วนตัวกันลืม..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm rounded-pill w-100 py-2 fw-bold shadow-sm">
+              <i class="bi bi-save-fill me-1"></i> บันทึกงานส่วนตัว
+            </button>
+          </form>
+        </div>
+
+        <!-- Bento List Card -->
+        <div class="bento-list-card">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center gap-2">
+              <h6 class="fw-bold text-dark mb-0"><i class="bi bi-check2-square text-primary me-1"></i> รายการ To-Do List ส่วนตัวของฉัน</h6>
+              <span class="badge bg-light text-dark border rounded-pill px-2 personalTotalBadge">0 รายการ</span>
+            </div>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="fetchPersonalTasks()"><i class="bi bi-arrow-repeat me-1"></i> รีเฟรช</button>
+          </div>
+          <div class="personalTasksContainer">
+            <div class="text-center py-5 text-muted">กำลังโหลดข้อมูลงานส่วนตัว...</div>
+          </div>
         </div>
       </div>
     </div>
@@ -640,6 +722,7 @@
     let currentUser = null;
     let selectedUserForLogin = null;
     let rawTasks = [];
+    let rawPersonalTasks = [];
     let updateModalObj, detailModalObj, summaryModalObj;
     let currentActiveTab = 'tracking'; 
     let calendarDate = new Date();
@@ -902,11 +985,15 @@
       smartPollingTimer = setInterval(() => {
         if (!document.hidden && currentUser) {
           fetchTasks(true);
+          if (currentActiveTab === 'personal') fetchPersonalTasks(true);
         }
       }, 15000);
 
       window.addEventListener('focus', () => {
-        if (currentUser) fetchTasks(true);
+        if (currentUser) {
+          fetchTasks(true);
+          if (currentActiveTab === 'personal') fetchPersonalTasks(true);
+        }
       });
     }
 
@@ -916,10 +1003,13 @@
       const isExec = userRole === 'ผู้บริหาร';
 
       if (isExec) {
-        const tabTrigger = document.querySelector(`#execTab button[data-bs-target="#tab-${tabName}"]`);
+        const targetId = tabName === 'personal' ? 'tab-personal-exec' : `tab-${tabName}`;
+        const tabTrigger = document.querySelector(`#execTab button[data-bs-target="#${targetId}"]`);
         if (tabTrigger) bootstrap.Tab.getOrCreateInstance(tabTrigger).show();
       } else {
-        const targetTabId = tabName === 'archive' ? 'staff-tab-archive' : 'staff-tab-tracking';
+        let targetTabId = 'staff-tab-tracking';
+        if (tabName === 'archive') targetTabId = 'staff-tab-archive';
+        if (tabName === 'personal') targetTabId = 'staff-tab-personal';
         const tabTrigger = document.querySelector(`#staffTab button[data-bs-target="#${targetTabId}"]`);
         if (tabTrigger) bootstrap.Tab.getOrCreateInstance(tabTrigger).show();
       }
@@ -928,6 +1018,8 @@
         renderTasks(rawTasks);
       } else if (tabName === 'calendar') {
         renderCalendar();
+      } else if (tabName === 'personal') {
+        fetchPersonalTasks();
       }
     }
 
@@ -942,6 +1034,7 @@
       const roleBadge = document.getElementById('roleBadge');
       const appContainer = document.getElementById('appMainContainer');
       const tableTemplate = document.getElementById('tableContainerTemplate').innerHTML;
+      const personalBentoTemplate = document.getElementById('personalBentoTemplate').innerHTML;
 
       headerBar.classList.remove('d-none');
       headerBar.classList.add('d-flex');
@@ -962,8 +1055,10 @@
         
         document.getElementById('executiveTableMountPoint').innerHTML = tableTemplate;
         document.getElementById('executiveArchiveMountPoint').innerHTML = tableTemplate;
+        document.getElementById('execPersonalMountPoint').innerHTML = personalBentoTemplate;
         document.getElementById('staffTableMountPoint').innerHTML = '';
         document.getElementById('staffArchiveMountPoint').innerHTML = '';
+        document.getElementById('staffPersonalMountPoint').innerHTML = '';
         
         populateStaffCheckboxGrid();
       } else {
@@ -982,8 +1077,10 @@
 
         document.getElementById('staffTableMountPoint').innerHTML = tableTemplate;
         document.getElementById('staffArchiveMountPoint').innerHTML = tableTemplate;
+        document.getElementById('staffPersonalMountPoint').innerHTML = personalBentoTemplate;
         document.getElementById('executiveTableMountPoint').innerHTML = '';
         document.getElementById('executiveArchiveMountPoint').innerHTML = '';
+        document.getElementById('execPersonalMountPoint').innerHTML = '';
       }
 
       document.querySelectorAll('.dynamicTableHeaderCls').forEach(el => {
@@ -1064,6 +1161,164 @@
         }
       } catch (err) {
         renderTasks([]);
+      }
+    }
+
+    // ==========================================
+    // PERSONAL TASKS LOGIC (BENTO GRID ENGINE)
+    // ==========================================
+    async function fetchPersonalTasks(isPolling = false) {
+      if (!currentUser) return;
+      const userName = currentUser.name || currentUser.Name;
+
+      try {
+        const res = await callGasApi('getPersonalTasks', { userName }, 'GET');
+        if (res && res.success && Array.isArray(res.data)) {
+          rawPersonalTasks = res.data;
+          renderPersonalTasks(rawPersonalTasks);
+        } else {
+          renderPersonalTasks([]);
+        }
+      } catch (e) {
+        renderPersonalTasks([]);
+      }
+    }
+
+    function renderPersonalTasks(tasks) {
+      const userRole = currentUser.role || currentUser.Role;
+      const isExec = userRole === 'ผู้บริหาร';
+      const container = isExec ? document.getElementById('execPersonalMountPoint') : document.getElementById('staffPersonalMountPoint');
+      if (!container) return;
+
+      const listContainer = container.querySelector('.personalTasksContainer');
+      const badge = container.querySelector('.personalTotalBadge');
+
+      if (!listContainer) return;
+      if (badge) badge.innerText = `${tasks.length} รายการ`;
+
+      if (tasks.length === 0) {
+        listContainer.innerHTML = '<div class="text-center py-5 text-muted"><i class="bi bi-journal-x fs-2 d-block mb-2"></i>ไม่มีรายการงานส่วนตัวที่บันทึกไว้</div>';
+        return;
+      }
+
+      listContainer.innerHTML = tasks.map(t => {
+        const isDone = t.status === 'เสร็จแล้ว';
+        const isUrgent = t.priority === 'ด่วนมาก';
+        const priorityBadge = isUrgent ? '<span class="priority-pill-urgent"><i class="bi bi-exclamation-circle-fill me-1"></i>ด่วนมาก</span>' : '<span class="priority-pill-normal">ปกติ</span>';
+
+        return `
+          <div class="personal-item-card ${isDone ? 'completed' : ''}">
+            <div class="d-flex align-items-center gap-3" style="min-width: 0; flex: 1;">
+              <input type="checkbox" class="form-check-input personal-chk-custom" ${isDone ? 'checked' : ''} onchange="togglePersonalStatus('${t.taskId}', this.checked)">
+              <div style="min-width: 0; flex: 1;">
+                <div class="fw-bold text-dark personal-title mb-1">${t.title}</div>
+                <div class="d-flex align-items-center flex-wrap gap-2 small">
+                  ${priorityBadge}
+                  ${t.dueDate && t.dueDate !== '-' ? `<span class="text-danger fw-semibold"><i class="bi bi-clock me-1"></i>${t.dueDate}</span>` : ''}
+                  ${t.notes ? `<span class="text-secondary"><i class="bi bi-card-text me-1"></i>${t.notes}</span>` : ''}
+                </div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-1">
+              ${isExec ? `<button class="btn btn-sm btn-outline-primary rounded-pill px-2 py-1 small fw-bold" onclick="elevatePersonalTask('${t.taskId}')" title="แปลงเป็นงานสั่งการหลัก"><i class="bi bi-arrow-up-right-circle me-1"></i>สั่งการ</button>` : ''}
+              <button class="btn btn-sm btn-outline-danger rounded-circle p-1" onclick="deletePersonalTask('${t.taskId}')" title="ลบงานส่วนตัว"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function handleCreatePersonalTask(e) {
+      e.preventDefault();
+      if (!currentUser) return;
+      const userName = currentUser.name || currentUser.Name;
+
+      const userRole = currentUser.role || currentUser.Role;
+      const isExec = userRole === 'ผู้บริหาร';
+      const container = isExec ? document.getElementById('execPersonalMountPoint') : document.getElementById('staffPersonalMountPoint');
+
+      const titleInput = container.querySelector('.personalTitleInput');
+      const priorityInput = container.querySelector('.personalPriorityInput');
+      const dueDateInput = container.querySelector('.personalDueDateInput');
+      const notesInput = container.querySelector('.personalNotesInput');
+
+      if (!titleInput.value.trim()) return;
+
+      const taskObj = {
+        ownerUser: userName,
+        title: titleInput.value.trim(),
+        priority: priorityInput.value,
+        dueDate: dueDateInput.value || '-',
+        notes: notesInput.value.trim()
+      };
+
+      const res = await callGasApi('createPersonalTask', { taskObj });
+      if (res && res.success) {
+        titleInput.value = '';
+        notesInput.value = '';
+        dueDateInput.value = '';
+        fetchPersonalTasks();
+        Swal.fire({ icon: 'success', title: 'บันทึกงานส่วนตัวสำเร็จ', timer: 1200, showConfirmButton: false });
+      }
+    }
+
+    async function togglePersonalStatus(taskId, isChecked) {
+      if (!currentUser) return;
+      const userName = currentUser.name || currentUser.Name;
+      const newStatus = isChecked ? 'เสร็จแล้ว' : 'กำลังทำ';
+
+      await callGasApi('updatePersonalTaskStatus', { taskId, newStatus, ownerUser: userName });
+      fetchPersonalTasks(true);
+    }
+
+    async function deletePersonalTask(taskId) {
+      if (!currentUser) return;
+      const userName = currentUser.name || currentUser.Name;
+
+      Swal.fire({
+        title: 'ยืนยันลบงานส่วนตัว?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ลบรายการ',
+        cancelButtonText: 'ยกเลิก',
+        confirmButtonColor: '#dc3545'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const res = await callGasApi('deletePersonalTask', { taskId, ownerUser: userName });
+          if (res && res.success) {
+            fetchPersonalTasks();
+            Swal.fire({ icon: 'success', title: 'ลบรายการเรียบร้อย', timer: 1200, showConfirmButton: false });
+          }
+        }
+      });
+    }
+
+    async function elevatePersonalTask(taskId) {
+      if (!currentUser) return;
+      const userName = currentUser.name || currentUser.Name;
+
+      const staffOptions = publicUsers.filter(u => u.Role === 'ผู้ปฏิบัติงาน').map(u => `<option value="${u.Name}">${u.Name} (${u.Position || 'ช่าง'})</option>`).join('');
+
+      const { value: selectedStaff } = await Swal.fire({
+        title: 'แปลงเป็นงานสั่งการหลัก',
+        html: `
+          <div class="text-start mb-2"><label class="small fw-bold">เลือกผู้รับผิดชอบ:</label></div>
+          <select id="swalStaffSelect" class="form-select text-dark fw-semibold mb-3">${staffOptions}</select>
+        `,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: 'ย้ายเข้าตารางสั่งการหลัก',
+        cancelButtonText: 'ยกเลิก',
+        preConfirm: () => document.getElementById('swalStaffSelect').value
+      });
+
+      if (selectedStaff) {
+        const res = await callGasApi('elevatePersonalToMainTask', { taskId, targetAssignedTo: selectedStaff, actorName: userName });
+        if (res && res.success) {
+          fetchPersonalTasks();
+          fetchTasks(true);
+          Swal.fire({ icon: 'success', title: 'ย้ายเป็นงานสั่งการเรียบร้อยแล้ว', timer: 1500, showConfirmButton: false });
+        }
       }
     }
 
@@ -1871,9 +2126,6 @@
       }
     }
 
-    // ==========================================
-    // EXECUTIVE REVIEW & DETAIL DISPLAY ENGINE (FIXED PHOTO PARSING)
-    // ==========================================
     function openDetailModal(taskId) {
       const t = rawTasks.find(x => String(x.taskId) === String(taskId));
       if (!t) return;
@@ -1895,7 +2147,6 @@
       const docBtn = (dLink && dLink.trim().startsWith('http')) ? 
         `<a href="${dLink.trim()}" target="_blank" class="btn btn-sm text-white rounded-pill mt-2 d-inline-flex align-items-center gap-1 shadow-sm" style="background-color: #4338ca;"><i class="bi bi-file-earmark-pdf-fill me-1"></i> เปิดดูเอกสารสารบรรณต้นฉบับ</a>` : '';
 
-      // 1. สกัด URL รูปภาพหลักฐาน
       let extractedProofUrl = (t.proofLink && t.proofLink.trim().length > 0) ? t.proofLink.trim() : '';
       let extractedFolderUrl = (t.folderLink && t.folderLink.trim().length > 0) ? t.folderLink.trim() : '';
 
@@ -1914,7 +2165,6 @@
         }
       }
 
-      // 2. แสดงผลอัลบั้มภาพถ่าย และปุ่มเปิด Sub-folder บน Google Drive
       let proofDisplay = '';
       if (extractedProofUrl || extractedFolderUrl) {
         let galleryItemsHtml = '';
@@ -1969,7 +2219,6 @@
         `;
       }
 
-      // 3. สกัดขั้นตอนย่อย
       let subStepDisplay = '';
       if (t.subStep || (t.lastNote && t.lastNote.includes('[ขั้นตอน:'))) {
         let stepText = t.subStep || '';
@@ -1982,11 +2231,10 @@
         }
       }
 
-      // 4. ทำความสะอาดข้อความรายงานความคืบหน้า
       let cleanNote = t.lastNote || '';
       cleanNote = cleanNote
         .replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '')
-        .replace(/\[หลักฐาน:\s*[^\]]+\]/g, '')
+        .replace(/\[หลักฐาน:\s*([^\]]+)\]/g, '')
         .replace(/\[FolderLink:\s*[^\]]+\]/g, '')
         .replace(/\[อ้างอิง:\s*[^\]]+\]/g, '')
         .trim();
