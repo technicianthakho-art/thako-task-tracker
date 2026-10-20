@@ -75,6 +75,29 @@
     .clickable-row { cursor: pointer; transition: background-color 0.15s ease; }
     .clickable-row:hover { background-color: #f1f5f9 !important; }
 
+    /* CALENDAR STYLING FIX (7 COLUMNS GRID) */
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; width: 100%; }
+    .calendar-header-day { text-align: center; font-weight: 700; font-size: 0.85rem; color: #475569; padding: 8px 0; background: #f1f5f9; border-radius: 8px; }
+    .calendar-day-cell { min-height: 105px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 6px; background: #ffffff; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; }
+    .calendar-day-cell:hover { border-color: #4338ca; box-shadow: 0 4px 12px rgba(67, 56, 202, 0.1); }
+    .calendar-day-number { font-weight: 800; font-size: 0.85rem; color: #0f172a; margin-bottom: 4px; }
+    .calendar-event-item { font-size: 0.75rem; padding: 3px 6px; border-radius: 6px; margin-bottom: 3px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; border-left: 3px solid; }
+    .event-pending { background: #e0f2fe; color: #0369a1; border-color: #0284c7; }
+    .event-done { background: #dcfce7; color: #15803d; border-color: #16a34a; }
+    .event-issue { background: #fee2e2; color: #b91c1c; border-color: #dc2626; }
+    .calendar-more-badge { font-size: 0.7rem; font-weight: 700; color: #4338ca; background: #eef2ff; padding: 2px 5px; border-radius: 4px; text-align: center; }
+
+    /* BENTO TO-DO LIST LAYOUT FIX (2 COLUMNS GRID) */
+    .bento-personal-layout { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 16px; align-items: start; }
+    .bento-input-card { background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--card-radius); padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .bento-list-card { background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--card-radius); padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); min-height: 500px; }
+    .personal-item-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 12px; transition: all 0.2s ease; }
+    .personal-item-card:hover { background: #ffffff; border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05); }
+    .personal-item-card.completed { opacity: 0.65; background: #f1f5f9; text-decoration: line-through; }
+    .priority-pill-urgent { font-size: 0.72rem; font-weight: 800; color: #ffffff; background: #dc2626; padding: 2px 8px; border-radius: 10px; }
+    .priority-pill-normal { font-size: 0.72rem; font-weight: 700; color: #475569; background: #e2e8f0; padding: 2px 8px; border-radius: 10px; }
+    .completed-accordion-header { cursor: pointer; padding: 10px; background: #f1f5f9; border-radius: 10px; font-weight: 700; font-size: 0.85rem; color: #475569; display: flex; justify-content: space-between; margin-top: 16px; margin-bottom: 8px; }
+
     #customToastContainer { position: fixed; bottom: 20px; right: 20px; z-index: 10000; display: flex; flex-direction: column-reverse; gap: 10px; max-width: 380px; width: 100%; pointer-events: none; }
     .custom-toast-card { pointer-events: auto; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: 14px; box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.15); border: 1px solid rgba(226, 232, 240, 0.9); overflow: hidden; transition: all 0.35s ease; animation: slideInRight 0.35s forwards; cursor: pointer; }
     @keyframes slideInRight { from { opacity: 0; transform: translateX(80px) scale(0.95); } to { opacity: 1; transform: translateX(0) scale(1); } }
@@ -83,7 +106,6 @@
     .toast-border-warning { border-left: 5px solid #dc2626 !important; }
     .toast-border-success { border-left: 5px solid #16a34a !important; }
 
-    /* PORTAL LOGIN GATE SUMMARY STYLING */
     #landingAuthGate { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 10% 20%, rgba(67, 56, 202, 0.08) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.08) 0%, transparent 40%), linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); background-size: 100% 100%; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
     .login-container-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: 24px; box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.8); max-width: 1180px; width: 100%; padding: 24px; border: 1px solid #cbd5e1; }
     .login-header-banner { background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%); border-radius: 20px; padding: 24px 32px; margin-bottom: 20px; color: #ffffff; box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.3); position: relative; overflow: hidden; }
@@ -91,7 +113,6 @@
     .banner-sub-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.18); backdrop-filter: blur(8px); padding: 6px 16px; border-radius: 30px; font-size: 0.9rem; font-weight: 600; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3); }
 
     .portal-layout-grid { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 16px; align-items: stretch; }
-    
     .exec-hero-card { background: #ffffff; position: relative; border-radius: var(--card-radius); padding: 20px 18px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px -4px rgba(67, 56, 202, 0.12); min-height: 100%; border: 3px solid #f59e0b !important; }
     .exec-hero-card:hover { background: var(--exec-gradient) !important; color: #ffffff !important; transform: translateY(-4px); box-shadow: 0 16px 32px -6px rgba(30, 27, 75, 0.4) !important; border-color: #fbbf24 !important; }
     .exec-hero-card:hover .user-exec-title { color: #ffffff !important; }
@@ -102,7 +123,6 @@
     .exec-hero-card:hover .portal-kpi-item .portal-kpi-value { color: #ffffff !important; }
 
     .exec-shield-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #4338ca 0%, #312e81 100%); color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; width: fit-content; box-shadow: 0 4px 10px rgba(67, 56, 202, 0.2); }
-
     .portal-kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 12px; margin-bottom: 12px; }
     .portal-kpi-item { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; transition: all 0.25s ease; }
     .portal-kpi-item.total-span { grid-column: span 2; background: #eef2ff; border-color: #c7d2fe; }
@@ -140,6 +160,7 @@
     @media (max-width: 992px) {
       .portal-layout-grid { grid-template-columns: 1fr; gap: 14px; }
       .staff-matrix-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .bento-personal-layout { grid-template-columns: 1fr; gap: 14px; }
     }
 
     @media (max-width: 576px) {
@@ -405,7 +426,6 @@
           <div id="execPersonalMountPoint"></div>
         </div>
 
-        <!-- BACKUP & RESTORE TAB -->
         <div class="tab-pane fade" id="tab-backup" role="tabpanel">
           <div class="backup-panel-card mb-4">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 pb-3 border-bottom">
@@ -583,7 +603,7 @@
   <div class="modal fade" id="dayTasksModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-md">
       <div class="modal-content border-0 shadow-lg rounded-4 bg-white overflow-hidden">
-        <div class="modal-header modal-vibrant-header border-0 py-3">
+        <div class="modal-header modal-vibrant-header border-0 py-3" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);">
           <div class="d-flex align-items-center gap-2">
             <span class="fs-5 text-warning"><i class="bi bi-calendar-event-fill"></i></span>
             <h6 class="fw-bold mb-0 text-white fs-6" id="dayTasksModalTitle">ภารกิจประจำวันที่...</h6>
@@ -602,7 +622,7 @@
   <div class="modal fade" id="commandSummaryModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4 bg-white">
-        <div class="modal-header modal-vibrant-header border-0">
+        <div class="modal-header border-0" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);">
           <h6 class="fw-bold mb-0 text-white"><i class="bi bi-check-circle-fill me-2"></i>ยืนยันการสั่งการและส่งแจ้งเตือน</h6>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
@@ -680,7 +700,7 @@
                 <div class="tab-pane fade show active" id="proof-photo" role="tabpanel">
                   <input type="file" id="modalImageInput" class="form-control form-control-sm" accept="image/*" multiple onchange="handleImageSelection(event)">
                   <small class="text-muted d-block mt-1" style="font-size: 0.78rem;">* เลือกรูปถ่ายหน้างานได้ 1 ถึง 5 รูป (ระบบสร้าง Sub-folder ให้อัตโนมัติใน Google Drive)</small>
-                  <div id="imagePreviewContainer" class="img-preview-container"></div>
+                  <div id="imagePreviewContainer" class="img-preview-container d-flex flex-wrap gap-2 mt-2"></div>
                 </div>
                 <div class="tab-pane fade" id="proof-url" role="tabpanel">
                   <input type="url" id="modalProofLink" class="form-control form-control-sm text-dark fw-semibold" placeholder="https://photos.app.goo.gl/... หรือ Google Drive Link">
@@ -708,7 +728,7 @@
   <div class="modal fade" id="detailModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-0 shadow-lg rounded-4 bg-white overflow-hidden">
-        <div class="modal-header modal-vibrant-header border-0 py-3">
+        <div class="modal-header border-0 py-3" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);">
           <div class="d-flex align-items-center gap-2">
             <span class="fs-5 text-warning"><i class="bi bi-file-earmark-check-fill"></i></span>
             <h6 class="fw-bold mb-0 text-white fs-6" id="detailModalTitle">รายละเอียดภารกิจและรายงานผลงาน</h6>
@@ -785,7 +805,6 @@
       return cleanA === cleanB || cleanA.includes(cleanB) || cleanB.includes(cleanA);
     }
 
-    // HIGH-SPEED FAST INITIALIZATION
     window.onload = function() {
       updateModalObj = new bootstrap.Modal(document.getElementById('updateModal'));
       detailModalObj = new bootstrap.Modal(document.getElementById('detailModal'));
@@ -800,10 +819,8 @@
         try { publicUsers = JSON.parse(cachedUsers); } catch(e) { publicUsers = STATIC_USERS_DEFAULT; }
       }
 
-      // เรนเดอร์หน้าประตู Login สดทันทีแบบ 0 วินาที
       initPublicUsers(publicUsers);
 
-      // โหลดสถิติสดและรายชื่อผู้ใช้งานจากเซิร์ฟเวอร์ฉากหลังแบบไม่บล็อกการโหลดหน้า
       setTimeout(() => {
         fetchPublicUsers();
         fetchPortalSummary();
@@ -1274,7 +1291,6 @@
       }
     }
 
-    // BACKUP & RESTORE FRONTEND LOGIC
     async function fetchBackupList() {
       const container = document.getElementById('backupListContainer');
       if (!container) return;
@@ -1397,7 +1413,6 @@
       });
     }
 
-    // PERSONAL TASKS LOGIC
     async function fetchPersonalTasks(isPolling = false) {
       if (!currentUser) return;
       const userName = currentUser.name || currentUser.Name;
@@ -2099,7 +2114,7 @@
           if (t.status === 'กำลังดำเนินการ') badgeClass = 'bg-warning text-dark';
 
           return `
-            <div class="day-task-card-item shadow-sm" onclick="dayTasksModalObj.hide(); openDetailModal('${t.taskId}');">
+            <div class="day-task-card-item shadow-sm p-3 mb-2 rounded border bg-white cursor-pointer" onclick="dayTasksModalObj.hide(); openDetailModal('${t.taskId}');">
               <div class="d-flex justify-content-between align-items-center mb-1">
                 <span class="badge bg-light text-dark border fw-bold">[${t.refNumber || '-'}]</span>
                 <span class="badge ${badgeClass} fw-bold">${t.status}</span>
@@ -2223,19 +2238,19 @@
       const staffListHtml = selectedStaff.map((name, i) => `<span class="badge bg-indigo-subtle text-indigo border border-indigo me-1 mb-1 p-2 fw-bold" style="color: #4338ca;">${i + 1}. ${name}</span>`).join('');
 
       document.getElementById('commandSummaryBody').innerHTML = `
-        <div class="vibrant-card-box">
+        <div class="vibrant-card-box p-2 mb-2 bg-light border rounded">
           <small class="text-muted d-block fw-bold">เลขที่หนังสือ / คำร้อง:</small>
           <span class="fs-6 fw-bold text-dark">${pendingCreatePayload.refNumber}</span>
         </div>
-        <div class="vibrant-card-box">
+        <div class="vibrant-card-box p-2 mb-2 bg-light border rounded">
           <small class="text-muted d-block fw-bold">เรื่อง / ชื่อภารกิจ:</small>
           <span class="fs-6 fw-bold text-primary">${pendingCreatePayload.subject}</span>
         </div>
-        <div class="vibrant-card-box">
+        <div class="vibrant-card-box p-2 mb-2 bg-light border rounded">
           <small class="text-muted d-block fw-bold mb-1">ผู้ปฏิบัติงานที่ได้รับมอบหมาย (${selectedStaff.length} คน):</small>
           <div>${staffListHtml}</div>
         </div>
-        <div class="vibrant-card-box">
+        <div class="vibrant-card-box p-2 mb-2 bg-light border rounded">
           <small class="text-muted d-block fw-bold">ข้อสั่งการ:</small>
           <div class="text-dark fw-semibold small">${pendingCreatePayload.instruction}</div>
         </div>
@@ -2396,10 +2411,10 @@
           selectedImageBase64List.push(b64);
 
           const box = document.createElement('div');
-          box.className = 'img-preview-box';
+          box.className = 'img-preview-box position-relative';
           box.innerHTML = `
-            <img src="${b64}">
-            <button type="button" class="btn-remove" onclick="removeSelectedImage(${index})">✕</button>
+            <img src="${b64}" style="width:70px; height:70px; object-fit:cover; border-radius:8px;">
+            <button type="button" class="btn btn-danger btn-sm rounded-circle position-absolute top-0 end-0 p-0" style="width:18px; height:18px; font-size:10px; line-height:1;" onclick="removeSelectedImage(${index})">✕</button>
           `;
           previewContainer.appendChild(box);
         };
@@ -2413,10 +2428,10 @@
       previewContainer.innerHTML = '';
       selectedImageBase64List.forEach((b64, idx) => {
         const box = document.createElement('div');
-        box.className = 'img-preview-box';
+        box.className = 'img-preview-box position-relative';
         box.innerHTML = `
-          <img src="${b64}">
-          <button type="button" class="btn-remove" onclick="removeSelectedImage(${idx})">✕</button>
+          <img src="${b64}" style="width:70px; height:70px; object-fit:cover; border-radius:8px;">
+          <button type="button" class="btn btn-danger btn-sm rounded-circle position-absolute top-0 end-0 p-0" style="width:18px; height:18px; font-size:10px; line-height:1;" onclick="removeSelectedImage(${idx})">✕</button>
         `;
         previewContainer.appendChild(box);
       });
@@ -2515,9 +2530,9 @@
         if (extractedProofUrl && (extractedProofUrl.includes('lh3.googleusercontent.com') || extractedProofUrl.includes('drive.google.com'))) {
           const urls = extractedProofUrl.split(',');
           galleryItemsHtml = urls.map((url, idx) => `
-            <div class="photo-gallery-item" onclick="window.open('${url.trim()}', '_blank')" title="รูปที่ ${idx+1}: คลิกเพื่อเปิดภาพถ่ายขนาดใหญ่">
-              <img src="${url.trim()}" alt="รูปหลักฐาน ${idx+1}">
-              <span class="zoom-badge"><i class="bi bi-search"></i> รูปที่ ${idx+1}</span>
+            <div class="photo-gallery-item p-1 border rounded bg-white shadow-sm cursor-pointer" onclick="window.open('${url.trim()}', '_blank')" title="รูปที่ ${idx+1}: คลิกเพื่อเปิดภาพถ่ายขนาดใหญ่">
+              <img src="${url.trim()}" style="width:100%; height:90px; object-fit:cover; border-radius:6px;" alt="รูปหลักฐาน ${idx+1}">
+              <span class="d-block text-center mt-1 text-primary fw-bold" style="font-size:0.75rem;"><i class="bi bi-search me-1"></i> รูปที่ ${idx+1}</span>
             </div>
           `).join('');
         }
@@ -2546,7 +2561,7 @@
             <div class="d-flex justify-content-between align-items-center mb-2">
               <span class="text-success fw-bold small"><i class="bi bi-camera-fill me-1"></i> รูปภาพและหลักฐานผลงานที่รายงาน:</span>
             </div>
-            ${galleryItemsHtml ? `<div class="photo-gallery-grid">${galleryItemsHtml}</div>` : ''}
+            ${galleryItemsHtml ? `<div class="d-grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));">${galleryItemsHtml}</div>` : ''}
             ${folderBtnHtml}
           </div>
         `;
@@ -2577,7 +2592,7 @@
       let cleanNote = t.lastNote || '';
       cleanNote = cleanNote
         .replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '')
-        .replace(/\[หลักฐาน:\s*([^\]]+)\]/g, '')
+        .replace(/\[หลักฐาน:\s*[^\]]+\]/g, '')
         .replace(/\[FolderLink:\s*[^\]]+\]/g, '')
         .replace(/\[อ้างอิง:\s*[^\]]+\]/g, '')
         .trim();
@@ -2596,16 +2611,16 @@
       }
 
       body.innerHTML = `
-        <div class="vibrant-card-box">
+        <div class="vibrant-card-box p-2 mb-2 bg-light border rounded">
           <small class="text-muted fw-bold d-block">เลขที่รับหนังสือ/คำร้อง:</small>
           <span class="fs-6 fw-bold text-dark">${t.refNumber || '-'}</span>
         </div>
-        <div class="vibrant-card-box">
+        <div class="vibrant-card-box p-2 mb-2 bg-light border rounded">
           <small class="text-muted fw-bold d-block">เรื่อง / ชื่อภารกิจ:</small>
           <div class="fw-bold text-primary fs-6 mb-1">${t.subject}</div>
           ${docBtn}
         </div>
-        <div class="vibrant-card-box">
+        <div class="vibrant-card-box p-2 mb-2 bg-light border rounded">
           <small class="text-muted fw-bold d-block">ข้อสั่งการ / รายละเอียดการปฏิบัติงานเดิม:</small>
           <div class="text-dark fw-semibold small mt-1">${t.instruction || '-'}</div>
         </div>
@@ -2636,7 +2651,7 @@
           </div>
         </div>
 
-        <div class="vibrant-card-box mb-3">
+        <div class="vibrant-card-box p-2 mb-3 bg-light border rounded">
           <small class="text-muted fw-bold d-block mb-1">สถานะภารกิจปัจจุบัน:</small>
           <div class="d-flex align-items-center flex-wrap gap-2 mt-1">
             ${statusBadgeHtml}
@@ -2646,9 +2661,9 @@
 
         ${proofDisplay}
 
-        <div class="vibrant-card-box mb-0">
+        <div class="vibrant-card-box p-2 mb-0 bg-light border rounded">
           <small class="text-muted fw-bold d-block">ข้อความรายงานความคืบหน้าฉบับเต็มจากผู้ปฏิบัติงาน:</small>
-          <div class="text-dark fw-semibold small word-break-all mt-1">${cleanNote || 'ไม่มีบันทึกเพิ่มเติม'}</div>
+          <div class="text-dark fw-semibold small text-break mt-1">${cleanNote || 'ไม่มีบันทึกเพิ่มเติม'}</div>
         </div>
       `;
 
