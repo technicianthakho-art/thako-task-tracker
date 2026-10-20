@@ -799,6 +799,14 @@
         try { publicUsers = JSON.parse(cachedUsers); } catch(e) { publicUsers = STATIC_USERS_DEFAULT; }
       }
 
+      // High-Speed Pre-render จาก LocalStorage
+      const cachedSummary = localStorage.getItem('thako_portal_summary_cache');
+      if (cachedSummary) {
+        try {
+          portalSummaryData = JSON.parse(cachedSummary);
+        } catch(e) {}
+      }
+
       initPublicUsers(publicUsers);
       fetchPublicUsers();
       fetchPortalSummary();
@@ -807,7 +815,7 @@
         if (!document.hidden && document.getElementById('landingAuthGate') && !document.getElementById('landingAuthGate').classList.contains('d-none')) {
           fetchPortalSummary();
         }
-      }, 25000);
+      }, 30000);
     };
 
     async function callGasApi(actionName, payloadObj = {}, method = 'POST') {
@@ -843,6 +851,7 @@
         const res = await callGasApi('getPublicPortalSummary', {}, 'GET');
         if (res && res.success && res.data) {
           portalSummaryData = res.data;
+          localStorage.setItem('thako_portal_summary_cache', JSON.stringify(portalSummaryData));
           renderPortalLayoutGrid();
         }
       } catch (e) {}
@@ -1084,7 +1093,7 @@
           fetchTasks(true);
           if (currentActiveTab === 'personal') fetchPersonalTasks(true);
         }
-      }, 15000);
+      }, 20000);
 
       window.addEventListener('focus', () => {
         if (currentUser) {
@@ -2571,7 +2580,7 @@
       let cleanNote = t.lastNote || '';
       cleanNote = cleanNote
         .replace(/\[ขั้นตอน:\s*[^\]]+\]/g, '')
-        .replace(/\[หลักฐาน:\s*[^\]]+\]/g, '')
+        .replace(/\[หลักฐาน:\s*([^\]]+)\]/g, '')
         .replace(/\[FolderLink:\s*[^\]]+\]/g, '')
         .replace(/\[อ้างอิง:\s*[^\]]+\]/g, '')
         .trim();
