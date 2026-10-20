@@ -75,19 +75,21 @@
     .clickable-row { cursor: pointer; transition: background-color 0.15s ease; }
     .clickable-row:hover { background-color: #f1f5f9 !important; }
 
-    /* CALENDAR STYLING FIX (7 COLUMNS GRID) */
+    /* ========================================================= */
+    /* CALENDAR STYLING (PERFECT FIXED HEIGHT GRID & AUTO TRUNCATE) */
+    /* ========================================================= */
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; width: 100%; }
     .calendar-header-day { text-align: center; font-weight: 700; font-size: 0.85rem; color: #475569; padding: 8px 0; background: #f1f5f9; border-radius: 8px; }
-    .calendar-day-cell { min-height: 105px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 6px; background: #ffffff; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; }
-    .calendar-day-cell:hover { border-color: #4338ca; box-shadow: 0 4px 12px rgba(67, 56, 202, 0.1); }
-    .calendar-day-number { font-weight: 800; font-size: 0.85rem; color: #0f172a; margin-bottom: 4px; }
-    .calendar-event-item { font-size: 0.75rem; padding: 3px 6px; border-radius: 6px; margin-bottom: 3px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; border-left: 3px solid; }
+    .calendar-day-cell { height: 115px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 6px; background: #ffffff; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; justify-content: flex-start; overflow: hidden; position: relative; }
+    .calendar-day-cell:hover { border-color: #4338ca; box-shadow: 0 4px 12px rgba(67, 56, 202, 0.12); }
+    .calendar-day-number { font-weight: 800; font-size: 0.85rem; color: #0f172a; margin-bottom: 4px; line-height: 1; }
+    .calendar-event-item { font-size: 0.73rem; padding: 2px 6px; border-radius: 5px; margin-bottom: 3px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; border-left: 3px solid; line-height: 1.35; width: 100%; }
     .event-pending { background: #e0f2fe; color: #0369a1; border-color: #0284c7; }
     .event-done { background: #dcfce7; color: #15803d; border-color: #16a34a; }
     .event-issue { background: #fee2e2; color: #b91c1c; border-color: #dc2626; }
-    .calendar-more-badge { font-size: 0.7rem; font-weight: 700; color: #4338ca; background: #eef2ff; padding: 2px 5px; border-radius: 4px; text-align: center; }
+    .calendar-more-badge { font-size: 0.68rem; font-weight: 700; color: #4338ca; background: #eef2ff; padding: 1px 4px; border-radius: 4px; text-align: center; border: 1px solid #c7d2fe; margin-top: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* BENTO TO-DO LIST LAYOUT FIX (2 COLUMNS GRID) */
+    /* BENTO TO-DO LIST LAYOUT */
     .bento-personal-layout { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 16px; align-items: start; }
     .bento-input-card { background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--card-radius); padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
     .bento-list-card { background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--card-radius); padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); min-height: 500px; }
@@ -2022,6 +2024,9 @@
       return dateStr;
     }
 
+    /* ========================================================= */
+    /* CALENDAR RENDER ENGINE (PERFECT FIXED LAYOUT & POPUP)      */
+    /* ========================================================= */
     function renderCalendar() {
       const mountPoint = document.getElementById('calendarMountPoint');
       const titleElem = document.getElementById('calendarMonthTitle');
